@@ -1,0 +1,631 @@
+@import "tailwindcss";
+
+/* Configuração do Tailwind v4 com tema escuro neon */
+@theme {
+  /* Tema escuro como padrão */
+  --color-background: oklch(0.08 0.01 258);
+  --color-foreground: oklch(0.95 0.02 258);
+  --color-card: oklch(0.12 0.015 258);
+  --color-card-foreground: oklch(0.9 0.02 258);
+  --color-popover: oklch(0.12 0.015 258);
+  --color-popover-foreground: oklch(0.9 0.02 258);
+
+  /* Cores neon azuis */
+  --color-primary: oklch(0.7 0.25 258);
+  --color-primary-foreground: oklch(0.08 0.01 258);
+  --color-secondary: oklch(0.18 0.02 258);
+  --color-secondary-foreground: oklch(0.85 0.02 258);
+  --color-muted: oklch(0.18 0.02 258);
+  --color-muted-foreground: oklch(0.65 0.02 258);
+  --color-accent: oklch(0.18 0.02 258);
+  --color-accent-foreground: oklch(0.85 0.02 258);
+
+  /* Cores de estado */
+  --color-destructive: oklch(0.65 0.25 25);
+  --color-border: oklch(0.2 0.02 258);
+  --color-input: oklch(0.15 0.02 258);
+  --color-ring: oklch(0.7 0.25 258);
+
+  /* Cores do chart com tons neon */
+  --color-chart-1: oklch(0.75 0.28 258);
+  --color-chart-2: oklch(0.68 0.22 220);
+  --color-chart-3: oklch(0.72 0.26 280);
+  --color-chart-4: oklch(0.65 0.24 200);
+  --color-chart-5: oklch(0.7 0.25 240);
+
+  /* Sidebar escuro */
+  --color-sidebar: oklch(0.1 0.015 258);
+  --color-sidebar-foreground: oklch(0.9 0.02 258);
+  --color-sidebar-primary: oklch(0.7 0.25 258);
+  --color-sidebar-primary-foreground: oklch(0.08 0.01 258);
+  --color-sidebar-accent: oklch(0.18 0.02 258);
+  --color-sidebar-accent-foreground: oklch(0.85 0.02 258);
+  --color-sidebar-border: oklch(0.2 0.02 258);
+  --color-sidebar-ring: oklch(0.7 0.25 258);
+
+  /* Cores neon azuis adicionais */
+  --color-blue: oklch(0.7 0.25 258);
+  --color-blue-light: oklch(0.7 0.25 258 / 0.1);
+  --color-blue-medium: oklch(0.7 0.25 258 / 0.2);
+  --color-blue-strong: oklch(0.7 0.25 258 / 0.3);
+  --color-blue-glow: oklch(0.7 0.25 258 / 0.4);
+
+  /* Cores neon adicionais */
+  --color-cyan: oklch(0.75 0.2 195);
+  --color-purple: oklch(0.65 0.25 305);
+  --color-pink: oklch(0.7 0.25 350);
+}
+
+:root {
+  --radius: 0.65rem;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background:
+    radial-gradient(ellipse 800px 600px at 50% 0%, var(--color-blue-light) 0%, transparent 50%),
+    radial-gradient(ellipse 600px 400px at 100% 100%, var(--color-cyan) 0%, transparent 50%),
+    radial-gradient(ellipse 600px 400px at 0% 100%, var(--color-purple) 0%, transparent 50%),
+    var(--color-background);
+  background-attachment: fixed;
+  color: var(--color-foreground);
+  overflow-x: hidden;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* Efeitos neon para elementos */
+.neon-glow {
+  box-shadow:
+    0 0 5px currentColor,
+    0 0 10px currentColor,
+    0 0 15px currentColor,
+    0 0 20px var(--color-blue-glow);
+}
+
+.neon-text {
+  text-shadow:
+    0 0 5px currentColor,
+    0 0 10px currentColor,
+    0 0 15px currentColor,
+    0 0 20px var(--color-blue-glow);
+}
+
+.neon-border {
+  border: 1px solid var(--color-blue);
+  box-shadow:
+    0 0 5px var(--color-blue-light),
+    inset 0 0 5px var(--color-blue-light);
+}
+
+.neon-background {
+  background:
+    linear-gradient(45deg, var(--color-blue), var(--color-cyan)),
+    var(--color-background);
+  background-size: 400% 400%;
+  animation: neonShift 8s ease-in-out infinite;
+  box-shadow:
+    0 0 20px var(--color-blue-glow),
+    0 0 40px var(--color-blue-glow),
+    0 0 60px var(--color-blue-glow);
+}
+
+@keyframes neonShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.neon-card {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  box-shadow:
+    0 4px 6px -1px var(--color-blue-light),
+    0 2px 4px -1px var(--color-blue-light),
+    0 0 0 1px var(--color-blue-medium);
+  transition: all 0.3s ease;
+}
+
+.neon-card:hover {
+  box-shadow:
+    0 10px 15px -3px var(--color-blue-medium),
+    0 4px 6px -2px var(--color-blue-medium),
+    0 0 0 2px var(--color-blue-strong),
+    0 0 20px var(--color-blue-glow);
+  transform: translateY(-2px);
+}
+
+.neon-button {
+  background: linear-gradient(45deg, var(--color-blue), var(--color-cyan));
+  color: var(--color-primary-foreground);
+  border: none;
+  box-shadow:
+    0 0 10px var(--color-blue-glow),
+    0 0 20px var(--color-blue-glow);
+  transition: all 0.3s ease;
+}
+
+.neon-button:hover {
+  box-shadow:
+    0 0 20px var(--color-blue-glow),
+    0 0 40px var(--color-blue-glow),
+    0 0 60px var(--color-blue-glow);
+  transform: scale(1.05);
+}
+
+/* Seções fullscreen */
+.fullscreen-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Barra de progresso do scroll */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-blue), var(--color-chart-2));
+  z-index: 1000;
+  transition: width 0.1s ease;
+}
+
+/* Navegação por pontos */
+.scroll-dots {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.scroll-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-muted);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.scroll-dot:hover {
+  background: var(--color-blue);
+  transform: scale(1.2);
+  box-shadow: 0 0 10px var(--color-blue-light);
+}
+
+.scroll-dot.active {
+  background: var(--color-blue);
+  border-color: var(--color-foreground);
+  transform: scale(1.3);
+  box-shadow: 0 0 15px var(--color-blue-medium);
+}
+
+/* Efeitos de parallax */
+.parallax-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.parallax-element {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.1;
+  filter: blur(40px);
+}
+
+/* Efeito de elevação no hover */
+.hover-lift {
+  transition: all 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 20px 40px var(--color-blue-medium),
+    0 0 20px var(--color-blue-glow),
+    0 0 40px var(--color-blue-strong);
+}
+
+/* Gradiente animado */
+.gradient-bg {
+  background: linear-gradient(
+    45deg,
+    var(--color-blue),
+    var(--color-cyan),
+    var(--color-purple),
+    var(--color-chart-1),
+    var(--color-blue)
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 8s ease infinite;
+  box-shadow:
+    0 0 20px var(--color-blue-glow),
+    0 0 40px var(--color-blue-strong);
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Efeitos especiais */
+.glass-effect {
+  background: oklch(0.12 0.015 258 / 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--color-blue);
+  box-shadow:
+    0 8px 32px var(--color-blue-light),
+    inset 0 1px 0 oklch(0.95 0.02 258 / 0.1);
+}
+
+.blue-glow {
+  box-shadow:
+    0 0 10px var(--color-blue-glow),
+    0 0 20px var(--color-blue-glow),
+    0 0 30px var(--color-blue-glow);
+}
+
+.blue-reflection {
+  background: linear-gradient(135deg, transparent 0%, var(--color-blue-light) 50%, transparent 100%);
+}
+
+.accent-glow {
+  box-shadow: 0 0 15px var(--color-blue-strong);
+}
+
+/* Novos efeitos com azul #0060ff */
+.blue-border {
+  border: 2px solid var(--color-blue);
+  box-shadow: 0 0 10px var(--color-blue-light);
+}
+
+.blue-focus:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--color-blue-light);
+  border-color: var(--color-blue);
+}
+
+.blue-hover:hover {
+  box-shadow: 0 5px 15px var(--color-blue-medium);
+  transform: translateY(-2px);
+  transition: all 0.3s ease;
+}
+
+.blue-gradient {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-blue), var(--color-chart-2));
+  background-size: 300% 300%;
+  animation: blueGradientShift 6s ease infinite;
+}
+
+@keyframes blueGradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.blue-accent-border {
+  position: relative;
+}
+
+.blue-accent-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(45deg, var(--color-blue), var(--color-primary), var(--color-blue));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: xor;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+}
+
+.blue-shadow-text {
+  text-shadow: 0 0 10px var(--color-blue-glow);
+}
+
+/* Classes utilitárias para aplicar cor azul */
+.text-blue {
+  color: var(--color-blue);
+}
+
+.bg-blue {
+  background-color: var(--color-blue);
+}
+
+.border-blue {
+  border-color: var(--color-blue);
+}
+
+.shadow-blue {
+  box-shadow: 0 4px 15px var(--color-blue-medium);
+}
+
+.shadow-blue-strong {
+  box-shadow:
+    0 8px 25px var(--color-blue-strong),
+    0 0 10px var(--color-blue-glow);
+}
+
+.glow-blue {
+  box-shadow:
+    0 0 10px var(--color-blue-glow),
+    0 0 20px var(--color-blue-glow),
+    0 0 30px var(--color-blue-glow);
+}
+
+.gradient-blue-primary {
+  background: linear-gradient(135deg, var(--color-blue), var(--color-primary));
+}
+
+.gradient-primary-blue {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-blue));
+}
+
+/* Classes utilitárias específicas do tema neon escuro */
+.neon-bg {
+  background: var(--color-background);
+  box-shadow:
+    inset 0 0 50px var(--color-blue-light),
+    inset 0 0 100px var(--color-blue-medium);
+}
+
+.neon-text-primary {
+  color: var(--color-primary);
+  text-shadow:
+    0 0 5px var(--color-blue-glow),
+    0 0 10px var(--color-blue-glow);
+}
+
+.neon-border-glow {
+  border: 1px solid var(--color-blue);
+  box-shadow:
+    0 0 5px var(--color-blue-light),
+    0 0 10px var(--color-blue-medium),
+    0 0 15px var(--color-blue-strong);
+}
+
+.neon-hover-glow:hover {
+  box-shadow:
+    0 0 10px var(--color-blue-glow),
+    0 0 20px var(--color-blue-glow),
+    0 0 30px var(--color-blue-glow);
+  transition: box-shadow 0.3s ease;
+}
+
+.neon-focus:focus {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--color-blue-light),
+    0 0 10px var(--color-blue-medium);
+}
+
+.neon-accent {
+  background: linear-gradient(45deg, var(--color-blue), var(--color-cyan));
+  color: var(--color-primary-foreground);
+  box-shadow: 0 0 15px var(--color-blue-glow);
+}
+
+/* Sparkles (ciscos luminosos distantes) */
+.sparkles-container {
+  z-index: 1;
+}
+
+.sparkle {
+  filter: blur(2px);
+  mix-blend-mode: screen;
+  animation: sparkle-float 25s ease-in-out infinite;
+}
+
+.sparkle:nth-child(odd) {
+  animation-direction: reverse;
+  animation-duration: 35s;
+}
+
+.sparkle:nth-child(3n) {
+  animation-delay: -10s;
+}
+
+.sparkle:nth-child(5n) {
+  animation-delay: -20s;
+}
+
+@keyframes sparkle-float {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 0.3;
+  }
+  25% {
+    transform: translate(30px, -40px) rotate(90deg) scale(1.1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate(-20px, 50px) rotate(180deg) scale(0.9);
+    opacity: 0.4;
+  }
+  75% {
+    transform: translate(40px, 30px) rotate(270deg) scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+/* Efeitos adicionais para sparkles */
+.sparkle-distant {
+  filter: blur(3px) brightness(0.8);
+  opacity: 0.3;
+  animation-duration: 40s;
+}
+
+.sparkle-close {
+  filter: blur(1px) brightness(1.2);
+  opacity: 0.6;
+  animation-duration: 20s;
+}
+
+/* Responsividade Geral */
+@media (max-width: 640px) {
+  .fullscreen-section {
+    min-height: 90vh; /* Reduzido para mobile */
+    padding: 1rem 0;
+  }
+
+  .section-title {
+    font-size: clamp(1.875rem, 8vw, 3rem);
+    line-height: 1.2;
+  }
+
+  /* Melhorar toque em botões */
+  button, .clickable {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Ajustar inputs para mobile */
+  input, textarea {
+    font-size: 16px; /* Previne zoom no iOS */
+  }
+
+  /* Melhorar espaçamento de grids */
+  .grid-responsive {
+    gap: 1rem;
+  }
+
+  /* Ajustar padding de containers */
+  .container-responsive {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Ajustar alturas específicas para mobile */
+  .hero-avatar {
+    height: 320px !important; /* Avatar menor no mobile */
+  }
+
+  /* Melhorar visibilidade das seções no mobile */
+  .about-section-mobile {
+    min-height: 80vh;
+    padding: 3rem 0;
+    margin-bottom: 2rem;
+  }
+
+  .technologies-section-mobile {
+    min-height: 75vh;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+  }
+
+  .projects-section-mobile {
+    min-height: 90vh;
+    padding: 3rem 0;
+    margin-bottom: 2rem;
+  }
+
+  .contact-section-mobile {
+    min-height: 80vh;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+  }
+
+  /* Melhorar scroll behavior no mobile */
+  .mobile-scroll-fix {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Ajustar viewport para melhor scroll */
+  .mobile-viewport-fix {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+}
+
+/* Tablet */
+@media (min-width: 641px) and (max-width: 1023px) {
+  .section-title {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+  }
+}
+
+/* Menu Mobile */
+.mobile-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--color-card);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0 10px 25px var(--color-blue-light);
+}
+
+.mobile-menu nav {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.mobile-menu-item {
+  transform: translateY(20px);
+  opacity: 0;
+  transition: all 0.2s ease;
+}
+
+.mobile-menu-item:hover {
+  background: var(--color-primary);
+  color: var(--color-primary-foreground);
+  transform: translateX(5px);
+}
+
+/* Overlay para menu mobile aberto */
+.mobile-menu-open::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  z-index: -1;
+}
+
+/* Animação do ícone do hamburguer */
+.hamburger-icon span {
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transform-origin: center;
+}
+
+/* Estado ativo do menu */
+.mobile-menu-open {
+  overflow: hidden;
+}
+
+/* Melhorar acessibilidade de toque */
+@media (hover: none) and (pointer: coarse) {
+  .hover-lift:hover {
+    transform: none;
+  }
+
+  .hover-lift:active {
+    transform: scale(0.98);
+  }
+}
