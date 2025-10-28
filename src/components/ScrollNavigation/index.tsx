@@ -13,7 +13,7 @@ const ScrollNavigation = () => {
     { id: 'technologies', name: 'Technologies' },
     { id: 'ecommerce', name: 'E-commerce' },
     { id: 'projects', name: 'Projetos' },
-    { id: 'contact', name: 'Contact' }
+    { id: 'resume', name: 'Contato' }
   ];
 
   useEffect(() => {
