@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
@@ -9,7 +9,7 @@ import ResourcePreloader from "@/components/ResourcePreloader";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
-  display: "swap", // Melhor para performance
+  display: "swap",
   preload: true,
 });
 
@@ -20,17 +20,45 @@ const geistMono = Geist_Mono({
   preload: true,
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://simks.com.br";
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
+  ],
+};
+
 export const metadata: Metadata = {
-  title: "Kelven Souza - Desenvolvedor Full-Stack | React, Node.js, Python",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Kelven Souza - Desenvolvedor Full-Stack | React, Node.js, Python",
+    template: "%s | Kelven Souza",
+  },
   description: "Desenvolvedor Full-Stack especializado em React, Node.js e Python. Especialista em e-commerce (VTEX, Wake, Shopify) e soluções digitais modernas.",
-  keywords: ["desenvolvedor full-stack", "react", "node.js", "python", "vtex", "e-commerce", "next.js", "typescript"],
-  authors: [{ name: "Kelven Souza" }],
+  keywords: ["desenvolvedor full-stack", "react", "node.js", "python", "vtex", "e-commerce", "next.js", "typescript", "kelven souza", "desenvolvedor", "programador"],
+  authors: [{ name: "Kelven Souza", url: siteUrl }],
   creator: "Kelven Souza",
   publisher: "Kelven Souza",
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   openGraph: {
     title: "Kelven Souza - Desenvolvedor Full-Stack",
     description: "Especialista em desenvolvimento web e e-commerce com React, Node.js e Python.",
-    url: "https://simks.com.br/",
+    url: siteUrl,
     siteName: "Kelven Souza Portfolio",
     images: [
       {
@@ -49,30 +77,18 @@ export const metadata: Metadata = {
     description: "Especialista em desenvolvimento web e e-commerce com React, Node.js e Python.",
     images: ["/logo.png"],
     creator: "@kelvensouza",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
+    site: "@kelvensouza",
   },
   verification: {
-    google: "your-google-site-verification-code",
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "",
   },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
+  alternates: {
+    canonical: siteUrl,
   },
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
-  ],
+  other: {
+    "linkedin:author": "https://linkedin.com/in/kelvensouza",
+    "github:author": "https://github.com/SimksS",
+  },
 };
 
 export default function RootLayout({
@@ -81,12 +97,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" dir="ltr">
+      <head>
+        <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
+        <link rel="apple-touch-icon" href="/favicon.png" />
+        <StructuredData />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ResourcePreloader />
-        <StructuredData metadata={metadata} />
         <Header />
         {children}
       </body>

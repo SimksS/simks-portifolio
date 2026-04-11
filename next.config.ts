@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Configuração para exportar arquivos estáticos
+  distDir: 'dist',
   // Otimizações de performance
   poweredByHeader: false,
   compress: true,

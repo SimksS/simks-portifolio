@@ -1,0 +1,34 @@
+# robots.txt para simks.com.br
+# Gerado em: 2026-04-11
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://simks.com.br/sitemap.xml
+
+# Regras para bots específicos
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Bloquear páginas desnecessárias (quando existirem)
+# Disallow: /api/
+# Disallow: /admin/
+# Disallow: /private/
+
+# Permitir assets
+User-agent: *
+Allow: /_next/
+Allow: /static/
+Allow: /public/
+Allow: /favicon.png
+Allow: /logo.png
+Allow: /avatar.jpeg

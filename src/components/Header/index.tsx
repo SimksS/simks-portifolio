@@ -1,491 +1,241 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { gsap } from 'gsap';
 import Image from 'next/image';
-import Link from 'next/link';
+import { gsap } from 'gsap';
 
-const Header = () => {
+interface NavLink {
+  label: string;
+  href: string;
+}
+
+const navLinks: NavLink[] = [
+  { label: 'Home', href: '#home' },
+  { label: 'Sobre', href: '#about' },
+  { label: 'Tecnologias', href: '#technologies' },
+  { label: 'E-commerce', href: '#ecommerce' },
+  { label: 'Projetos', href: '#projects' },
+  { label: 'Contato', href: '#contact' },
+];
+
+export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState(0);
+  const [activeSection, setActiveSection] = useState('home');
 
+  // Scroll handler otimizado
   useEffect(() => {
-    const sections = [
-      { id: 'home', name: 'Home' },
-      { id: 'about', name: 'Sobre' },
-      { id: 'technologies', name: 'Technologies' },
-      { id: 'ecommerce', name: 'E-commerce' },
-      { id: 'projects', name: 'Projetos' },
-      { id: 'contact', name: 'Contact' }
-    ];
-
     let ticking = false;
+
+    const updateScroll = () => {
+      const scrolled = window.scrollY > 50;
+      if (scrolled !== isScrolled) {
+        setIsScrolled(scrolled);
+      }
+
+      // Detectar seção ativa
+      const sections = navLinks.map(link => link.href.replace('#', ''));
+      const current = sections.find(section => {
+        const element = document.getElementById(section);
+        if (!element) return false;
+        const rect = element.getBoundingClientRect();
+        return rect.top <= 150 && rect.bottom >= 150;
+      });
+
+      if (current) {
+        setActiveSection(current);
+      }
+
+      ticking = false;
+    };
 
     const handleScroll = () => {
       if (!ticking) {
-        requestAnimationFrame(() => {
-          setIsScrolled(window.scrollY > 50);
-
-          const sectionElements = sections.map(section =>
-            document.getElementById(section.id)
-          );
-
-          let currentSection = 0;
-          let maxVisibleArea = 0;
-
-          sectionElements.forEach((element, index) => {
-            if (element) {
-              const rect = element.getBoundingClientRect();
-              const headerHeight = window.innerWidth < 768 ? 64 : 80;
-              const viewportHeight = window.innerHeight;
-
-              // Calcular área visível da seção
-              const visibleTop = Math.max(0, rect.top + headerHeight);
-              const visibleBottom = Math.min(viewportHeight, rect.bottom);
-              const visibleArea = Math.max(0, visibleBottom - visibleTop);
-
-              // Se mais da metade da seção estiver visível, considerar ativa
-              if (visibleArea > maxVisibleArea && visibleArea > rect.height * 0.3) {
-                maxVisibleArea = visibleArea;
-                currentSection = index;
-              }
-            }
-          });
-
-          setActiveSection(currentSection);
-          ticking = false;
-        });
+        requestAnimationFrame(updateScroll);
         ticking = true;
       }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Verificar estado inicial
 
-    // Animações GSAP
-    const headerContent = document.querySelector('.header-content');
-    const headerBackground = document.querySelector('.header-background');
-    const headerLogo = document.querySelector('.header-logo');
-    const navLinks = document.querySelectorAll('.nav-link');
-
-    // Animação de entrada
-    gsap.fromTo(
-      headerContent,
-      { y: -100, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, ease: 'power2.out' }
-    );
-
-    // Animação do logo
-    gsap.fromTo(
-      headerLogo,
-      { scale: 0.8, opacity: 0 },
-      { scale: 1, opacity: 1, duration: 0.8, delay: 0.2, ease: 'back.out(1.7)' }
-    );
-
-    // Animação dos links de navegação
-    gsap.fromTo(
-      navLinks,
-      { y: -20, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.6,
-        stagger: 0.1,
-        delay: 0.4,
-        ease: 'power2.out'
-      }
-    );
-
-    // Animação baseada no scroll
-    gsap.to(headerBackground, {
-      backgroundColor: isScrolled ? 'rgba(10, 10, 10, 0.95)' : 'rgba(10, 10, 10, 0.8)',
-      backdropFilter: isScrolled ? 'blur(20px)' : 'blur(10px)',
-      borderBottom: isScrolled ? '1px solid rgba(212, 175, 55, 0.3)' : '1px solid transparent',
-      duration: 0.3,
-      ease: 'power2.out'
-    });
-
-    gsap.to(headerLogo, {
-      scale: isScrolled ? 0.9 : 1,
-      duration: 0.3,
-      ease: 'power2.out'
-    });
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, [isScrolled]);
 
-  // Efeito para controlar scroll, overlay e eventos quando menu está aberto
+  // Fechar menu mobile ao redimensionar para desktop
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768 && isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [isMobileMenuOpen]);
+
+  // Bloquear scroll quando menu mobile está aberto
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = 'hidden';
-      document.body.style.position = 'fixed';
-      document.body.style.width = '100%';
-      document.body.classList.add('mobile-menu-open');
-
-      // Handler para fechar menu ao pressionar ESC
-      const handleEscapeKey = (event: KeyboardEvent) => {
-        if (event.key === 'Escape') {
-          closeMobileMenu();
-        }
-      };
-
-      // Handler para fechar menu ao clicar fora
-      const handleOutsideClick = (event: MouseEvent) => {
-        const target = event.target as HTMLElement;
-        const mobileMenu = document.querySelector('.mobile-menu');
-        const menuButton = document.querySelector('[aria-expanded]');
-
-        if (!mobileMenu?.contains(target) && !menuButton?.contains(target)) {
-          closeMobileMenu();
-        }
-      };
-
-      document.addEventListener('keydown', handleEscapeKey);
-      document.addEventListener('click', handleOutsideClick);
-
-      return () => {
-        document.removeEventListener('keydown', handleEscapeKey);
-        document.removeEventListener('click', handleOutsideClick);
-      };
+      // Animação de entrada do menu
+      gsap.fromTo('.mobile-menu',
+        { opacity: 0, y: -10 },
+        { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' }
+      );
+      gsap.fromTo('.mobile-menu-item',
+        { opacity: 0, x: -20 },
+        { opacity: 1, x: 0, duration: 0.3, stagger: 0.05, delay: 0.1, ease: 'power2.out' }
+      );
     } else {
       document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.width = '';
-      document.body.classList.remove('mobile-menu-open');
     }
-
-    // Cleanup
     return () => {
       document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.width = '';
-      document.body.classList.remove('mobile-menu-open');
     };
   }, [isMobileMenuOpen]);
 
-  // Função para toggle do menu mobile
-  const toggleMobileMenu = () => {
-    const newState = !isMobileMenuOpen;
-    setIsMobileMenuOpen(newState);
-
-    const mobileMenu = document.querySelector('.mobile-menu');
-    const menuItems = document.querySelectorAll('.mobile-menu-item');
-
-
-    if (mobileMenu) {
-      if (newState) {
-        // Abrir menu
-        gsap.set(mobileMenu, { display: 'block' });
-        gsap.fromTo(mobileMenu,
-          { height: 0, opacity: 0 },
-          { height: 'auto', opacity: 1, duration: 0.4, ease: 'power2.out' }
-        );
-
-        // Animação dos itens do menu
-        gsap.fromTo(menuItems,
-          { y: 20, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.3,
-            stagger: 0.1,
-            delay: 0.1,
-            ease: 'power2.out'
-          }
-        );
-
-        // O ícone do hamburguer será animado automaticamente pelas classes CSS
-        // quando o estado isMobileMenuOpen mudar
-      } else {
-        // Fechar menu
-        gsap.to(menuItems, {
-          y: -20,
-          opacity: 0,
-          duration: 0.2,
-          stagger: 0.05,
-          ease: 'power2.in'
-        });
-
-        gsap.to(mobileMenu, {
-          height: 0,
-          opacity: 0,
-          duration: 0.3,
-          delay: 0.2,
-          ease: 'power2.in',
-          onComplete: () => {
-            gsap.set(mobileMenu, { display: 'none' });
-          }
-        });
-
-        // O ícone do hamburguer será resetado automaticamente pelas classes CSS
-        // quando o estado isMobileMenuOpen mudar para false
-      }
-    }
-  };
-
-  // Função para navegar para uma seção (usada no mobile)
-  const navigateToSection = (sectionId: string) => {
-    // Fechar menu imediatamente
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
     setIsMobileMenuOpen(false);
 
-    // Liberar scroll imediatamente
-    document.body.style.overflow = '';
-    document.body.style.position = '';
-    document.body.style.width = '';
-    document.body.classList.remove('mobile-menu-open');
+    const targetId = href.replace('#', '');
+    const element = document.getElementById(targetId);
+    if (!element) return;
 
-    // Esconder menu imediatamente
-    const mobileMenu = document.querySelector('.mobile-menu');
-    if (mobileMenu) {
-      gsap.set(mobileMenu, { display: 'none' });
-    }
+    const headerHeight = 80;
+    const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+    const offsetPosition = elementPosition - headerHeight;
 
-    // O ícone do hamburguer será resetado automaticamente pelas classes CSS
-    // quando o estado isMobileMenuOpen mudar para false
-
-    // Scroll suave para a seção
-    setTimeout(() => {
-      const element = document.getElementById(sectionId);
-      if (element) {
-        const headerHeight = window.innerWidth < 768 ? 64 : 80;
-        const elementPosition = element.offsetTop;
-        const offsetPosition = elementPosition - headerHeight;
-
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
-      }
-    }, 150); // Delay para garantir que o DOM seja atualizado e menu esteja fechado
-  };
-
-  // Função para fechar menu mobile ao clicar em um link
-  const closeMobileMenu = () => {
-    if (!isMobileMenuOpen) return;
-
-    setIsMobileMenuOpen(false);
-
-    const mobileMenu = document.querySelector('.mobile-menu');
-    const menuItems = document.querySelectorAll('.mobile-menu-item');
-
-
-    if (mobileMenu) {
-      // Animação de saída dos itens
-      gsap.to(menuItems, {
-        y: -20,
-        opacity: 0,
-        duration: 0.2,
-        stagger: 0.05,
-        ease: 'power2.in'
-      });
-
-      // Animação de saída do menu
-      gsap.to(mobileMenu, {
-        height: 0,
-        opacity: 0,
-        duration: 0.3,
-        delay: 0.2,
-        ease: 'power2.in',
-        onComplete: () => {
-          gsap.set(mobileMenu, { display: 'none' });
-          // Limpar overlay
-          document.body.classList.remove('mobile-menu-open');
-        }
-      });
-
-      // O ícone do hamburguer será resetado automaticamente pelas classes CSS
-      // quando o estado isMobileMenuOpen mudar para false
-    }
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth',
+    });
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 header-content">
-      <div className="header-background absolute inset-0 bg-background/80 backdrop-blur-md border-b border-primary/20"></div>
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 lg:h-20">
-          {/* Logo */}
-          <div className="header-logo flex items-center space-x-2">
-            <div className="w-8 h-8 lg:w-14 lg:h-14  rounded-lg flex items-center justify-center">
-              <Link title='Simks' href="/">
-                    <Image src="/logo.png" alt="Simks" className='brightness-0 invert' width={80} height={80} />
-              </Link>
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled
+            ? 'glass'
+            : 'bg-transparent'
+        }`}
+      >
+        <nav className="container-modern">
+          <div className="flex items-center justify-between h-16 lg:h-20">
+            {/* Logo */}
+            <a href="#home" onClick={(e) => handleNavClick(e, '#home')} className="flex items-center gap-2 group">
+              <div className="w-9 h-9 lg:w-10 lg:h-10 rounded-lg bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center text-primary-foreground font-bold text-lg transition-transform duration-300 group-hover:scale-105">
+                K
+              </div>
+              <span className="hidden sm:block text-foreground font-semibold text-lg">Kelven Souza</span>
+            </a>
+
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center gap-1">
+              {navLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className={`nav-link px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 relative ${
+                    activeSection === link.href.replace('#', '')
+                      ? 'text-primary'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
+                  }`}
+                >
+                  {link.label}
+                  {activeSection === link.href.replace('#', '') && (
+                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-primary rounded-full" />
+                  )}
+                </a>
+              ))}
             </div>
-          </div>
 
-          {/* Navigation Desktop */}
-          <nav className="hidden md:flex items-center space-x-6 lg:space-x-8">
-            <a href="#home" className="nav-link text-muted-foreground hover:text-primary transition-colors duration-200 font-medium text-sm lg:text-base">
-              Home
+            {/* CTA Button - Desktop */}
+            <a
+              href="#contact"
+              onClick={(e) => handleNavClick(e, '#contact')}
+              className="hidden md:inline-flex btn-primary text-sm"
+            >
+              Fale Comigo
             </a>
-            <a href="#about" className="nav-link text-muted-foreground hover:text-primary transition-colors duration-200 font-medium text-sm lg:text-base">
-              Sobre
-            </a>
-            <a href="#technologies" className="nav-link text-muted-foreground hover:text-primary transition-colors duration-200 font-medium text-sm lg:text-base">
-              Tecnologias
-            </a>
-            <a href="#ecommerce" className="nav-link text-muted-foreground hover:text-primary transition-colors duration-200 font-medium text-sm lg:text-base">
-              E-commerce
-            </a>
-            <a href="#projects" className="nav-link text-muted-foreground hover:text-primary transition-colors duration-200 font-medium text-sm lg:text-base">
-              Projetos
-            </a>
-            <a href="#resume" className="nav-link text-muted-foreground hover:text-primary transition-colors duration-200 font-medium text-sm lg:text-base">
-              Currículo
-            </a>
-          </nav>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden">
+            {/* Mobile Menu Button */}
             <button
-              onClick={toggleMobileMenu}
-              className="text-muted-foreground hover:text-primary transition-colors duration-200 p-2 relative"
-              aria-label="Toggle mobile menu"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden p-2 text-foreground hover:text-primary transition-colors"
+              aria-label={isMobileMenuOpen ? 'Fechar menu' : 'Abrir menu'}
               aria-expanded={isMobileMenuOpen}
             >
-              <div className="hamburger-icon w-6 h-6 flex flex-col justify-center items-center">
+              <div className="w-6 h-6 relative flex flex-col justify-center">
                 <span
-                  className={`bg-current block transition-all duration-300 h-0.5 w-6 rounded-sm ${
-                    isMobileMenuOpen ? 'rotate-45 translate-y-1' : '-translate-y-1'
+                  className={`absolute block w-6 h-0.5 bg-current rounded-full transition-all duration-300 ${
+                    isMobileMenuOpen ? 'rotate-45' : '-translate-y-2'
                   }`}
                 />
                 <span
-                  className={`bg-current block transition-all duration-300 h-0.5 w-6 rounded-sm my-0.5 ${
+                  className={`absolute block w-6 h-0.5 bg-current rounded-full transition-all duration-300 ${
                     isMobileMenuOpen ? 'opacity-0' : 'opacity-100'
                   }`}
                 />
                 <span
-                  className={`bg-current block transition-all duration-300 h-0.5 w-6 rounded-sm ${
-                    isMobileMenuOpen ? '-rotate-45 -translate-y-1' : 'translate-y-1'
+                  className={`absolute block w-6 h-0.5 bg-current rounded-full transition-all duration-300 ${
+                    isMobileMenuOpen ? '-rotate-45' : 'translate-y-2'
                   }`}
                 />
               </div>
             </button>
           </div>
-        </div>
+        </nav>
+      </header>
 
-        {/* Mobile Menu */}
-        <div className="mobile-menu overflow-hidden md:hidden" style={{ display: 'none' }}>
-          <nav className="px-4 py-6 space-y-4 bg-card/95 backdrop-blur-md border-t border-border/20">
-            <a
-              href="#home"
-              onClick={(e) => {
-                e.preventDefault();
-                navigateToSection('home');
-              }}
-              className={`mobile-menu-item block nav-link transition-colors duration-200 font-medium py-3 px-4 rounded-lg ${
-                activeSection === 0
-                  ? 'text-primary bg-primary/10 border-l-4 border-primary'
-                  : 'text-muted-foreground hover:text-primary hover:bg-primary/5'
-              }`}
-            >
-              <div className="flex items-center justify-between">
-                <span>Home</span>
-                {activeSection === 0 && (
-                  <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
+      {/* Mobile Menu */}
+      <div
+        className={`mobile-menu fixed top-16 left-0 right-0 z-40 md:hidden transition-all duration-300 ${
+          isMobileMenuOpen ? 'block' : 'hidden'
+        }`}
+      >
+        <nav className="glass border-b border-border">
+          <div className="container-modern py-4 space-y-1">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={(e) => handleNavClick(e, link.href)}
+                className={`mobile-menu-item flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  activeSection === link.href.replace('#', '')
+                    ? 'bg-primary-subtle text-primary'
+                    : 'text-foreground hover:bg-secondary'
+                }`}
+              >
+                <span>{link.label}</span>
+                {activeSection === link.href.replace('#', '') && (
+                  <span className="w-2 h-2 bg-primary rounded-full" />
                 )}
-              </div>
-            </a>
-            <a
-              href="#about"
-              onClick={(e) => {
-                e.preventDefault();
-                navigateToSection('about');
-              }}
-              className={`mobile-menu-item block nav-link transition-colors duration-200 font-medium py-3 px-4 rounded-lg ${
-                activeSection === 1
-                  ? 'text-primary bg-primary/10 border-l-4 border-primary'
-                  : 'text-muted-foreground hover:text-primary hover:bg-primary/5'
-              }`}
-            >
-              <div className="flex items-center justify-between">
-                <span>Sobre</span>
-                {activeSection === 1 && (
-                  <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-                )}
-              </div>
-            </a>
-            <a
-              href="#technologies"
-              onClick={(e) => {
-                e.preventDefault();
-                navigateToSection('technologies');
-              }}
-              className={`mobile-menu-item block nav-link transition-colors duration-200 font-medium py-3 px-4 rounded-lg ${
-                activeSection === 2
-                  ? 'text-primary bg-primary/10 border-l-4 border-primary'
-                  : 'text-muted-foreground hover:text-primary hover:bg-primary/5'
-              }`}
-            >
-              <div className="flex items-center justify-between">
-                <span>Tecnologias</span>
-                {activeSection === 2 && (
-                  <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-                )}
-              </div>
-            </a>
-            <a
-              href="#ecommerce"
-              onClick={(e) => {
-                e.preventDefault();
-                navigateToSection('ecommerce');
-              }}
-              className={`mobile-menu-item block nav-link transition-colors duration-200 font-medium py-3 px-4 rounded-lg ${
-                activeSection === 3
-                  ? 'text-primary bg-primary/10 border-l-4 border-primary'
-                  : 'text-muted-foreground hover:text-primary hover:bg-primary/5'
-              }`}
-            >
-              <div className="flex items-center justify-between">
-                <span>E-commerce</span>
-                {activeSection === 3 && (
-                  <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-                )}
-              </div>
-            </a>
-            <a
-              href="#projects"
-              onClick={(e) => {
-                e.preventDefault();
-                navigateToSection('projects');
-              }}
-              className={`mobile-menu-item block nav-link transition-colors duration-200 font-medium py-3 px-4 rounded-lg ${
-                activeSection === 4
-                  ? 'text-primary bg-primary/10 border-l-4 border-primary'
-                  : 'text-muted-foreground hover:text-primary hover:bg-primary/5'
-              }`}
-            >
-              <div className="flex items-center justify-between">
-                <span>Projetos</span>
-                {activeSection === 4 && (
-                  <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-                )}
-              </div>
-            </a>
-            <a
-              href="#resume"
-              onClick={(e) => {
-                e.preventDefault();
-                navigateToSection('resume');
-              }}
-              className={`mobile-menu-item block nav-link transition-colors duration-200 font-medium py-3 px-4 rounded-lg ${
-                activeSection === 5
-                  ? 'text-primary bg-primary/10 border-l-4 border-primary'
-                  : 'text-muted-foreground hover:text-primary hover:bg-primary/5'
-              }`}
-            >
-              <div className="flex items-center justify-between">
-                <span>Currículo</span>
-                {activeSection === 5 && (
-                  <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-                )}
-              </div>
-            </a>
-          </nav>
-        </div>
+              </a>
+            ))}
+            <div className="pt-4 mt-4 border-t border-border">
+              <a
+                href="#contact"
+                onClick={(e) => handleNavClick(e, '#contact')}
+                className="mobile-menu-item btn-primary w-full text-center justify-center"
+              >
+                Fale Comigo
+              </a>
+            </div>
+          </div>
+        </nav>
       </div>
-    </header>
+    </>
   );
 };
 

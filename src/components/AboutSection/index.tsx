@@ -1,231 +1,229 @@
 'use client';
 
-import Image from "next/image";
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-// Registrar o plugin ScrollTrigger
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
-const AboutSection = () => {
-  const imageRef = useRef<HTMLDivElement>(null);
+
+const skillCategories = [
+  {
+    title: 'Front-end',
+    skills: ['React', 'Vue.js', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Scriban'],
+  },
+  {
+    title: 'Back-end',
+    skills: ['Node.js', 'Python'],
+  },
+  {
+    title: 'E-commerce',
+    skills: ['VTEX', 'Wake','Shopify','Uappi'],
+  },
+];
+
+export const AboutSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Efeito de zoom infinito na imagem
-    if (imageRef.current) {
-      gsap.to(imageRef.current, {
-        scale: 1.1, // Zoom máximo de 110%
-        duration: 8, // Duração longa para um efeito suave
-        ease: "power1.inOut",
-        repeat: -1, // Repetir infinitamente
-        yoyo: true, // Alternar entre zoom in e zoom out
-        scrollTrigger: {
-          trigger: imageRef.current,
-          start: "top 80%", // Iniciar quando o topo da imagem estiver 80% visível
-          end: "bottom 20%", // Parar quando a parte inferior estiver 20% visível
-          toggleActions: "play pause resume reverse", // Controle de play/pause baseado na visibilidade
-        }
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const ctx = gsap.context(() => {
+      if (!sectionRef.current) return;
+
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: 'top 80%',
+        onEnter: () => setIsVisible(true),
+        once: true,
       });
-    }
 
-    // Animação de entrada para o título
-    const titleElement = document.querySelector('#about .text-5xl');
-    if (titleElement) {
-      gsap.fromTo(
-        titleElement,
-        { opacity: 0, y: -30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          delay: 0.2,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: titleElement,
-            start: "top 80%",
-            end: "bottom 20%",
-            toggleActions: "play none none reverse",
-          }
-        }
-      );
-    }
+      if (reducedMotion) {
+        setIsVisible(true);
+        return;
+      }
 
-    // Animação de entrada para o texto
-    const textElements = document.querySelectorAll('#about p');
-    textElements.forEach((element, index) => {
+      // Animação de entrada
       gsap.fromTo(
-        element,
-        { opacity: 0, x: -30 },
+        '.about-image',
+        { opacity: 0, x: -40 },
         {
           opacity: 1,
           x: 0,
           duration: 0.8,
-          delay: 0.4 + (index * 0.1),
-          ease: 'power2.out',
           scrollTrigger: {
-            trigger: element,
-            start: "top 80%",
-            end: "bottom 20%",
-            toggleActions: "play none none reverse",
-          }
+            trigger: sectionRef.current,
+            start: 'top 75%',
+            once: true,
+          },
         }
       );
-    });
 
-    // Animação de entrada para as especialidades
-    const skillElements = document.querySelectorAll('#about .grid-cols-2 > div');
-    skillElements.forEach((element, index) => {
       gsap.fromTo(
-        element,
-        { opacity: 0, scale: 0.8 },
+        '.about-content',
+        { opacity: 0, x: 40 },
         {
           opacity: 1,
-          scale: 1,
-          duration: 0.6,
-          delay: 0.6 + (index * 0.05),
-          ease: 'power2.out',
+          x: 0,
+          duration: 0.8,
+          delay: 0.2,
           scrollTrigger: {
-            trigger: element,
-            start: "top 80%",
-            end: "bottom 20%",
-            toggleActions: "play none none reverse",
-          }
+            trigger: sectionRef.current,
+            start: 'top 75%',
+            once: true,
+          },
+        }
+      );
+
+      gsap.fromTo(
+        '.skill-card',
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          stagger: 0.08,
+          scrollTrigger: {
+            trigger: '.skills-grid',
+            start: 'top 85%',
+            once: true,
+          },
         }
       );
     });
 
-    // Cleanup function
-    return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
+    return () => ctx.revert();
   }, []);
 
+  const handleScrollToProjects = () => {
+    const element = document.getElementById('projects');
+    if (element) {
+      const headerHeight = 80;
+      const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({
+        top: elementPosition - headerHeight,
+        behavior: 'smooth',
+      });
+    }
+  };
+
   return (
-    <section id="about" className="fullscreen-section about-section-mobile bg-background overflow-hidden relative">
-      {/* Background com efeitos especiais */}
-      <div className="parallax-bg">
-        <div className="parallax-element w-96 h-96 bg-primary/10" style={{ top: '10%', left: '5%' }}></div>
-        <div className="parallax-element w-64 h-64 bg-chart-2/10" style={{ top: '60%', right: '10%' }}></div>
-        <div className="parallax-element w-80 h-80 bg-chart-3/10" style={{ bottom: '20%', left: '20%' }}></div>
+    <section
+      ref={sectionRef}
+      id="about"
+      className="section-spacing relative overflow-hidden"
+    >
+      {/* Background decorativo */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-[80px]" />
+        <div className="absolute bottom-0 right-1/4 w-48 h-48 bg-cyan/5 rounded-full blur-[60px]" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 py-8 lg:py-0">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-          {/* Left Content - Photo */}
-          <div className="flex justify-center lg:justify-start order-last lg:order-first">
-            <div className="relative">
-              {/* Main Photo - Styled placeholder based on the provided image description */}
-              <div className="relative w-72 h-80 sm:w-80 sm:h-96 lg:w-96 lg:h-[500px] rounded-2xl overflow-hidden shadow-2xl golden-glow">
-                {/* Car window frame effect */}
-                <div className="absolute inset-0 border-8 border-primary/30 rounded-2xl"></div>
+      <div className="container-modern relative z-10">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          {/* Imagem */}
+          <div className="about-image relative order-2 lg:order-1">
+            <div className="relative max-w-md mx-auto lg:mr-auto lg:ml-0">
+              {/* Frame com gradiente */}
+              <div className="absolute -inset-3 bg-gradient-to-br from-primary/30 via-primary/10 to-cyan/20 rounded-3xl blur-xl" />
 
-                {/* Raindrops effect */}
-                <div className="absolute inset-0">
-                  {[...Array(20)].map((_, i) => (
-                    <div
-                      key={i}
-                      className="absolute w-1 h-1 bg-foreground/60 rounded-full animate-pulse"
-                      style={{
-                        left: `${Math.random() * 100}%`,
-                        top: `${Math.random() * 100}%`,
-                        animationDelay: `${Math.random() * 2}s`,
-                        animationDuration: `${1 + Math.random()}s`
-                      }}
-                    />
-                  ))}
+              <div className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-border/50 bg-card">
+                {/* Container da animação de zoom infinito */}
+                <div className="absolute inset-0 animate-infinite-zoom">
+                  <Image
+                    src="/profile-photo.jpeg"
+                    alt="Kelven Souza - Desenvolvedor Full-Stack"
+                    fill
+                    className="object-cover scale-[1.4]"
+                    sizes="(max-width: 1024px) 100vw, 400px"
+                    priority
+                  />
                 </div>
-
-                {/* Professional portrait placeholder */}
-                <div
-                  ref={imageRef}
-                  className="absolute inset-8 bg-gradient-to-br from-card to-secondary rounded-xl flex items-center justify-center overflow-hidden"
-                >
-                  <div className="text-center space-y-4 w-full h-full flex items-center justify-center overflow-hidden">
-                    <Image
-                      src="/profile-photo.jpeg"
-                      alt="About"
-                      width={300}
-                      height={300}
-                      className="object-cover w-full h-full rounded-lg"
-                    />
-                  </div>
-                </div>
-
-                {/* Overlay gradient com reflexos azuis */}
-                <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent blue-reflection"></div>
+                {/* Overlays para suavizar as bordas durante o zoom */}
+                <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute inset-0 shadow-[inset_0_0_60px_rgba(0,0,0,0.3)] pointer-events-none" />
               </div>
 
-              {/* Decorative elements */}
-              <div className="absolute -top-4 -right-4 w-24 h-24 bg-primary/20 rounded-full blur-xl"></div>
-              <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-chart-2/20 rounded-full blur-xl"></div>
+              {/* Badge de experiência */}
+              <div className="absolute -bottom-4 -right-4 bg-card border border-border rounded-xl p-4 shadow-lg">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <span className="text-2xl font-bold text-primary">4+</span>
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold text-foreground">Anos de</div>
+                    <div className="text-sm text-muted-foreground">Experiência</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Right Content - About Text */}
-          <div className="space-y-6 lg:space-y-8 text-center lg:text-left">
-            <div className="space-y-4 lg:space-y-6">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground">
+          {/* Conteúdo */}
+          <div className="about-content space-y-8 order-1 lg:order-2">
+            <div className="space-y-4">
+              <span className="inline-flex items-center gap-2 text-primary font-medium text-sm">
+                <span className="w-8 h-0.5 bg-primary rounded-full" />
                 Sobre Mim
+              </span>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground leading-tight">
+                Transformando ideias em{' '}
+                <span className="gradient-text-primary">soluções digitais</span>
               </h2>
-              <div className="w-16 sm:w-20 h-1 bg-primary rounded-full mx-auto lg:mx-0"></div>
             </div>
 
-            <div className="space-y-4 lg:space-y-6 text-base sm:text-lg leading-relaxed">
-              <p className="text-muted-foreground">
-                Sou um desenvolvedor full-stack que transforma ideias em soluções digitais inovadoras. Minha paixão é criar sistemas performáticos, escaláveis e intuitivos, sempre priorizando experiência do usuário e excelência técnica.
+            <div className="space-y-4 text-muted-foreground leading-relaxed">
+              <p>
+                Sou Tech Lead e desenvolvedor full-stack com mais de 3 anos de experiência na área de TI.
+                Atuo no planejamento, organização e execução de projetos, aplicando boas práticas como
+                Clean Code e S.O.L.I.D. para criar código limpo, modular e de fácil manutenção.
               </p>
-
-              <p className="text-muted-foreground">
-              Atuo com React/Next.js no front-end e Node.js no back-end, além de integrar plataformas líderes como VTEX, Wake e Shopify, entregando projetos robustos e preparados para crescer.
-              </p>
-
-              <p className="text-muted-foreground">
-              Cada projeto é uma oportunidade de inovar, superar expectativas e gerar impacto real.
+              <p>
+                Atualmente lidero equipes de desenvolvimento na Wicomm, conduzindo mentorias e treinamentos
+                além de desenvolver soluções de alto desempenho com React, Vue.js, Node.js e plataformas
+                VTEX, Wake, Uappi e Shopify. Especialista em criar soluções que não apenas vendem, mas encantam.
               </p>
             </div>
 
-            {/* Skills/Expertise */}
-            <div className="space-y-4 lg:space-y-6">
-              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-foreground">
-                Especialidades
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                <div className="flex items-center space-x-2 sm:space-x-3">
-                  <div className="w-2 h-2 sm:w-3 sm:h-3 bg-primary rounded-full flex-shrink-0"></div>
-                  <span className="text-muted-foreground text-sm sm:text-base">Front-end Development</span>
+            {/* Skills Grid */}
+            <div className="skills-grid grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {skillCategories.map((category) => (
+                <div
+                  key={category.title}
+                  className="skill-card card-modern"
+                >
+                  <h4 className="text-sm font-semibold text-foreground mb-3 pb-2 border-b border-border">
+                    {category.title}
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {category.skills.map((skill) => (
+                      <span key={skill} className="tag">
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex items-center space-x-2 sm:space-x-3">
-                  <div className="w-2 h-2 sm:w-3 sm:h-3 bg-primary rounded-full flex-shrink-0"></div>
-                  <span className="text-muted-foreground text-sm sm:text-base">E-commerce Solutions</span>
-                </div>
-                <div className="flex items-center space-x-2 sm:space-x-3">
-                  <div className="w-2 h-2 sm:w-3 sm:h-3 bg-primary rounded-full flex-shrink-0"></div>
-                  <span className="text-muted-foreground text-sm sm:text-base">UI/UX Design</span>
-                </div>
-                <div className="flex items-center space-x-2 sm:space-x-3">
-                  <div className="w-2 h-2 sm:w-3 sm:h-3 bg-primary rounded-full flex-shrink-0"></div>
-                  <span className="text-muted-foreground text-sm sm:text-base">Performance Optimization</span>
-                </div>
-                <div className="flex items-center space-x-2 sm:space-x-3">
-                  <div className="w-2 h-2 sm:w-3 sm:h-3 bg-primary rounded-full flex-shrink-0"></div>
-                  <span className="text-muted-foreground text-sm sm:text-base">API Development</span>
-                </div>
-                <div className="flex items-center space-x-2 sm:space-x-3">
-                  <div className="w-2 h-2 sm:w-3 sm:h-3 bg-primary rounded-full flex-shrink-0"></div>
-                  <span className="text-muted-foreground text-sm sm:text-base">Mobile-First Design</span>
-                </div>
-              </div>
+              ))}
             </div>
 
-            {/* CTA Button */}
-            <div className="pt-4 lg:pt-6">
-              <button className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-card border border-primary rounded-xl text-foreground hover:bg-accent transition-colors duration-200 font-medium text-sm sm:text-base hover-lift golden-glow">
-                Ver Projetos
-              </button>
-            </div>
+            {/* CTA */}
+            <button onClick={handleScrollToProjects} className="btn-primary">
+              Ver Projetos
+              <svg
+                className="w-4 h-4 transition-transform group-hover:translate-x-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
+              </svg>
+            </button>
           </div>
         </div>
       </div>

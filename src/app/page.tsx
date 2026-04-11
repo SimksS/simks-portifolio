@@ -1,31 +1,35 @@
 import dynamic from 'next/dynamic';
-
-// Componentes carregados dinamicamente para melhor performance
-const Header = dynamic(() => import('@/components/Header'));
-const HeroSection = dynamic(() => import('@/components/HeroSection'));
-const AboutSection = dynamic(() => import('@/components/AboutSection'));
-const TechnologiesSection = dynamic(() => import('@/components/TechnologiesSection'));
-const EcommerceSection = dynamic(() => import('@/components/EcommerceSection'));
-const ProjectsSection = dynamic(() => import('@/components/ProjectsSection'));
-const ResumeDownloadSection = dynamic(() => import('@/components/ResumeDownloadSection'));
-const Footer = dynamic(() => import('@/components/Footer'));
-const ScrollAnimations = dynamic(() => import('@/components/ScrollAnimations'));
-const ScrollNavigation = dynamic(() => import('@/components/ScrollNavigation'));
+import Header from '@/components/Header';
+import HeroSection from '@/components/HeroSection';
+import Footer from '@/components/Footer';
+import ScrollAnimationWrapper from '@/components/ScrollAnimations';
+const AboutSection = dynamic(() => import('@/components/AboutSection'), {
+  loading: () => <div className="h-screen" />,
+});
+const TechnologiesSection = dynamic(() => import('@/components/TechnologiesSection'), {
+  loading: () => <div className="h-screen" />,
+});
+const EcommerceSection = dynamic(() => import('@/components/EcommerceSection'), {
+  loading: () => <div className="h-screen" />,
+});
+const ProjectsSection = dynamic(() => import('@/components/ProjectsSection'), {
+  loading: () => <div className="h-screen" />,
+});
+const ContactForm = dynamic(() => import('@/components/ContactForm'), {
+  loading: () => <div className="h-screen" />,
+});
 
 export default function Home() {
-  console.log('Rendering Home page with all sections');
-  
   return (
-    <main className="min-h-screen bg-background mobile-scroll-fix mobile-viewport-fix">
-      <ScrollAnimations />
-      <ScrollNavigation />
+    <main className="min-h-screen bg-background">
+      <ScrollAnimationWrapper />
       <Header />
       <HeroSection />
       <AboutSection />
       <TechnologiesSection />
       <EcommerceSection />
       <ProjectsSection />
-      <ResumeDownloadSection />
+      <ContactForm />
       <Footer />
     </main>
   );

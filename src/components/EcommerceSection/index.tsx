@@ -1,144 +1,190 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-const EcommerceSection = () => {
-  const platforms = [
-    {
-      name: 'VTEX',
-      description: 'Performance e escalabilidade para grandes operações.',
-      features: [
-        'Personalização de loja',
-        'Integração de pagamentos',
-        'Otimização de performance'
-      ]
-    },
-    {
-      name: 'Wake',
-      description: 'Flexibilidade com arquitetura headless para múltiplos canais.',
-      features: [
-        'Abordagem API-first',
-        'Venda multicanal',
-        'Análises avançadas'
-      ]
-    },
-    {
-      name: 'Shopify',
-      description: 'Agilidade e otimização para qualquer tamanho de negócio.',
-      features: [
-        'Configuração fácil da loja',
-        'Ecossistema de aplicativos',
-        'Otimização para dispositivos móveis'
-      ]
-    }
-  ];
+import type { ReactNode } from 'react';
+
+interface Platform {
+  name: string;
+  description: string;
+  icon: ReactNode;
+  features: string[];
+  color: string;
+  certified: boolean;
+}
+
+const platforms: Platform[] = [
+  {
+    name: 'VTEX',
+    description: 'Plataforma líder de e-commerce com alta performance e escalabilidade empresarial.',
+    icon: (
+     <Image src="./VTEX_Logo.svg" alt="Logo VTEX - Plataforma de e-commerce" width={40} height={40}  />
+    ),
+    features: ['Catálogo Omnichannel', 'Checkout Nativo', 'Integrações B2B/B2C', 'SEO Otimizado'],
+    color: 'from-white to-gray-100',
+    certified:false,
+  },
+  {
+    name: 'Wake',
+    description: 'Arquitetura headless flexível para criar experiências de compra únicas.',
+    icon: (
+      <Image src="./wake-commerce-branco.svg" alt="Logo Wake Commerce - Plataforma headless" width={60} height={60}  />
+    ),
+    features: ['Headless CMS', 'API-first', 'Personalização','Performance'],
+    color: 'from-black to-gray-800',
+    certified: true,
+  },
+  {
+    name: 'Shopify',
+    description: 'Plataforma com temas customizáveis para experiências de e-commerce flexíveis.',
+    icon: (
+       <Image src="/shopify-logo.png" alt="Logo VTEX - Plataforma de e-commerce" width={40} height={40}  />
+    ),
+    features: ['Temas Customizáveis', 'Performance', 'Integrações', 'Flexibilidade'],
+    color: 'from-white to-gray-100',
+    certified: false,
+  },
+];
+
+export const EcommerceSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    // Animação do efeito de brilho nas bordas dos cards
-    const cards = document.querySelectorAll('.ecommerce-card');
-    
-    cards.forEach((card, index) => {
-      // Criar elemento de brilho
-      const glowElement = document.createElement('div');
-      glowElement.className = 'glow-border';
-      card.appendChild(glowElement);
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion) return;
 
-      // Animação do brilho percorrendo a borda
-      gsap.set(glowElement, { 
-        opacity: 0.3,
-        background: 'linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.8), transparent)',
-        position: 'absolute',
-        top: 0,
-        left: '-100%',
-        width: '100%',
-        height: '3px',
-        borderRadius: '8px',
-        zIndex: 1,
-        boxShadow: '0 0 10px rgba(212, 175, 55, 0.5)'
-      });
+    const ctx = gsap.context(() => {
+      if (!sectionRef.current) return;
 
-      // Animação contínua do brilho
-      gsap.to(glowElement, {
-        left: '100%',
-        duration: 3,
-        delay: index * 0.8,
-        repeat: -1,
-        ease: 'none',
-        onRepeat: () => {
-          gsap.set(glowElement, { left: '-100%' });
-        }
-      });
-
-      // Efeito de hover para intensificar o brilho
-      card.addEventListener('mouseenter', () => {
-        gsap.to(glowElement, {
+      gsap.fromTo(
+        '.ecommerce-card',
+        { opacity: 0, y: 40 },
+        {
           opacity: 1,
-          scale: 1.1,
-          duration: 0.3,
-          ease: 'power2.out'
-        });
-      });
-
-      card.addEventListener('mouseleave', () => {
-        gsap.to(glowElement, {
-          opacity: 0.3,
-          scale: 1,
-          duration: 0.3,
-          ease: 'power2.out'
-        });
-      });
+          y: 0,
+          duration: 0.6,
+          stagger: 0.15,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 75%',
+            once: true,
+          },
+        }
+      );
     });
 
-    // Cleanup
-    return () => {
-      cards.forEach(card => {
-        const glowElement = card.querySelector('.glow-border');
-        if (glowElement) {
-          glowElement.remove();
-        }
-      });
-    };
+    return () => ctx.revert();
   }, []);
 
   return (
-    <section id="ecommerce" className="fullscreen-section bg-background overflow-hidden relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="text-center mb-16">
-          <h2 className="section-title text-5xl lg:text-6xl font-bold text-foreground mb-6">
-            Plataformas de E-commerce
+    <section ref={sectionRef} id="ecommerce" className="section-spacing relative">
+      {/* Background decorativo */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-1/4 left-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] -translate-x-1/2" />
+        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-cyan/5 rounded-full blur-[100px] translate-x-1/4" />
+      </div>
+
+      <div className="container-modern relative z-10">
+        {/* Header */}
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <span className="inline-flex items-center gap-2 text-primary font-medium text-sm mb-4">
+            <span className="w-8 h-0.5 bg-primary rounded-full" />
+            Especialização
+          </span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+            Plataformas de{' '}
+            <span className="gradient-text-primary">E-commerce</span>
           </h2>
+          <p className="text-muted-foreground text-lg">
+            Especialista nas principais plataformas do mercado, entregando soluções
+            que convertem visitantes em clientes.
+          </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto">
-          {platforms.map((platform, index) => (
+        {/* Grid */}
+        <div className="grid lg:grid-cols-3 gap-8">
+          {platforms.map((platform) => (
             <div
-              key={index}
-              className="ecommerce-card card-hover bg-card p-10 rounded-2xl border-2 border-primary/30 hover:border-primary/60 transition-all duration-300 cursor-pointer group hover-lift relative overflow-hidden"
+              key={platform.name}
+              className="ecommerce-card card-modern group relative overflow-hidden"
             >
-              <div className="space-y-8">
-              
+              {/* Gradient border top */}
+              <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-[#0081f1]`} />
 
-                {/* Platform Info */}
-                <div className="text-center space-y-6">
-                  <h3 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
-                    {platform.name}
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed text-lg group-hover:text-foreground transition-colors duration-300">
-                    {platform.description}
-                  </p>
-                </div>
-
-                {/* Features List */}
-                <div className="space-y-4">
-                  {platform.features.map((feature, featureIndex) => (
-                    <div key={featureIndex} className="flex items-center text-base text-muted-foreground group-hover:text-foreground transition-colors duration-300">
-                      <span className="w-3 h-3 bg-primary rounded-full mr-4 group-hover:scale-125 transition-transform duration-300"></span>
-                      {feature}
+              <div className="space-y-6">
+                {/* Header */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${platform.color} flex items-center justify-center text-white shadow-lg`}>
+                      {platform.icon}
                     </div>
-                  ))}
+                    <div>
+                      <h3 className="text-xl font-bold text-foreground">{platform.name}</h3>
+                      <span className="text-xs text-muted-foreground uppercase tracking-wide">Platform</span>
+                    </div>
+                  </div>
+                  {/* Badge */}
+                  {
+                    platform.certified && (
+                    <span className="badge px-2 py-1 text-xs">
+                      ✓ Certified
+                    </span>
+
+                    )
+                  }
                 </div>
+
+                {/* Description */}
+                <p className="text-muted-foreground leading-relaxed">
+                  {platform.description}
+                </p>
+
+                {/* Features */}
+                <ul className="space-y-3">
+                  {platform.features.map((feature) => (
+                    <li key={feature} className="flex items-center gap-3 text-sm text-foreground">
+                      <span className={`w-5 h-5 rounded-full bg-primary flex items-center justify-center text-white text-xs`}>
+                        ✓
+                      </span>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+
+                {/* CTA */}
+                <a
+                  href="#projects"
+                  className="btn-secondary w-full mt-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
+                >
+                  Ver Projetos
+                  <svg
+                    className="w-4 h-4 transition-transform group-hover:translate-x-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </a>
               </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Stats */}
+        <div className="mt-16 grid grid-cols-3 gap-6">
+          {[
+            { value: '30+', label: 'Projetos Entregues' },
+            { value: 'R$10M+', label: 'GMV Gerenciado' },
+            { value: '4.9/5', label: 'Avaliação Clientes' },
+          ].map((stat) => (
+            <div key={stat.label} className="text-center">
+              <div className="text-3xl md:text-4xl font-bold text-foreground mb-1">{stat.value}</div>
+              <div className="text-sm text-muted-foreground">{stat.label}</div>
             </div>
           ))}
         </div>
