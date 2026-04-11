@@ -1,9 +1,14 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+// Registrar plugins apenas no cliente
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 
 
@@ -24,7 +29,6 @@ const skillCategories = [
 
 export const AboutSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -32,15 +36,7 @@ export const AboutSection = () => {
     const ctx = gsap.context(() => {
       if (!sectionRef.current) return;
 
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: 'top 80%',
-        onEnter: () => setIsVisible(true),
-        once: true,
-      });
-
       if (reducedMotion) {
-        setIsVisible(true);
         return;
       }
 

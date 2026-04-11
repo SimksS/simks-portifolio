@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { gsap } from 'gsap';
-import Link from 'next/link';
 
 export const HeroSection = () => {
   const [isLoaded, setIsLoaded] = useState(false);

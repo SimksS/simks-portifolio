@@ -77,9 +77,10 @@ export const useGSAP = () => {
   // Cleanup no desmount
   useEffect(() => {
     return () => {
-      if (elementRef.current) {
+      const currentRef = elementRef.current;
+      if (currentRef) {
         ScrollTrigger.getAll().forEach(trigger => {
-          if (trigger.trigger === elementRef.current) {
+          if (trigger.trigger === currentRef) {
             trigger.kill();
           }
         });

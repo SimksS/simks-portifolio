@@ -41,18 +41,12 @@ export const ProjectImage = ({
   className = "",
   sizes,
 }: ProjectImageProps) => {
-  const [imageUrl, setImageUrl] = useState<string>("");
+  const [imageUrl, setImageUrl] = useState<string>(null);
   const [error, setError] = useState(false);
 
   useEffect(() => {
     setImageUrl(getScreenshotUrl(url));
   }, [url]);
-
-  // Placeholder gradient enquanto carrega
-  const placeholderStyle = {
-    background:
-      "linear-gradient(135deg, var(--color-secondary) 0%, var(--color-muted) 100%)",
-  };
 
   if (error) {
     // Fallback: mostra site em texto ou um placeholder

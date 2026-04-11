@@ -1,20 +1,19 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { gsap } from 'gsap';
+import { useEffect, useMemo, useState } from 'react';
 
 const ScrollNavigation = () => {
   const [activeSection, setActiveSection] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
 
-  const sections = [
+  const sections = useMemo(() => [
     { id: 'home', name: 'Home' },
     { id: 'about', name: 'Sobre' },
     { id: 'technologies', name: 'Technologies' },
     { id: 'ecommerce', name: 'E-commerce' },
     { id: 'projects', name: 'Projetos' },
     { id: 'resume', name: 'Contato' }
-  ];
+  ], []);
 
   useEffect(() => {
     let ticking = false;
