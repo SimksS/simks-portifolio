@@ -1,28 +1,37 @@
-"use client";
+'use client';
 
-import { useEffect, useRef } from "react";
-import type { ReactNode } from "react";
-import { gsap } from "gsap";
+import { useEffect, useRef, useState } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { motion, useInView } from 'motion/react';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 interface Technology {
   name: string;
   description: string;
-  icon: ReactNode;
+  icon: React.ReactNode;
+  category: 'frontend' | 'backend' | 'tools';
+  experience: string;
 }
 
 const technologies: Technology[] = [
   {
-    name: "React",
-    description:
-      "Interfaces modernas e performáticas com componentes reutilizáveis e estado eficiente.",
+    name: 'React',
+    description: 'Interfaces modernas com hooks, context e performance otimizada',
+    category: 'frontend',
+    experience: '4+ anos',
     icon: (
       <svg width="24px" height="24px" className="w-full h-full" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>react</title> <rect width="24" height="24" fill="none"></rect> <path d="M12,10.11A1.87,1.87,0,1,1,10.13,12,1.88,1.88,0,0,1,12,10.11M7.37,20c.63.38,2-.2,3.6-1.7a24.22,24.22,0,0,1-1.51-1.9A22.7,22.7,0,0,1,7.06,16c-.51,2.14-.32,3.61.31,4m.71-5.74-.29-.51a7.91,7.91,0,0,0-.29.86c.27.06.57.11.88.16l-.3-.51m6.54-.76.81-1.5-.81-1.5c-.3-.53-.62-1-.91-1.47C13.17,9,12.6,9,12,9s-1.17,0-1.71,0c-.29.47-.61.94-.91,1.47L8.57,12l.81,1.5c.3.53.62,1,.91,1.47.54,0,1.11,0,1.71,0s1.17,0,1.71,0c.29-.47.61-.94.91-1.47M12,6.78c-.19.22-.39.45-.59.72h1.18c-.2-.27-.4-.5-.59-.72m0,10.44c.19-.22.39-.45.59-.72H11.41c.2.27.4.5.59.72M16.62,4c-.62-.38-2,.2-3.59,1.7a24.22,24.22,0,0,1,1.51,1.9,22.7,22.7,0,0,1,2.4.36c.51-2.14.32-3.61-.32-4m-.7,5.74.29.51a7.91,7.91,0,0,0,.29-.86c-.27-.06-.57-.11-.88-.16l.3.51m1.45-7c1.47.84,1.63,3.05,1,5.63,2.54.75,4.37,2,4.37,3.68s-1.83,2.93-4.37,3.68c.62,2.58.46,4.79-1,5.63s-3.45-.12-5.37-1.95c-1.92,1.83-3.91,2.79-5.38,1.95s-1.62-3-1-5.63c-2.54-.75-4.37-2-4.37-3.68S3.08,9.07,5.62,8.32c-.62-2.58-.46-4.79,1-5.63s3.46.12,5.38,1.95c1.92-1.83,3.91-2.79,5.37-1.95M17.08,12A22.51,22.51,0,0,1,18,14.26c2.1-.63,3.28-1.53,3.28-2.26S20.07,10.37,18,9.74A22.51,22.51,0,0,1,17.08,12M6.92,12A22.51,22.51,0,0,1,6,9.74c-2.1.63-3.28,1.53-3.28,2.26S3.93,13.63,6,14.26A22.51,22.51,0,0,1,6.92,12m9,2.26-.3.51c.31,0,.61-.1.88-.16a7.91,7.91,0,0,0-.29-.86l-.29.51M13,18.3c1.59,1.5,3,2.08,3.59,1.7s.83-1.82.32-4a22.7,22.7,0,0,1-2.4.36A24.22,24.22,0,0,1,13,18.3M8.08,9.74l.3-.51c-.31,0-.61.1-.88.16a7.91,7.91,0,0,0,.29.86l.29-.51M11,5.7C9.38,4.2,8,3.62,7.37,4s-.82,1.82-.31,4a22.7,22.7,0,0,1,2.4-.36A24.22,24.22,0,0,1,11,5.7Z"></path> </g></svg>
     ),
   },
   {
-    name: "Next.js",
-    description:
-      "Framework full-stack com SSR, SSG e otimizações de performance automáticas.",
+    name: 'Next.js',
+    description: 'Framework full-stack com SSR, App Router e Edge Functions',
+    category: 'frontend',
+    experience: '3+ anos',
     icon: (
       <svg
         width="24px"
@@ -57,9 +66,10 @@ const technologies: Technology[] = [
     ),
   },
   {
-    name: "Node.js",
-    description:
-      "Backend escalável com APIs RESTful, WebSocket e integrações de banco de dados.",
+    name: 'Node.js',
+    description: 'Backend escalável com APIs RESTful, GraphQL e microservices',
+    category: 'backend',
+    experience: '4+ anos',
     icon: (
       <svg
         width="24px"
@@ -94,18 +104,19 @@ const technologies: Technology[] = [
     ),
   },
   {
-    name: "TypeScript",
-    description:
-      "Código seguro e escalável com tipagem estática e autocomplete inteligente.",
+    name: 'TypeScript',
+    description: 'Código tipado seguro com interfaces avançadas e generics',
+    category: 'frontend',
+    experience: '4+ anos',
     icon: (
-    
-      <svg className="w-full h-full" width="24px" height="24px" fill="currentColor" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" ><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><title>file_type_typescript_official</title><rect x="2" y="2" width="28" height="28" rx="1.312" style={{fill:"#3178c6"}}></rect><path d="M18.245,23.759v3.068a6.492,6.492,0,0,0,1.764.575,11.56,11.56,0,0,0,2.146.192,9.968,9.968,0,0,0,2.088-.211,5.11,5.11,0,0,0,1.735-.7,3.542,3.542,0,0,0,1.181-1.266,4.469,4.469,0,0,0,.186-3.394,3.409,3.409,0,0,0-.717-1.117,5.236,5.236,0,0,0-1.123-.877,12.027,12.027,0,0,0-1.477-.734q-.6-.249-1.08-.484a5.5,5.5,0,0,1-.813-.479,2.089,2.089,0,0,1-.516-.518,1.091,1.091,0,0,1-.181-.618,1.039,1.039,0,0,1,.162-.571,1.4,1.4,0,0,1,.459-.436,2.439,2.439,0,0,1,.726-.283,4.211,4.211,0,0,1,.956-.1,5.942,5.942,0,0,1,.808.058,6.292,6.292,0,0,1,.856.177,5.994,5.994,0,0,1,.836.3,4.657,4.657,0,0,1,.751.422V13.9a7.509,7.509,0,0,0-1.525-.4,12.426,12.426,0,0,0-1.9-.129,8.767,8.767,0,0,0-2.064.235,5.239,5.239,0,0,0-1.716.733,3.655,3.655,0,0,0-1.171,1.271,3.731,3.731,0,0,0-.431,1.845,3.588,3.588,0,0,0,.789,2.34,6,6,0,0,0,2.395,1.639q.63.26,1.175.509a6.458,6.458,0,0,1,.942.517,2.463,2.463,0,0,1,.626.585,1.2,1.2,0,0,1,.23.719,1.1,1.1,0,0,1-.144.552,1.269,1.269,0,0,1-.435.441,2.381,2.381,0,0,1-.726.292,4.377,4.377,0,0,1-1.018.105,5.773,5.773,0,0,1-1.969-.35A5.874,5.874,0,0,1,18.245,23.759Zm-5.154-7.638h4V13.594H5.938v2.527H9.92V27.375h3.171Z" style={{fill:"#ffffff", fillRule:"evenodd"}}></path></g></svg>
+      <svg className="w-full h-full" width="24px" height="24px" fill="currentColor" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" ><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><title>file_type_typescript_official</title><rect x="2" y="2" width="28" height="28" rx="1.312" fill="currentColor" ></rect><path d="M18.245,23.759v3.068a6.492,6.492,0,0,0,1.764.575,11.56,11.56,0,0,0,2.146.192,9.968,9.968,0,0,0,2.088-.211,5.11,5.11,0,0,0,1.735-.7,3.542,3.542,0,0,0,1.181-1.266,4.469,4.469,0,0,0,.186-3.394,3.409,3.409,0,0,0-.717-1.117,5.236,5.236,0,0,0-1.123-.877,12.027,12.027,0,0,0-1.477-.734q-.6-.249-1.08-.484a5.5,5.5,0,0,1-.813-.479,2.089,2.089,0,0,1-.516-.518,1.091,1.091,0,0,1-.181-.618,1.039,1.039,0,0,1,.162-.571,1.4,1.4,0,0,1,.459-.436,2.439,2.439,0,0,1,.726-.283,4.211,4.211,0,0,1,.956-.1,5.942,5.942,0,0,1,.808.058,6.292,6.292,0,0,1,.856.177,5.994,5.994,0,0,1,.836.3,4.657,4.657,0,0,1,.751.422V13.9a7.509,7.509,0,0,0-1.525-.4,12.426,12.426,0,0,0-1.9-.129,8.767,8.767,0,0,0-2.064.235,5.239,5.239,0,0,0-1.716.733,3.655,3.655,0,0,0-1.171,1.271,3.731,3.731,0,0,0-.431,1.845,3.588,3.588,0,0,0,.789,2.34,6,6,0,0,0,2.395,1.639q.63.26,1.175.509a6.458,6.458,0,0,1,.942.517,2.463,2.463,0,0,1,.626.585,1.2,1.2,0,0,1,.23.719,1.1,1.1,0,0,1-.144.552,1.269,1.269,0,0,1-.435.441,2.381,2.381,0,0,1-.726.292,4.377,4.377,0,0,1-1.018.105,5.773,5.773,0,0,1-1.969-.35A5.874,5.874,0,0,1,18.245,23.759Zm-5.154-7.638h4V13.594H5.938v2.527H9.92V27.375h3.171Z" style={{fill:"#ffffff", fillRule:"evenodd"}}></path></g></svg>
     ),
   },
   {
-    name: "Tailwind CSS",
-    description:
-      "Estilização utility-first com design system consistente e responsivo.",
+    name: 'Tailwind CSS',
+    description: 'Design system utility-first com dark mode e animações',
+    category: 'frontend',
+    experience: '3+ anos',
     icon: (
       <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
         <path d="M12.001,4.8c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 C13.666,10.618,15.027,12,18.001,12c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C16.337,6.182,14.976,4.8,12.001,4.8z M6.001,12c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 c1.177,1.194,2.538,2.576,5.512,2.576c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C10.337,13.382,8.976,12,6.001,12z" />
@@ -113,120 +124,262 @@ const technologies: Technology[] = [
     ),
   },
   {
-    name: "GSAP",
-    description:
-      "Animações fluidas e performáticas com timeline e scroll-trigger avançado.",
+    name: 'GSAP',
+    description: 'Animações fluidas com timeline e scroll-trigger avançado',
+    category: 'tools',
+    experience: '3+ anos',
     icon: (
       <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
-        <path d="M12 0L0 12l12 12 12-12L12 0z" />
+        <path d="M12 2L2 12l10 10 10-10L12 2zm0 3.5L18.5 12 12 18.5 5.5 12 12 5.5z"/>
       </svg>
     ),
   },
+  // {
+  //   name: 'PostgreSQL',
+  //   description: 'Banco de dados relacional com queries otimizadas',
+  //   category: 'backend',
+  //   experience: '3+ anos',
+  //   icon: (
+  //     <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+  //       <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm6.5 17.5c-1.5 0-2.7-1.2-2.7-2.7V9.2c0-1.5 1.2-2.7 2.7-2.7s2.7 1.2 2.7 2.7v5.6c0 1.5-1.2 2.7-2.7 2.7zm-8-.7h-2c-.4-1.4-1.3-2.6-2.5-3.5l1.2-1.6c1.6 1.2 2.6 2.9 3.3 5.1zm2-9.3c-2.3 0-4.2 1.9-4.2 4.2s1.9 4.2 4.2 4.2 4.2-1.9 4.2-4.2-1.9-4.2-4.2-4.2zm0 6.7c-1.4 0-2.5-1.1-2.5-2.5s1.1-2.5 2.5-2.5 2.5 1.1 2.5 2.5-1.1 2.5-2.5 2.5z"/>
+  //     </svg>
+  //   ),
+  // },
 ];
+
+// Tech Card Component
+const TechCard = ({ tech, index }: { tech: Technology; index: number }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: '-50px' });
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="group relative overflow-hidden"
+    >
+      <div className={`card-futuristic h-full transition-all duration-500 ${isHovered ? 'glow-cyan border-neon-cyan/40' : ''}`}>
+        {/* Background glow on hover */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: isHovered ? 1 : 0 }}
+          className="absolute inset-0 bg-gradient-to-br from-neon-cyan/5 to-neon-blue/5"
+        />
+
+        <div className="relative z-10 flex flex-col h-full">
+          <div className="flex items-start justify-between mb-4">
+            <motion.div
+              animate={{ rotate: isHovered ? 360 : 0 }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
+              className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors duration-300 ${
+                isHovered ? 'bg-neon-cyan/20 text-neon-cyan' : 'bg-muted text-foreground-muted'
+              }`}
+            >
+              <div className="w-6 h-6">{tech.icon}</div>
+            </motion.div>
+
+            {/* Experience badge */}
+            <span className="badge-cyber text-xs">{tech.experience}</span>
+          </div>
+
+          <h3 className={`text-lg font-semibold mb-2 transition-colors duration-300 ${isHovered ? 'text-neon-cyan' : 'text-foreground'}`}>
+            {tech.name}
+          </h3>
+
+          <p className="text-muted-foreground text-sm leading-relaxed flex-grow">
+            {tech.description}
+          </p>
+
+          {/* Category tag */}
+          <div className="mt-4 pt-3 border-t border-border/50">
+            <span className="tag-cyber text-xs capitalize">{tech.category}</span>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
 
 export const TechnologiesSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
+  const [activeCategory, setActiveCategory] = useState<'all' | 'frontend' | 'backend' | 'tools'>('all');
+
+  const filteredTech = activeCategory === 'all'
+    ? technologies
+    : technologies.filter(tech => tech.category === activeCategory);
+
+  const categories = [
+    { id: 'all', label: 'Todas', count: technologies.length },
+    { id: 'frontend', label: 'Front-end', count: technologies.filter(t => t.category === 'frontend').length },
+    { id: 'backend', label: 'Back-end', count: technologies.filter(t => t.category === 'backend').length },
+    { id: 'tools', label: 'Ferramentas', count: technologies.filter(t => t.category === 'tools').length },
+  ] as const;
 
   useEffect(() => {
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reducedMotion) return;
 
     const ctx = gsap.context(() => {
       if (!sectionRef.current) return;
 
-      // Animação dos cards aparecendo
       gsap.fromTo(
-        ".tech-card",
+        '.tech-header',
         { opacity: 0, y: 30 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.5,
-          stagger: 0.1,
-          ease: "power2.out",
+          duration: 0.8,
+          ease: 'power2.out',
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: "top 75%",
+            start: 'top 75%',
             once: true,
           },
-        },
+        }
       );
-    });
+    }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section ref={sectionRef} id="technologies" className="section-spacing">
-      <div className="container-modern">
+    <section ref={sectionRef} id="technologies" className="section-spacing relative overflow-hidden">
+      {/* Background decorations */}
+      <div className="absolute inset-0 pointer-events-none">
+        <motion.div
+          animate={{ opacity: [0.05, 0.1, 0.05] }}
+          transition={{ duration: 4, repeat: Infinity }}
+          className="absolute top-0 left-1/4 w-96 h-96 bg-neon-purple/20 rounded-full blur-[120px]"
+        />
+        <motion.div
+          animate={{ opacity: [0.05, 0.1, 0.05] }}
+          transition={{ duration: 5, repeat: Infinity, delay: 1 }}
+          className="absolute bottom-0 right-1/4 w-80 h-80 bg-neon-cyan/20 rounded-full blur-[100px]"
+        />
+      </div>
+
+      <div className="container-futuristic relative z-10">
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="inline-flex items-center gap-2 text-primary font-medium text-sm mb-4">
-            <span className="w-8 h-0.5 bg-primary rounded-full" />
-            Stack Tecnológica
-          </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            Tecnologias que{" "}
-            <span className="gradient-text-primary">domino</span>
-          </h2>
-          <p className="text-muted-foreground text-lg">
-            Stack moderna focada em performance, escalabilidade e experiência do
-            usuário.
-          </p>
+        <div className="tech-header text-center max-w-2xl mx-auto mb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="flex items-center justify-center gap-3 mb-6"
+          >
+            <motion.span
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="w-2 h-2 bg-neon-cyan rounded-full"
+            />
+            <span className="text-neon-cyan font-medium text-sm tracking-wider uppercase">Stack Tecnológica</span>
+            <motion.span
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+              className="w-2 h-2 bg-neon-purple rounded-full"
+            />
+          </motion.div>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4"
+          >
+            Tecnologias que{' '}
+            <span className="gradient-text-animated">domino</span>
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-muted-foreground text-lg"
+          >
+            Stack moderna focada em performance, escalabilidade e experiência do usuário.
+          </motion.p>
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {technologies.map((tech) => (
-            <div
-              key={tech.name}
-              className="tech-card card-modern group cursor-default"
+        {/* Category Filter */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="flex flex-wrap justify-center gap-2 mb-12"
+        >
+          {categories.map((cat) => (
+            <motion.button
+              key={cat.id}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => setActiveCategory(cat.id)}
+              className={`relative px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+                activeCategory === cat.id
+                  ? 'bg-neon-cyan/10 text-neon-cyan border border-neon-cyan/40'
+                  : 'bg-muted text-muted-foreground border border-transparent hover:border-neon-cyan/20'
+              }`}
             >
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-secondary flex items-center justify-center text-primary flex-shrink-0 group-hover:scale-110 transition-transform">
-                  {tech.icon}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-lg font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">
-                    {tech.name}
-                  </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    {tech.description}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Tech Stack Badges */}
-        <div className="mt-16 pt-8 border-t border-border/50">
-          <p className="text-center text-muted-foreground text-sm mb-6">
-            Também trabalho com
-          </p>
-          <div className="flex flex-wrap justify-center gap-3">
-            {[
-              "Python",
-              "PostgreSQL",
-              "MongoDB",
-              "Redis",
-              "Docker",
-              "Vercel",
-              "Stripe",
-              "GraphQL",
-              "Inteligência Artificial",
-            ].map((tech) => (
-              <span
-                key={tech}
-                className="tag px-4 py-2 hover:bg-primary/20 hover:text-primary cursor-default transition-colors"
-              >
-                {tech}
+              <span className="flex items-center gap-2">
+                {cat.label}
+                <span className={`text-xs px-1.5 py-0.5 rounded-full ${
+                  activeCategory === cat.id
+                    ? 'bg-neon-cyan/20 text-neon-cyan'
+                    : 'bg-background text-muted-foreground'
+                }`}>
+                  {cat.count}
+                </span>
               </span>
-            ))}
+            </motion.button>
+          ))}
+        </motion.div>
+
+        {/* Tech Grid */}
+        <motion.div
+          layout
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
+          {filteredTech.map((tech, index) => (
+            <TechCard key={tech.name} tech={tech} index={index} />
+          ))}
+        </motion.div>
+
+        {/* Additional Skills */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="mt-16 pt-8"
+        >
+          <div className="card-futuristic">
+            <h3 className="text-center font-semibold text-foreground mb-6">Também trabalho com</h3>
+            <div className="flex flex-wrap justify-center gap-3">
+              {[
+                'Docker', 'AWS', 'Vercel', 'Stripe', 'GraphQL', 'Redis',
+                'MongoDB', 'Prisma', 'Jest', 'CI/CD', 'GitHub Actions'
+              ].map((skill, index) => (
+                <motion.span
+                  key={skill}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: index * 0.05 }}
+                  whileHover={{
+                    scale: 1.05,
+                    borderColor: 'rgba(0, 255, 255, 0.4)',
+                    color: '#00ffff',
+                  }}
+                  className="tag-cyber px-4 py-2 cursor-default"
+                >
+                  {skill}
+                </motion.span>
+              ))}
+            </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

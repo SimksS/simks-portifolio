@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { gsap } from 'gsap';
+import { motion, AnimatePresence } from 'motion/react';
 
 interface NavLink {
   label: string;
@@ -21,8 +22,8 @@ export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-  // Scroll handler otimizado
   useEffect(() => {
     let ticking = false;
 
@@ -56,12 +57,11 @@ export const Header = () => {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // Verificar estado inicial
+    handleScroll();
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isScrolled]);
 
-  // Fechar menu mobile ao redimensionar para desktop
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768 && isMobileMenuOpen) {
@@ -72,14 +72,12 @@ export const Header = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, [isMobileMenuOpen]);
 
-  // Bloquear scroll quando menu mobile está aberto
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = 'hidden';
-      // Animação de entrada do menu
       gsap.fromTo('.mobile-menu',
-        { opacity: 0, y: -10 },
-        { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' }
+        { opacity: 0, scale: 0.95, y: -10 },
+        { opacity: 1, scale: 1, y: 0, duration: 0.3, ease: 'power2.out' }
       );
       gsap.fromTo('.mobile-menu-item',
         { opacity: 0, x: -20 },
@@ -113,40 +111,80 @@ export const Header = () => {
 
   return (
     <>
-      <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      <motion.header
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled
-            ? 'glass'
+            ? 'glass border-b border-border/50'
             : 'bg-transparent'
         }`}
       >
-        <nav className="container-modern">
-          <div className="flex items-center justify-between h-16 lg:h-20">
+        {/* Decorative top line */}
+        {isScrolled && (
+          <motion.div
+            layoutId="headerLine"
+            className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-neon-cyan/50 to-transparent"
+          />
+        )}
+
+        <nav className="container-futuristic">
+          <div className="flex items-center justify-between h-18 lg:h-20">
             {/* Logo */}
-            <a href="#home" onClick={(e) => handleNavClick(e, '#home')} className="flex items-center gap-2 group">
-              <div className="w-9 h-9 lg:w-10 lg:h-10 rounded-lg bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center text-primary-foreground font-bold text-lg transition-transform duration-300 group-hover:scale-105">
-                K
+            <a
+              href="#home"
+              onClick={(e) => handleNavClick(e, '#home')}
+              className="flex items-center gap-3 group"
+            >
+              <div className="relative">
+                {/* Glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-neon-cyan to-neon-blue blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-300" />
+                <div className="relative w-10 h-10 lg:w-11 lg:h-11 rounded-xl bg-gradient-to-br from-neon-cyan/20 to-neon-blue/20 border border-neon-cyan/30 flex items-center justify-center text-neon-cyan font-bold text-xl overflow-hidden group-hover:border-neon-cyan/60 transition-all duration-300">
+                  {/* Animated background */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-neon-cyan/20 to-neon-blue/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <span className="relative">K</span>
+                </div>
               </div>
-              <span className="hidden sm:block text-foreground font-semibold text-lg">Kelven Souza</span>
+              <span className="hidden sm:block text-foreground font-semibold text-lg group-hover:text-neon-cyan transition-colors duration-300">
+                Kelven Souza
+              </span>
             </a>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-1">
-              {navLinks.map((link) => (
+            <div className="hidden md:flex items-center gap-1 relative">
+              {navLinks.map((link, index) => (
                 <a
                   key={link.href}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className={`nav-link px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 relative ${
+                  onMouseEnter={() => setHoveredIndex(index)}
+                  onMouseLeave={() => setHoveredIndex(null)}
+                  className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 ${
                     activeSection === link.href.replace('#', '')
-                      ? 'text-primary'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
+                      ? 'text-neon-cyan'
+                      : 'text-foreground-muted hover:text-foreground'
                   }`}
                 >
-                  {link.label}
-                  {activeSection === link.href.replace('#', '') && (
-                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-primary rounded-full" />
+                  {/* Background hover effect */}
+                  {hoveredIndex === index && (
+                    <motion.div
+                      layoutId="navHover"
+                      className="absolute inset-0 bg-neon-cyan/10 rounded-lg"
+                      transition={{ type: 'spring', bounce: 0.2, duration: 0.3 }}
+                    />
                   )}
+
+                  {/* Active indicator */}
+                  {activeSection === link.href.replace('#', '') && (
+                    <motion.div
+                      layoutId="activeNav"
+                      className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-neon-cyan rounded-full"
+                      transition={{ type: 'spring', bounce: 0.2, duration: 0.4 }}
+                    />
+                  )}
+
+                  <span className="relative z-10">{link.label}</span>
                 </a>
               ))}
             </div>
@@ -155,84 +193,105 @@ export const Header = () => {
             <a
               href="#contact"
               onClick={(e) => handleNavClick(e, '#contact')}
-              className="hidden md:inline-flex btn-primary text-sm"
+              className="hidden md:inline-flex btn-cyber text-sm font-medium"
             >
-              Fale Comigo
+              <span className="relative z-10 flex items-center gap-2">
+                Fale Comigo
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+              </span>
             </a>
 
             {/* Mobile Menu Button */}
-            <button
+            <motion.button
+              whileTap={{ scale: 0.95 }}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 text-foreground hover:text-primary transition-colors"
+              className="md:hidden relative w-10 h-10 flex items-center justify-center text-foreground hover:text-neon-cyan transition-colors"
               aria-label={isMobileMenuOpen ? 'Fechar menu' : 'Abrir menu'}
               aria-expanded={isMobileMenuOpen}
             >
-              <div className="w-6 h-6 relative flex flex-col justify-center">
-                <span
-                  className={`absolute block w-6 h-0.5 bg-current rounded-full transition-all duration-300 ${
-                    isMobileMenuOpen ? 'rotate-45' : '-translate-y-2'
-                  }`}
+              <div className="w-6 h-6 relative flex flex-col justify-center items-center">
+                <motion.span
+                  animate={{
+                    rotate: isMobileMenuOpen ? 45 : 0,
+                    y: isMobileMenuOpen ? 0 : -4,
+                  }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute block w-5 h-0.5 bg-current rounded-full"
                 />
-                <span
-                  className={`absolute block w-6 h-0.5 bg-current rounded-full transition-all duration-300 ${
-                    isMobileMenuOpen ? 'opacity-0' : 'opacity-100'
-                  }`}
+                <motion.span
+                  animate={{ opacity: isMobileMenuOpen ? 0 : 1 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute block w-5 h-0.5 bg-current rounded-full"
                 />
-                <span
-                  className={`absolute block w-6 h-0.5 bg-current rounded-full transition-all duration-300 ${
-                    isMobileMenuOpen ? '-rotate-45' : 'translate-y-2'
-                  }`}
+                <motion.span
+                  animate={{
+                    rotate: isMobileMenuOpen ? -45 : 0,
+                    y: isMobileMenuOpen ? 0 : 4,
+                  }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute block w-5 h-0.5 bg-current rounded-full"
                 />
               </div>
-            </button>
+            </motion.button>
           </div>
         </nav>
-      </header>
+      </motion.header>
 
       {/* Mobile Menu Overlay */}
-      {isMobileMenuOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 z-40 md:hidden"
-          onClick={() => setIsMobileMenuOpen(false)}
-        />
-      )}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Mobile Menu */}
       <div
-        className={`mobile-menu fixed top-16 left-0 right-0 z-40 md:hidden transition-all duration-300 ${
+        className={`mobile-menu fixed top-[72px] left-0 right-0 z-40 md:hidden ${
           isMobileMenuOpen ? 'block' : 'hidden'
         }`}
       >
-        <nav className="glass border-b border-border">
-          <div className="container-modern py-4 space-y-1">
-            {navLinks.map((link) => (
+        <div className="glass border-b border-border/50 mx-4 rounded-2xl overflow-hidden">
+          <nav className="p-4 space-y-1">
+            {navLinks.map((link, index) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className={`mobile-menu-item flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
+                className={`mobile-menu-item flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
                   activeSection === link.href.replace('#', '')
-                    ? 'bg-primary-subtle text-primary'
-                    : 'text-foreground hover:bg-secondary'
+                    ? 'bg-neon-cyan/10 text-neon-cyan border border-neon-cyan/30'
+                    : 'text-foreground hover:bg-foreground/5'
                 }`}
+                style={{ animationDelay: `${index * 50}ms` }}
               >
                 <span>{link.label}</span>
                 {activeSection === link.href.replace('#', '') && (
-                  <span className="w-2 h-2 bg-primary rounded-full" />
+                  <motion.span
+                    layoutId="mobileActiveIndicator"
+                    className="w-2 h-2 bg-neon-cyan rounded-full shadow-[0_0_10px_currentColor]"
+                  />
                 )}
               </a>
             ))}
-            <div className="pt-4 mt-4 border-t border-border">
+            <div className="pt-3 mt-3 border-t border-border/50">
               <a
                 href="#contact"
                 onClick={(e) => handleNavClick(e, '#contact')}
-                className="mobile-menu-item btn-primary w-full text-center justify-center"
+                className="mobile-menu-item btn-cyber-primary w-full text-center justify-center"
               >
                 Fale Comigo
               </a>
             </div>
-          </div>
-        </nav>
+          </nav>
+        </div>
       </div>
     </>
   );
