@@ -41,7 +41,7 @@ export const ProjectImage = ({
   className = "",
   sizes,
 }: ProjectImageProps) => {
-  const [imageUrl, setImageUrl] = useState<string>(null);
+  const [imageUrl, setImageUrl] = useState<string>("");
   const [error, setError] = useState(false);
 
   useEffect(() => {
