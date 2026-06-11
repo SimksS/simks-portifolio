@@ -1,14 +1,13 @@
+'use client';
+import { useState } from 'react';
 import dynamic from 'next/dynamic';
+import Preloader from '@/components/Preloader';
+import HeroSection from '@/components/HeroSection';
+import Marquee from '@/components/Marquee';
+import ScrollAnimationWrapper from '@/components/ScrollAnimations';
+import Footer from '@/components/Footer';
 
-// Sections importadas dinamicamente para otimização
-const HeroSection = dynamic(() => import('@/components/HeroSection'), {
-  loading: () => (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="w-8 h-8 border-2 border-neon-cyan/30 border-t-neon-cyan rounded-full animate-spin" />
-    </div>
-  ),
-});
-
+// Seções abaixo da dobra importadas dinamicamente
 const AboutSection = dynamic(() => import('@/components/AboutSection'), {
   loading: () => <div className="h-[600px]" />,
 });
@@ -29,30 +28,21 @@ const ContactForm = dynamic(() => import('@/components/ContactForm'), {
   loading: () => <div className="h-[600px]" />,
 });
 
-import ScrollAnimationWrapper from '@/components/ScrollAnimations';
-
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-
 export default function Home() {
+  const [preloaderDone, setPreloaderDone] = useState(false);
+
   return (
-    <main className="min-h-screen bg-background overflow-x-hidden">
-      {/* Background Animations */}
+    <main className="min-h-screen overflow-x-hidden">
+      {!preloaderDone && (
+        <Preloader onComplete={() => setPreloaderDone(true)} />
+      )}
+
+      {/* Cursor customizado */}
       <ScrollAnimationWrapper />
 
-      {/* Floating Orbs Background */}
-      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-neon-cyan/5 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-1/4 -right-32 w-80 h-80 bg-neon-purple/5 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-neon-blue/3 rounded-full blur-[150px] -translate-x-1/2 -translate-y-1/2 animate-pulse" style={{ animationDelay: '2s' }} />
-      </div>
-
-      {/* Header */}
-      <Header />
-
-      {/* Main Content */}
       <div className="relative z-10">
-        <HeroSection />
+        <HeroSection introReady={preloaderDone} />
+        <Marquee items={['E-commerce', 'performance', 'Clean Code', 'escala', 'VTEX', 'Wake']} />
         <AboutSection />
         <TechnologiesSection />
         <EcommerceSection />
@@ -60,7 +50,6 @@ export default function Home() {
         <ContactForm />
       </div>
 
-      {/* Footer */}
       <Footer />
     </main>
   );

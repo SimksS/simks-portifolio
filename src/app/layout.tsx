@@ -1,13 +1,23 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Space_Grotesk, Instrument_Serif, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import StructuredData from "@/components/StructuredData";
 import ResourcePreloader from "@/components/ResourcePreloader";
+import LenisProvider from "@/providers/LenisProvider";
 
-// Otimização de fontes
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Tipografia: grotesk display + serif itálico de contraste + mono para labels
+const grotesk = Space_Grotesk({
+  variable: "--font-grotesk",
+  subsets: ["latin"],
+  display: "swap",
+  preload: true,
+});
+
+const serifDisplay = Instrument_Serif({
+  variable: "--font-serif-display",
+  weight: "400",
+  style: ["normal", "italic"],
   subsets: ["latin"],
   display: "swap",
   preload: true,
@@ -27,8 +37,8 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
+    { media: '(prefers-color-scheme: light)', color: '#f1eee7' },
+    { media: '(prefers-color-scheme: dark)', color: '#16140f' },
   ],
 };
 
@@ -104,11 +114,13 @@ export default function RootLayout({
         <StructuredData />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${grotesk.variable} ${serifDisplay.variable} ${geistMono.variable} antialiased`}
       >
         <ResourcePreloader />
-        <Header />
-        {children}
+        <LenisProvider>
+          <Header />
+          {children}
+        </LenisProvider>
       </body>
     </html>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { encode } from "qss";
 
 interface ProjectImageProps {
@@ -41,12 +41,10 @@ export const ProjectImage = ({
   className = "",
   sizes,
 }: ProjectImageProps) => {
-  const [imageUrl, setImageUrl] = useState<string>("");
+  // Compute URL synchronously so browser lazy-loading applies from first render.
+  // Previously this was done in a useEffect which defeated loading="lazy".
+  const imageUrl = getScreenshotUrl(url);
   const [error, setError] = useState(false);
-
-  useEffect(() => {
-    setImageUrl(getScreenshotUrl(url));
-  }, [url]);
 
   if (error) {
     // Fallback: mostra site em texto ou um placeholder
