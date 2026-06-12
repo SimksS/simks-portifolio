@@ -142,21 +142,17 @@ body {
   transition: background-color 0.7s var(--ease-inout), color 0.7s var(--ease-inout);
 }
 
-/* Cursor imersivo — oculto no desktop; texto nativo nos campos de formulário */
+/* Cursor imersivo — oculto no desktop */
 @media (pointer: fine) {
-  html:not(.cursor-text-mode) * {
+  * {
     cursor: none !important;
   }
 
-  html.cursor-text-mode .input-cyber,
-  html.cursor-text-mode input[type='text'],
-  html.cursor-text-mode input[type='email'],
-  html.cursor-text-mode input[type='search'],
-  html.cursor-text-mode input[type='tel'],
-  html.cursor-text-mode input[type='url'],
-  html.cursor-text-mode input:not([type]),
-  html.cursor-text-mode textarea {
-    cursor: text !important;
+  /* Garante cursor: none mesmo em inputs focados (navegadores às vezes forçam cursor: text) */
+  input,
+  textarea,
+  select {
+    cursor: none !important;
   }
 }
 
@@ -479,17 +475,70 @@ body::after {
   border-radius: 0;
   color: var(--color-foreground);
   font-size: 1rem;
-  transition: border-color 0.3s var(--ease-expo);
+  transition: border-color 0.4s var(--ease-expo);
   caret-color: var(--color-accent);
 }
 
 .input-cyber:focus {
   outline: none;
-  border-bottom-color: var(--color-foreground);
+  border-bottom-color: oklch(0.67 0.21 40 / 0.2);
 }
 
 .input-cyber::placeholder {
   color: var(--color-foreground-dim);
+  transition: color 0.35s var(--ease-expo);
+}
+
+.input-cyber:focus::placeholder {
+  color: oklch(0.46 0.01 80 / 0.4);
+}
+
+/* Autofill: força tema escuro mesmo com o inset shadow do navegador */
+.input-cyber:-webkit-autofill,
+.input-cyber:-webkit-autofill:hover,
+.input-cyber:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--color-foreground) !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--color-background) inset !important;
+  box-shadow: 0 0 0 1000px var(--color-background) inset !important;
+  caret-color: var(--color-accent);
+  border-bottom-color: var(--color-border);
+  transition: border-color 0.4s var(--ease-expo);
+}
+
+.input-cyber:-webkit-autofill:focus {
+  border-bottom-color: oklch(0.67 0.21 40 / 0.2) !important;
+}
+
+/* Wrapper da linha accent — pseudo-elemento em div não é afetado pelo autofill */
+.input-wrap {
+  position: relative;
+}
+
+.input-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s var(--ease-expo);
+  pointer-events: none;
+}
+
+.field-wrapper:focus-within .input-wrap::after {
+  transform: scaleX(1);
+}
+
+/* Label anima junto ao campo */
+.field-wrapper .mono-label {
+  transition: color 0.35s var(--ease-expo);
+}
+
+.field-wrapper:focus-within .mono-label {
+  color: var(--color-foreground);
 }
 
 /* Badges e tags — mono, hairline, sem glow */

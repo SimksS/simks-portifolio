@@ -16,18 +16,32 @@ const navLinks: NavLink[] = [
   { label: 'Projetos', href: '#projects' },
 ];
 
+// Ordem no documento — usada pelo scroll-spy
+const SECTION_IDS = ['home', 'about', 'technologies', 'ecommerce', 'projects', 'contact'];
+
 export const Header = () => {
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
   const { scrollY, scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 30, mass: 0.4 });
 
-  // Esconde ao descer, revela ao subir
+  // Esconde ao descer, revela ao subir + detecta a seção ativa
   useMotionValueEvent(scrollY, 'change', (y) => {
     const prev = scrollY.getPrevious() ?? 0;
     setHidden(y > prev && y > 120 && !isMobileMenuOpen);
     setScrolled(y > 40);
+
+    // Scroll-spy: a última seção cujo topo cruzou a linha dos 40% da viewport.
+    // Lê o DOM ao vivo, então funciona mesmo com seções montadas via dynamic().
+    const line = window.innerHeight * 0.4;
+    let current = 'home';
+    for (const id of SECTION_IDS) {
+      const el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top <= line) current = id;
+    }
+    setActiveSection((prevSection) => (prevSection === current ? prevSection : current));
   });
 
   useEffect(() => {
@@ -75,23 +89,35 @@ export const Header = () => {
 
             {/* Navegação desktop */}
             <div className="hidden md:flex items-center gap-8">
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={(e) => handleNavClick(e, link.href)}
-                  className="link-wipe link-wipe-quiet font-mono text-[0.6875rem] tracking-[0.18em] uppercase text-foreground-muted hover:text-foreground transition-colors duration-200"
-                >
-                  {link.label}
-                </a>
-              ))}
-              <a
-                href="#contact"
-                onClick={(e) => handleNavClick(e, '#contact')}
-                className="link-wipe font-mono text-[0.6875rem] tracking-[0.18em] uppercase text-accent"
-              >
-                Contato
-              </a>
+              {[...navLinks, { label: 'Contato', href: '#contact' }].map((link) => {
+                const id = link.href.replace('#', '');
+                const isActive = activeSection === id;
+                const isContact = id === 'contact';
+                return (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={(e) => handleNavClick(e, link.href)}
+                    aria-current={isActive ? 'true' : undefined}
+                    className={`relative font-mono text-[0.6875rem] tracking-[0.18em] uppercase transition-colors duration-200 ${
+                      isContact
+                        ? 'text-accent'
+                        : isActive
+                          ? 'text-foreground'
+                          : 'text-foreground-muted hover:text-foreground'
+                    }`}
+                  >
+                    {link.label}
+                    {isActive && (
+                      <motion.span
+                        layoutId="nav-underline"
+                        className="absolute -bottom-1.5 left-0 right-0 h-px bg-accent"
+                        transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                      />
+                    )}
+                  </a>
+                );
+              })}
             </div>
 
             {/* Botão menu mobile */}
@@ -127,26 +153,36 @@ export const Header = () => {
           >
             <nav className="container-futuristic space-y-1">
               {[{ label: 'Home', href: '#home' }, ...navLinks, { label: 'Contato', href: '#contact' }].map(
-                (link, index) => (
-                  <motion.div
-                    key={link.href}
-                    initial={{ y: 40, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.25 + index * 0.06, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                    className="overflow-hidden"
-                  >
-                    <a
-                      href={link.href}
-                      onClick={(e) => handleNavClick(e, link.href)}
-                      className="flex items-baseline gap-4 py-1 group"
+                (link, index) => {
+                  const isActive = activeSection === link.href.replace('#', '');
+                  return (
+                    <motion.div
+                      key={link.href}
+                      initial={{ y: 40, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.25 + index * 0.06, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                      className="overflow-hidden"
                     >
-                      <span className="mono-label">0{index + 1}</span>
-                      <span className="font-display font-medium uppercase text-[clamp(2.5rem,10vw,4rem)] leading-[1.05] text-foreground group-hover:text-accent transition-colors">
-                        {link.label}
-                      </span>
-                    </a>
-                  </motion.div>
-                )
+                      <a
+                        href={link.href}
+                        onClick={(e) => handleNavClick(e, link.href)}
+                        aria-current={isActive ? 'true' : undefined}
+                        className="flex items-baseline gap-4 py-1 group"
+                      >
+                        <span className={`mono-label ${isActive ? '!text-accent' : ''}`}>
+                          0{index + 1}
+                        </span>
+                        <span
+                          className={`font-display font-medium uppercase text-[clamp(2.5rem,10vw,4rem)] leading-[1.05] transition-colors group-hover:text-accent ${
+                            isActive ? 'text-accent' : 'text-foreground'
+                          }`}
+                        >
+                          {link.label}
+                        </span>
+                      </a>
+                    </motion.div>
+                  );
+                }
               )}
               <motion.div
                 initial={{ opacity: 0 }}

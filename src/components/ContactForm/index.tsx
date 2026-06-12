@@ -62,7 +62,7 @@ const FormField = ({
   };
 
   return (
-    <div>
+    <div className="field-wrapper">
       <div className="flex items-baseline justify-between gap-4">
         <label htmlFor={id} className="mono-label">
           {label} <span className="text-accent">*</span>
@@ -79,11 +79,13 @@ const FormField = ({
         )}
       </div>
 
-      {isTextarea ? (
-        <textarea {...shared} rows={rows} className="input-cyber resize-none" />
-      ) : (
-        <input {...shared} type={type} />
-      )}
+      <div className="input-wrap">
+        {isTextarea ? (
+          <textarea {...shared} rows={rows} className="input-cyber resize-none" />
+        ) : (
+          <input {...shared} type={type} />
+        )}
+      </div>
 
       <AnimatePresence>
         {error && (

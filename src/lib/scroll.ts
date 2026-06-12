@@ -14,15 +14,22 @@ declare global {
 export function scrollToId(id: string) {
   if (typeof window === 'undefined') return;
 
+  const target = document.getElementById(id);
   const lenis = window.__lenis;
-  if (lenis) {
-    lenis.scrollTo(`#${id}`, {
+
+  if (lenis && target) {
+    // O menu mobile / preloader pausam o Lenis (stop()). Quando a navegação
+    // dispara, o start() ainda não rodou — então reativamos aqui e usamos
+    // force:true para rolar mesmo que o instante de lock não tenha passado.
+    lenis.start();
+    lenis.scrollTo(target, {
       offset: -72,
       duration: 1.4,
+      force: true,
       easing: (t: number) => 1 - Math.pow(1 - t, 4),
     });
     return;
   }
 
-  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  target?.scrollIntoView({ behavior: 'smooth' });
 }
