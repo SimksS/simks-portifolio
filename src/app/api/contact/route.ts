@@ -4,7 +4,7 @@ export const runtime = 'nodejs';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const OWNER_EMAIL = 'kelven.souza00@gmail.com';
-const DEFAULT_FROM = 'kelven-souza@test-vz9dlemw9eq4kj50.mlsender.net';
+const DEFAULT_FROM = 'no-reply@simks.com.br';
 const MAILERSEND_API_URL = 'https://api.mailersend.com/v1/email';
 
 type Json = Record<string, unknown>;
