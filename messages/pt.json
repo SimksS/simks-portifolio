@@ -1,0 +1,483 @@
+{
+  "meta": {
+    "title": "Kelven Souza - Desenvolvedor Full-Stack | React, Node.js, Python",
+    "description": "Desenvolvedor Full-Stack especializado em React, Node.js e Python. Especialista em e-commerce (VTEX, Wake, Shopify) e soluções digitais modernas.",
+    "keywords": ["desenvolvedor full-stack", "react", "node.js", "python", "vtex", "e-commerce", "next.js", "typescript", "kelven souza", "desenvolvedor", "programador"],
+    "ogTitle": "Kelven Souza - Desenvolvedor Full-Stack",
+    "ogDescription": "Especialista em desenvolvimento web e e-commerce com React, Node.js e Python.",
+    "ogAlt": "Kelven Souza - Desenvolvedor Full-Stack",
+    "twitterDescription": "Especialista em desenvolvimento web e e-commerce com React, Node.js e Python.",
+    "manifestName": "Kelven Souza - Desenvolvedor Full-Stack",
+    "manifestDescription": "Portfólio de Kelven Souza - Desenvolvedor Full-Stack especializado em e-commerce"
+  },
+  "nav": {
+    "about": "Sobre",
+    "stack": "Stack",
+    "ecommerce": "E-commerce",
+    "projects": "Projetos",
+    "contact": "Contato",
+    "home": "Home",
+    "openMenu": "Abrir menu",
+    "closeMenu": "Fechar menu",
+    "menu": "Menu",
+    "close": "Fechar",
+    "available": "Disponível",
+    "bahia": "Bahia, BR",
+    "switchToEn": "Mudar para inglês",
+    "switchToPt": "Mudar para português"
+  },
+  "preloader": {
+    "label": "Portfólio"
+  },
+  "hero": {
+    "eyebrow": "Desenvolvedor Full-Stack — Bahia, BR",
+    "available": "Disponível para projetos",
+    "line1": "Construo <italic>e-commerces</italic> que vendem —",
+    "line2": "arquiteturas escaláveis em VTEX, Wake & Shopify.",
+    "stats": [
+      {"value": "4+", "label": "Anos de experiência"},
+      {"value": "30+", "label": "Projetos lançados"},
+      {"value": "R$10M+", "label": "GMV impactado"}
+    ],
+    "viewWork": "Ver projetos",
+    "downloadCv": "Baixar CV"
+  },
+  "marquee": {
+    "items": ["E-commerce", "performance", "Clean Code", "escala", "VTEX", "Wake"]
+  },
+  "about": {
+    "index": "01 — Sobre",
+    "bio": "Tech Lead e desenvolvedor full-stack com 4+ anos construindo e-commerces de alto desempenho. Lidero equipes na Wicomm, conduzo mentorias e aplico Clean Code e S.O.L.I.D. para criar produtos que não apenas vendem — encantam.",
+    "alt": "Kelven Souza — Tech Lead e desenvolvedor full-stack",
+    "caption": "Kelven Souza — Bahia, BR",
+    "facts": [
+      {"label": "Papel", "value": "Tech Lead @ Wicomm"},
+      {"label": "Foco", "value": "E-commerce headless"},
+      {"label": "Princípios", "value": "Clean Code · S.O.L.I.D."},
+      {"label": "Além do código", "value": "Mentorias & treinamentos"}
+    ],
+    "ctaBefore": "Vamos conversar ",
+    "ctaEmphasis": "sobre o seu projeto"
+  },
+  "technologies": {
+    "index": "02 — Stack",
+    "aside": "Ferramentas de produção",
+    "also": "Também trabalho com",
+    "items": [
+      {"name": "React", "description": "Interfaces modernas com hooks, context e performance otimizada", "experience": "4+ anos"},
+      {"name": "Next.js", "description": "SSR, App Router e Edge Functions", "experience": "3+ anos"},
+      {"name": "TypeScript", "description": "Tipagem segura com interfaces avançadas e generics", "experience": "4+ anos"},
+      {"name": "Node.js", "description": "APIs RESTful, GraphQL e microservices", "experience": "4+ anos"},
+      {"name": "Tailwind CSS", "description": "Design systems utility-first", "experience": "3+ anos"},
+      {"name": "GSAP", "description": "Animações com timeline e ScrollTrigger", "experience": "3+ anos"}
+    ]
+  },
+  "ecommerce": {
+    "index": "03 — E-commerce",
+    "aside": "Especialização",
+    "headingBefore": "Plataformas que ",
+    "headingEmphasis": "convertem",
+    "headingAfter": " visitantes em clientes.",
+    "certified": "Certificado",
+    "platforms": [
+      {
+        "name": "VTEX",
+        "description": "Plataforma líder em e-commerce enterprise — catálogo omnichannel, checkout nativo e integrações B2B/B2C.",
+        "features": ["VTEX IO", "Headless", "B2B/B2C", "SEO"],
+        "certified": false,
+        "projects": "15+ projetos"
+      },
+      {
+        "name": "Wake",
+        "description": "Arquitetura headless flexível, API-first, para experiências de compra únicas e performáticas.",
+        "features": ["Headless CMS", "API-first", "Personalização"],
+        "certified": true,
+        "projects": "10+ projetos"
+      },
+      {
+        "name": "Shopify",
+        "description": "Temas customizáveis e integrações para operações que precisam de velocidade de lançamento.",
+        "features": ["Temas", "Apps", "Integrações"],
+        "certified": false,
+        "projects": "8+ projetos"
+      }
+    ],
+    "numbers": [
+      {"value": 30, "prefix": "", "suffix": "+", "label": "Projetos lançados"},
+      {"value": 10, "prefix": "R$", "suffix": "M+", "label": "GMV impactado"},
+      {"value": 4.9, "prefix": "", "suffix": "/5", "label": "Satisfação de clientes"},
+      {"value": 20, "prefix": "+", "suffix": "%", "label": "Performance média"}
+    ]
+  },
+  "projects": {
+    "index": "04 — Projetos",
+    "count": "{count} cases",
+    "headingBefore": "Trabalho que gera ",
+    "headingEmphasis": "resultado",
+    "headingAfter": ".",
+    "filters": {
+      "all": "Todos",
+      "ecommerce": "E-commerce",
+      "health": "Saúde",
+      "personal": "Pessoal"
+    },
+    "status": {
+      "done": "Concluído",
+      "wip": "Em andamento"
+    },
+    "challenge": "O desafio",
+    "solution": "A solução",
+    "highlights": "Destaques",
+    "more": "Mais informações",
+    "viewSite": "Ver site",
+    "viewProject": "Ver site do projeto",
+    "viewCase": "Ver case",
+    "close": "Fechar",
+    "ariaCase": "Ver case {title}",
+    "items": {
+      "elle": {
+        "description": "Loja digital da ELLE Brasil para assinaturas e compra de edições da revista.",
+        "category": "ecommerce",
+        "status": "done",
+        "challenge": "Digitalizar a venda de assinaturas e edições avulsas da revista, com jornada simples e alinhada ao ecossistema editorial da ELLE Brasil.",
+        "solution": "Storefront VTEX com fluxos de assinatura, compra de edições e captura de newsletter integrada à operação da marca.",
+        "moreInfo": "Planos de assinatura mensal e anual, compra de edições avulsas e integração com o conteúdo editorial da ELLE Brasil.",
+        "results": [
+          {"value": "3 planos", "label": "Opções de assinatura"},
+          {"value": "Edições", "label": "Venda avulsa de revistas"},
+          {"value": "Newsletter", "label": "Captura integrada na loja"}
+        ]
+      },
+      "dpaschoal": {
+        "description": "Maior rede de serviços automotivos da América Latina — pneus, peças e serviços desde 1949.",
+        "category": "ecommerce",
+        "status": "done",
+        "challenge": "Unificar a jornada digital de uma rede nacional de pneus, peças e serviços automotivos, conectando catálogo online com agendamento nas lojas físicas.",
+        "solution": "Loja VTEX com busca de pneus por medida ou veículo, catálogo de serviços automotivos e fluxo de agendamento de horário.",
+        "moreInfo": "Seleção de pneus por dimensão ou modelo do veículo, serviços como troca de óleo e agendamento de horário nas unidades físicas.",
+        "results": [
+          {"value": "Pneus", "label": "Busca por veículo ou medida"},
+          {"value": "Serviços", "label": "Agendamento online"},
+          {"value": "Nacional", "label": "Entrega em todo o Brasil"}
+        ]
+      },
+      "crisBarros": {
+        "description": "Marca brasileira de moda feminina premium com estética sofisticada e autoral.",
+        "category": "ecommerce",
+        "status": "done",
+        "challenge": "Traduzir o posicionamento premium da marca para o digital, mantendo a identidade editorial sem comprometer a experiência de compra.",
+        "solution": "Storefront VTEX com vitrine editorial, galerias de produto e checkout alinhado ao público de moda premium.",
+        "moreInfo": "Experiência de produto com foco em moda feminina premium, navegação por coleções e checkout integrado à operação da marca.",
+        "results": [
+          {"value": "Premium", "label": "Posicionamento de luxo"},
+          {"value": "Coleções", "label": "Vitrine por temporada"},
+          {"value": "WhatsApp", "label": "Atendimento personalizado"}
+        ]
+      },
+      "canal": {
+        "description": "Marca de moda feminina com loja online, cashback e rede de lojas físicas.",
+        "category": "ecommerce",
+        "status": "done",
+        "challenge": "Levar ao digital a proposta da marca — elegância, autenticidade e conexão com a cliente — em uma operação omnichannel com lojas físicas.",
+        "solution": "Storefront Wake com vitrine sazonal, programa de cashback, integração com lojas físicas e atendimento via WhatsApp.",
+        "moreInfo": "Coleções sazonais, frete grátis acima de R$ 599, parcelamento em até 10x e atendimento de vendedoras via WhatsApp.",
+        "results": [
+          {"value": "Cashback", "label": "Programa de fidelidade"},
+          {"value": "Lojas", "label": "Rede física integrada"},
+          {"value": "PIX 5%", "label": "Desconto no pagamento"}
+        ]
+      },
+      "fares": {
+        "description": "Plataforma digital de agendamento de consultas, exames e cirurgias em São Paulo.",
+        "category": "health",
+        "status": "done",
+        "challenge": "Simplificar o agendamento de consultas, exames e procedimentos para pacientes de diferentes perfis e convênios, em múltiplas unidades.",
+        "solution": "Portal de agendamento online com seleção de especialidade, unidade e horário, confirmação por WhatsApp ou e-mail e área do paciente.",
+        "moreInfo": "Agendamento de consultas, exames laboratoriais e de imagem, cirurgias e acompanhamento de resultados. Confirmação automática por WhatsApp ou e-mail.",
+        "results": [
+          {"value": "45+", "label": "Especialidades médicas"},
+          {"value": "800+", "label": "Tipos de exames"},
+          {"value": "4", "label": "Unidades em SP"}
+        ]
+      },
+      "orit": {
+        "description": "E-commerce de joias e relógios de luxo no mercado secondhand.",
+        "category": "ecommerce",
+        "status": "done",
+        "challenge": "Transmitir confiança em um segmento onde autenticidade e transparência são decisivas para a compra de peças de alto valor.",
+        "solution": "Storefront Wake com vitrine de peças pré-selecionadas, galerias detalhadas de produto e jornada de compra voltada ao público de luxo.",
+        "moreInfo": "Catálogo de joias e relógios de luxo pré-amados, com foco em autenticidade, detalhamento visual das peças e experiência premium.",
+        "results": [
+          {"value": "Luxo", "label": "Peças certificadas"},
+          {"value": "Secondhand", "label": "Joias e relógios"},
+          {"value": "Alto valor", "label": "Checkout seguro"}
+        ]
+      },
+      "primeGuns": {
+        "description": "E-commerce especializado em equipamentos e acessórios para tiro esportivo.",
+        "category": "ecommerce",
+        "status": "done",
+        "challenge": "Operar um e-commerce em segmento altamente regulamentado, com exigências de documentação e compliance em cada etapa da compra.",
+        "solution": "Loja VTEX com catálogo especializado, fluxo de checkout adaptado às regras do segmento e gestão de pedidos com rastreabilidade.",
+        "moreInfo": "Operação digital para o mercado de tiro esportivo, com catálogo segmentado e jornada de compra adaptada às exigências regulatórias do setor.",
+        "results": [
+          {"value": "Regulado", "label": "Segmento de alto controle"},
+          {"value": "Catálogo", "label": "Equipamentos especializados"},
+          {"value": "Pedidos", "label": "Rastreamento de compra"}
+        ]
+      },
+      "leBlog": {
+        "description": "E-commerce de moda feminina contemporânea com forte presença digital.",
+        "category": "ecommerce",
+        "status": "done",
+        "challenge": "Converter a audiência digital da marca em vendas online, mantendo a identidade visual e a proposta de moda contemporânea.",
+        "solution": "Storefront VTEX com vitrine orientada a tendências, páginas de produto imersivas e checkout otimizado para conversão mobile.",
+        "moreInfo": "Loja de moda feminina com vitrine sazonal, navegação por categorias e checkout integrado à operação da marca.",
+        "results": [
+          {"value": "Social", "label": "Presença digital forte"},
+          {"value": "Moda", "label": "Coleções contemporâneas"},
+          {"value": "Mobile", "label": "Experiência responsiva"}
+        ]
+      },
+      "goldko": {
+        "description": "E-commerce de chocolates premium zero açúcar, com foco em bem-estar.",
+        "category": "ecommerce",
+        "status": "done",
+        "challenge": "Posicionar uma marca de chocolates saudáveis no digital e ampliar a receita orgânica sem depender exclusivamente de mídia paga.",
+        "solution": "Storefront VTEX com estratégia de SEO da Wicomm, vitrine de produtos zero açúcar e jornada de compra orientada a conversão.",
+        "moreInfo": "Case publicado pela Wicomm com aumento de 179% na receita orgânica via estratégia de SEO para e-commerce.",
+        "results": [
+          {"value": "+179%", "label": "Receita orgânica (case Wicomm)"},
+          {"value": "Zero açúcar", "label": "Linha premium de chocolates"},
+          {"value": "SEO", "label": "Crescimento no canal orgânico"}
+        ]
+      },
+      "gama": {
+        "description": "Marca global de tecnologia de beleza — secadores e ferramentas profissionais.",
+        "category": "ecommerce",
+        "status": "done",
+        "challenge": "Ampliar a visibilidade orgânica da marca no Brasil e fortalecer o canal de aquisição sem depender só de mídia paga.",
+        "solution": "Storefront VTEX com estratégia de SEO da Wicomm focada em tráfego sem marca e otimização técnica da loja.",
+        "moreInfo": "Case publicado pela Wicomm com triplicação do tráfego orgânico sem marca via SEO para e-commerce.",
+        "results": [
+          {"value": "3×", "label": "Tráfego sem marca (case Wicomm)"},
+          {"value": "Eletro Beauty", "label": "Líder global no segmento"},
+          {"value": "B2C", "label": "Loja para consumidor final"}
+        ]
+      },
+      "toymania": {
+        "description": "E-commerce pioneiro de brinquedos no Brasil com curadoria multimarca.",
+        "category": "ecommerce",
+        "status": "done",
+        "challenge": "Modernizar uma operação com histórico consolidado, migrando de plataforma sem perder posicionamento em busca e base de clientes.",
+        "solution": "Migração para VTEX com mapeamento de URLs, preservação de SEO e reestruturação do storefront para melhor performance.",
+        "moreInfo": "Migração de plataforma com redirect de URLs, manutenção de estrutura de SEO e vitrine multimarca de brinquedos.",
+        "results": [
+          {"value": "Migração", "label": "Troca de plataforma"},
+          {"value": "SEO", "label": "Preservação de rankings"},
+          {"value": "Multimarca", "label": "Curadoria de brinquedos"}
+        ]
+      },
+      "amakha": {
+        "description": "E-commerce de cosméticos e perfumaria com modelo de vendas diretas.",
+        "category": "ecommerce",
+        "status": "done",
+        "challenge": "Estruturar a operação digital de uma marca de vendas diretas, atendendo revendedoras e consumidores finais na mesma plataforma.",
+        "solution": "Loja VTEX com portal para revendedoras, checkout para consumidor final e gestão de catálogo de cosméticos e perfumaria.",
+        "moreInfo": "Operação digital para vendas diretas de cosméticos, com área para revendedoras e loja para consumidor final.",
+        "results": [
+          {"value": "Revenda", "label": "Portal para revendedoras"},
+          {"value": "Cosméticos", "label": "Catálogo de perfumaria"},
+          {"value": "B2C + B2B", "label": "Dois públicos na mesma loja"}
+        ]
+      },
+      "capodarte": {
+        "description": "E-commerce de calçados e bolsas premium com tradição artesanal brasileira.",
+        "category": "ecommerce",
+        "status": "done",
+        "challenge": "Traduzir ao digital o posicionamento premium da marca, destacando acabamentos artesanais e coleções de calçados e bolsas.",
+        "solution": "Storefront VTEX com galerias de produto em alta resolução, páginas de coleção editorial e checkout para o público premium.",
+        "moreInfo": "Vitrine de calçados e bolsas premium, galerias com zoom em detalhes do produto e navegação por coleções sazonais.",
+        "results": [
+          {"value": "Premium", "label": "Calçados e bolsas"},
+          {"value": "Coleções", "label": "Páginas editoriais"},
+          {"value": "Artesanal", "label": "Marca com 35+ anos"}
+        ]
+      },
+      "farm": {
+        "description": "Expansão internacional da FARM na América Latina com lojas locais.",
+        "category": "ecommerce",
+        "status": "done",
+        "challenge": "Expandir a FARM para novos mercados latino-americanos com experiência de compra localizada — moeda, idioma, pagamento e logística.",
+        "solution": "Implementação multi-país com VTEX IO, UX/UI da Wicomm, gateways de pagamento locais e parceiros logísticos regionais.",
+        "moreInfo": "Case publicado pela Wicomm: expansão para seis países da América Latina em 45 dias com VTEX IO e experiência localizada.",
+        "results": [
+          {"value": "6 países", "label": "Lojas na América Latina"},
+          {"value": "45 dias", "label": "Prazo de lançamento (case Wicomm)"},
+          {"value": "i18n", "label": "Moeda e idioma localizados"}
+        ]
+      },
+      "csp": {
+        "description": "Gerador visual de Content Security Policies para aplicações web.",
+        "category": "personal",
+        "status": "done",
+        "challenge": "Simplificar a criação de Content Security Policies — tarefa técnica e propensa a erros que bloqueia recursos ou deixa brechas de segurança.",
+        "solution": "Gerador visual com predefinições por tipo de aplicação, validação em tempo real e exportação em header HTTP ou meta tag.",
+        "moreInfo": "Projeto open-source (repositório cspForge no GitHub) com templates para frameworks populares e explicação de cada diretiva CSP.",
+        "results": [
+          {"value": "CSP", "label": "Geração visual de políticas"},
+          {"value": "Templates", "label": "Next.js, Nuxt, SvelteKit"},
+          {"value": "Export", "label": "Header HTTP e meta tag"}
+        ]
+      },
+      "wakeRunner": {
+        "description": "CLI publicada no npm para iniciar projetos Wake Commerce localmente.",
+        "category": "personal",
+        "status": "done",
+        "challenge": "Automatizar o setup local de projetos Wake, que exigia iniciar o storefront e os watchers de CSS manualmente a cada sessão de desenvolvimento.",
+        "solution": "CLI que lê o token em Configs/settings.json, inicia o fbits.storefront e os watchers Tailwind para cada input*.css em Assets/CSS/.",
+        "moreInfo": "Automatiza fbits.storefront e tailwindcss --watch. Compatível com Windows (wake-storefront / wake-tailwind) e demais sistemas.",
+        "results": [
+          {"value": "1 cmd", "label": "Storefront + Tailwind juntos"},
+          {"value": "0 deps", "label": "Apenas módulos nativos do Node"},
+          {"value": "v1.0.2", "label": "Publicado no npm (MIT)"}
+        ]
+      },
+      "wakeMcp": {
+        "description": "Servidor MCP para consultar e inspecionar o GraphQL do Wake Storefront API (FBITS).",
+        "category": "personal",
+        "status": "wip",
+        "challenge": "Permitir que agentes de IA consultem o schema GraphQL da Wake durante o desenvolvimento, sem depender de clientes externos ou adivinhar nomes de campos.",
+        "solution": "Servidor MCP com quatro ferramentas — query, introspecção com cache TTL, detalhe de tipo e busca por campos — configurável via JSON ou variáveis de ambiente.",
+        "moreInfo": "Cache de introspecção em memória, suporte a token TCS-Access-Token e compatível com Claude Desktop e Cursor.",
+        "results": [
+          {"value": "4 tools", "label": "Query, introspecção, tipo e busca"},
+          {"value": "Cursor", "label": "Integração via mcp.json"},
+          {"value": "v0.0.3", "label": "Publicado no npm"}
+        ]
+      },
+      "treplica": {
+        "description": "Assistente de reuniões local com transcrição, sugestões de IA e tradução ao vivo.",
+        "category": "personal",
+        "status": "wip",
+        "challenge": "Oferecer sugestões de resposta em tempo real durante reuniões sem enviar áudio ou transcrições para servidores externos.",
+        "solution": "App desktop com Tauri e React que captura áudio localmente, transcreve em múltiplos idiomas, gera orientações por IA e exibe overlay stealth na reunião.",
+        "moreInfo": "v0.1.1-beta.2 — Windows 10/11, macOS 12+ e Linux. Overlay invisível no Zoom, Meet e Teams. Sem uploads para nuvem.",
+        "results": [
+          {"value": "100%", "label": "Processamento local"},
+          {"value": "9+", "label": "Idiomas suportados"},
+          {"value": "MIT", "label": "Open-source e gratuito"}
+        ]
+      }
+    }
+  },
+  "contact": {
+    "index": "05 — Contato",
+    "headingBefore": "Vamos trabalhar ",
+    "headingEmphasis": "juntos",
+    "headingAfter": "?",
+    "intro": "Tem um projeto em mente? Entre em contato e vamos discutir como posso ajudar a transformar sua ideia em realidade.",
+    "email": "Email",
+    "locationLabel": "Localização",
+    "locationValue": "Bahia, Brasil",
+    "availabilityLabel": "Disponibilidade",
+    "availabilityValue": "Imediata",
+    "available": "Disponível para projetos",
+    "name": "Nome",
+    "namePlaceholder": "Seu nome completo",
+    "emailPlaceholder": "seu@email.com",
+    "projectType": "Tipo de projeto",
+    "projectTypeAria": "Tipo de projeto",
+    "optional": "Opcional",
+    "projectTypes": ["E-commerce", "Aplicação Web", "Site Institucional", "Integração", "Outro"],
+    "message": "Mensagem",
+    "messagePlaceholder": "Descreva seu projeto, objetivos e prazo...",
+    "sending": "Enviando…",
+    "submit": "Enviar mensagem",
+    "errorLabel": "Erro",
+    "orEmail": "Ou me escreva direto:",
+    "successTitle": "Mensagem",
+    "successEmphasis": "enviada.",
+    "thanks": "Obrigado{name}. Vou ler com atenção e te respondo em breve.",
+    "replyNote": "Resposta em até 24h — direto da Bahia",
+    "sendAnother": "Enviar outra mensagem",
+    "errors": {
+      "name": "O nome precisa de pelo menos 3 caracteres",
+      "email": "Digite um email válido — ex.: nome@dominio.com",
+      "message": "Conte um pouco mais — pelo menos 10 caracteres",
+      "unexpected": "O servidor respondeu de forma inesperada. Tente novamente em instantes.",
+      "sendFailed": "Não consegui enviar agora. Tente de novo em instantes.",
+      "generic": "Erro ao enviar mensagem"
+    }
+  },
+  "footer": {
+    "eyebrow": "Tem um projeto em mente?",
+    "line1": "Vamos construir",
+    "line2": "algo juntos",
+    "timePrefix": "Bahia, BR"
+  },
+  "schema": {
+    "jobTitle": "Desenvolvedor Full-Stack",
+    "description": "Desenvolvedor Full-Stack especializado em React, Node.js e Python. Especialista em e-commerce (VTEX, Wake, Shopify) e soluções digitais modernas.",
+    "imageCaption": "Kelven Souza - Desenvolvedor Full-Stack",
+    "topics": ["React", "Next.js", "Node.js", "TypeScript", "Python", "VTEX", "Wake Commerce", "Shopify", "E-commerce", "Desenvolvimento Web", "Desenvolvimento Full-Stack"],
+    "occupationName": "Desenvolvedor Full-Stack",
+    "occupationDescription": "Desenvolvimento de aplicações web e e-commerce",
+    "country": "Brasil",
+    "salaryName": "Remuneração de desenvolvedor full-stack",
+    "worksForDescription": "Empresa de tecnologia especializada em soluções de e-commerce",
+    "websiteDescription": "Portfólio de Kelven Souza - Desenvolvedor Full-Stack especializado em e-commerce",
+    "inLanguage": "pt-BR",
+    "serviceName": "Kelven Souza - Desenvolvimento Web",
+    "serviceDescription": "Serviços de desenvolvimento full-stack, e-commerce e soluções digitais",
+    "serviceArea": "Brasil",
+    "serviceTypes": ["Desenvolvimento Web", "E-commerce", "Aplicações React", "APIs Node.js", "Integrações VTEX", "Integrações Wake Commerce", "Integrações Shopify"]
+  },
+  "timeline": {
+    "index": "Carreira",
+    "aside": "Trajetória",
+    "headingBefore": "Uma linha, ",
+    "headingEmphasis": "três casas",
+    "headingAfter": ".",
+    "promotion": "promoção",
+    "current": "atual",
+    "kenzie": {
+      "company": "Kenzie Academy Brasil",
+      "alt": "Logo da Kenzie Academy Brasil",
+      "studies": {
+        "role": "Estudos",
+        "period": "mai 2022 — jul 2022",
+        "summary": "Onde a programação começou, antes do primeiro emprego."
+      },
+      "monitor": {
+        "role": "Monitor",
+        "period": "jul 2022 — mai 2023",
+        "summary": "Passei a acompanhar alunos nos conteúdos mais difíceis.",
+        "note": "set 2022 — mai 2023, em paralelo com a Wicomm"
+      }
+    },
+    "wicomm": {
+      "company": "Wicomm",
+      "alt": "Logo da Wicomm",
+      "developer": {
+        "role": "Desenvolvedor Front End",
+        "period": "set 2022 — 2024",
+        "summary": "Primeiro emprego. Front-end de e-commerce com React, Vue, VTEX, Wake e Uappi."
+      },
+      "lead": {
+        "role": "Tech Lead",
+        "period": "2024 — 2026",
+        "summary": "Passei a conduzir o time, os padrões de código e as mentorias."
+      }
+    },
+    "contaCheia": {
+      "company": "Conta Cheia",
+      "alt": "Logo da Conta Cheia",
+      "engineer": {
+        "role": "Software Engineer",
+        "period": "desde 2026",
+        "summary": "Engenharia de software numa fintech brasileira de crédito."
+      }
+    }
+  }
+}

@@ -1,165 +1,107 @@
+import { getTranslations } from 'next-intl/server';
 import { siteConfig } from '@/lib/site-config';
 
-export const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "@id": `${siteConfig.url}/#person`,
-  "name": "Kelven Souza",
-  "givenName": "Kelven",
-  "familyName": "Souza",
-  "jobTitle": "Desenvolvedor Full-Stack",
-  "description": "Desenvolvedor Full-Stack especializado em React, Node.js e Python. Especialista em e-commerce (VTEX, Wake, Shopify) e soluções digitais modernas.",
-  "url": siteConfig.url,
-  "image": {
-    "@type": "ImageObject",
-    "url": `${siteConfig.url}/logo.png`,
-    "width": 1200,
-    "height": 630,
-    "caption": "Kelven Souza - Desenvolvedor Full-Stack"
-  },
-  "sameAs": [
-    "https://github.com/SimksS",
-    "https://linkedin.com/in/kelvensouza"
-  ],
-  "knowsAbout": [
-    "React",
-    "Next.js",
-    "Node.js",
-    "TypeScript",
-    "Python",
-    "VTEX",
-    "Wake Commerce",
-    "Shopify",
-    "E-commerce",
-    "Desenvolvimento Web",
-    "Full-Stack Development"
-  ],
-  "hasOccupation": {
-    "@type": "Occupation",
-    "name": "Desenvolvedor Full-Stack",
-    "description": "Desenvolvimento de aplicações web e e-commerce",
-    "occupationLocation": {
-      "@type": "Place",
-      "name": "Brasil",
-      "address": {
-        "@type": "PostalAddress",
-        "addressCountry": "BR",
-        "addressLocality": "Alagoinhas",
-        "addressRegion": "BA"
-      }
+export default async function StructuredData() {
+  const t = await getTranslations('schema');
+  const topics = t.raw('topics') as string[];
+  const serviceTypes = t.raw('serviceTypes') as string[];
+
+  const person = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    '@id': `${siteConfig.url}/#person`,
+    name: 'Kelven Souza',
+    givenName: 'Kelven',
+    familyName: 'Souza',
+    jobTitle: t('jobTitle'),
+    description: t('description'),
+    url: siteConfig.url,
+    image: {
+      '@type': 'ImageObject',
+      url: `${siteConfig.url}${siteConfig.ogImage}`,
+      width: 1200,
+      height: 630,
+      caption: t('imageCaption'),
     },
-    "estimatedSalary": {
-      "@type": "MonetaryAmountDistribution",
-      "name": "Remuneração Desenvolvedor Full-Stack",
-      "currency": "BRL"
-    }
-  },
-  "worksFor": {
-    "@type": "Organization",
-    "name": "Wicomm",
-    "url": "https://www.wicomm.com.br/",
-    "description": "Empresa de tecnologia especializada em soluções de e-commerce"
-  },
-  "alumniOf": {
-    "@type": "EducationalOrganization",
-    "name": "Instituições de Ensino",
-    "address": {
-      "@type": "PostalAddress",
-      "addressCountry": "BR"
-    }
-  },
-  "address": {
-    "@type": "PostalAddress",
-    "addressCountry": "BR",
-    "addressLocality": "Alagoinhas",
-    "addressRegion": "BA"
-  },
-  "contactPoint": {
-    "@type": "ContactPoint",
-    "contactType": "Professional",
-    "email": "kelven.souza00@gmail.com",
-    "availableLanguage": ["Portuguese", "English"],
-    "areaServed": "BR"
-  },
-  "nationality": {
-    "@type": "Country",
-    "name": "Brasil"
-  }
-};
-
-// Structured data para o WebSite
-export const websiteStructuredData = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "@id": `${siteConfig.url}/#website`,
-  "name": "Kelven Souza Portfolio",
-  "url": siteConfig.url,
-  "description": "Portfólio de Kelven Souza - Desenvolvedor Full-Stack especializado em e-commerce",
-  "publisher": {
-    "@id": `${siteConfig.url}/#person`
-  },
-  "inLanguage": "pt-BR",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": {
-      "@type": "EntryPoint",
-      "urlTemplate": `${siteConfig.url}/?q={search_term_string}`
+    sameAs: [siteConfig.social.github, siteConfig.social.linkedin],
+    knowsAbout: topics,
+    hasOccupation: {
+      '@type': 'Occupation',
+      name: t('occupationName'),
+      description: t('occupationDescription'),
+      occupationLocation: {
+        '@type': 'Place',
+        name: t('country'),
+        address: {
+          '@type': 'PostalAddress',
+          addressCountry: 'BR',
+          addressLocality: 'Alagoinhas',
+          addressRegion: 'BA',
+        },
+      },
+      estimatedSalary: {
+        '@type': 'MonetaryAmountDistribution',
+        name: t('salaryName'),
+        currency: 'BRL',
+      },
     },
-    "query-input": "required name=search_term_string"
-  }
-};
+    worksFor: {
+      '@type': 'Organization',
+      name: 'Wicomm',
+      url: 'https://www.wicomm.com.br/',
+      description: t('worksForDescription'),
+    },
+    address: {
+      '@type': 'PostalAddress',
+      addressCountry: 'BR',
+      addressLocality: 'Alagoinhas',
+      addressRegion: 'BA',
+    },
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'Professional',
+      email: siteConfig.email,
+      availableLanguage: ['Portuguese', 'English'],
+      areaServed: 'BR',
+    },
+    nationality: {
+      '@type': 'Country',
+      name: t('country'),
+    },
+  };
 
-// Structured data para Professional Service
-export const serviceStructuredData = {
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "@id": `${siteConfig.url}/#service`,
-  "name": "Kelven Souza - Desenvolvimento Web",
-  "description": "Serviços de desenvolvimento full-stack, e-commerce e soluções digitais",
-  "provider": {
-    "@id": `${siteConfig.url}/#person`
-  },
-  "areaServed": {
-    "@type": "Country",
-    "name": "Brasil"
-  },
-  "serviceType": [
-    "Desenvolvimento Web",
-    "E-commerce",
-    "Aplicações React",
-    "APIs Node.js",
-    "Integrações VTEX",
-    "Integrações Wake Commerce",
-    "Integrações Shopify"
-  ],
-  "url": siteConfig.url,
-  "telephone": "",
-  "email": "kelven.souza00@gmail.com"
-};
+  const website = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${siteConfig.url}/#website`,
+    name: 'Kelven Souza Portfolio',
+    url: siteConfig.url,
+    description: t('websiteDescription'),
+    publisher: { '@id': `${siteConfig.url}/#person` },
+    inLanguage: t('inLanguage'),
+  };
 
-const StructuredData = () => {
+  const service = {
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    '@id': `${siteConfig.url}/#service`,
+    name: t('serviceName'),
+    description: t('serviceDescription'),
+    provider: { '@id': `${siteConfig.url}/#person` },
+    areaServed: {
+      '@type': 'Country',
+      name: t('serviceArea'),
+    },
+    serviceType: serviceTypes,
+    url: siteConfig.url,
+    email: siteConfig.email,
+  };
+
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(websiteStructuredData),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(serviceStructuredData),
-        }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(person) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(website) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(service) }} />
     </>
   );
-};
-
-export default StructuredData;
+}

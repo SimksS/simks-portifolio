@@ -1,0 +1,483 @@
+{
+  "meta": {
+    "title": "Kelven Souza - Full-Stack Developer | React, Node.js, Python",
+    "description": "Full-Stack developer specialized in React, Node.js and Python. E-commerce specialist (VTEX, Wake, Shopify) and modern digital products.",
+    "keywords": ["full-stack developer", "react", "node.js", "python", "vtex", "e-commerce", "next.js", "typescript", "kelven souza", "developer", "software engineer"],
+    "ogTitle": "Kelven Souza - Full-Stack Developer",
+    "ogDescription": "Web and e-commerce specialist working with React, Node.js and Python.",
+    "ogAlt": "Kelven Souza - Full-Stack Developer",
+    "twitterDescription": "Web and e-commerce specialist working with React, Node.js and Python.",
+    "manifestName": "Kelven Souza - Full-Stack Developer",
+    "manifestDescription": "Kelven Souza portfolio - Full-Stack developer specialized in e-commerce"
+  },
+  "nav": {
+    "about": "About",
+    "stack": "Stack",
+    "ecommerce": "E-commerce",
+    "projects": "Projects",
+    "contact": "Contact",
+    "home": "Home",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "menu": "Menu",
+    "close": "Close",
+    "available": "Available",
+    "bahia": "Bahia, BR",
+    "switchToEn": "Switch to English",
+    "switchToPt": "Switch to Portuguese"
+  },
+  "preloader": {
+    "label": "Portfolio"
+  },
+  "hero": {
+    "eyebrow": "Full-Stack Developer — Bahia, BR",
+    "available": "Available for new work",
+    "line1": "I build <italic>e-commerces</italic> that sell —",
+    "line2": "scalable architectures on VTEX, Wake & Shopify.",
+    "stats": [
+      {"value": "4+", "label": "Years of experience"},
+      {"value": "30+", "label": "Launches shipped"},
+      {"value": "R$10M+", "label": "GMV influenced"}
+    ],
+    "viewWork": "View work",
+    "downloadCv": "Download CV"
+  },
+  "marquee": {
+    "items": ["E-commerce", "performance", "Clean Code", "scale", "VTEX", "Wake"]
+  },
+  "about": {
+    "index": "01 — About",
+    "bio": "Tech Lead and full-stack developer with 4+ years building high-performance e-commerce. I lead teams at Wicomm, run mentorships, and apply Clean Code and S.O.L.I.D. to create products that do more than sell — they delight.",
+    "alt": "Kelven Souza — Tech Lead and full-stack developer",
+    "caption": "Kelven Souza — Bahia, BR",
+    "facts": [
+      {"label": "Role", "value": "Tech Lead @ Wicomm"},
+      {"label": "Focus", "value": "Headless e-commerce"},
+      {"label": "Principles", "value": "Clean Code · S.O.L.I.D."},
+      {"label": "Beyond code", "value": "Mentorship & training"}
+    ],
+    "ctaBefore": "Let us talk ",
+    "ctaEmphasis": "about your next build"
+  },
+  "technologies": {
+    "index": "02 — Stack",
+    "aside": "Production tools",
+    "also": "I also work with",
+    "items": [
+      {"name": "React", "description": "Modern interfaces with hooks, context and tuned performance", "experience": "4+ years"},
+      {"name": "Next.js", "description": "SSR, App Router and Edge Functions", "experience": "3+ years"},
+      {"name": "TypeScript", "description": "Safe typing with advanced interfaces and generics", "experience": "4+ years"},
+      {"name": "Node.js", "description": "RESTful APIs, GraphQL and microservices", "experience": "4+ years"},
+      {"name": "Tailwind CSS", "description": "Utility-first design systems", "experience": "3+ years"},
+      {"name": "GSAP", "description": "Motion with timelines and ScrollTrigger", "experience": "3+ years"}
+    ]
+  },
+  "ecommerce": {
+    "index": "03 — E-commerce",
+    "aside": "Specialization",
+    "headingBefore": "Platforms that ",
+    "headingEmphasis": "convert",
+    "headingAfter": " visitors into customers.",
+    "certified": "Certified",
+    "platforms": [
+      {
+        "name": "VTEX",
+        "description": "Leading enterprise e-commerce platform — omnichannel catalog, native checkout and B2B/B2C integrations.",
+        "features": ["VTEX IO", "Headless", "B2B/B2C", "SEO"],
+        "certified": false,
+        "projects": "15+ builds"
+      },
+      {
+        "name": "Wake",
+        "description": "Flexible, API-first headless architecture for fast, distinctive shopping experiences.",
+        "features": ["Headless CMS", "API-first", "Personalization"],
+        "certified": true,
+        "projects": "10+ builds"
+      },
+      {
+        "name": "Shopify",
+        "description": "Custom themes and integrations for teams that need to launch quickly.",
+        "features": ["Themes", "Apps", "Integrations"],
+        "certified": false,
+        "projects": "8+ builds"
+      }
+    ],
+    "numbers": [
+      {"value": 30, "prefix": "", "suffix": "+", "label": "Launches shipped"},
+      {"value": 10, "prefix": "R$", "suffix": "M+", "label": "GMV influenced"},
+      {"value": 4.9, "prefix": "", "suffix": "/5", "label": "Client satisfaction"},
+      {"value": 20, "prefix": "+", "suffix": "%", "label": "Average performance gain"}
+    ]
+  },
+  "projects": {
+    "index": "04 — Projects",
+    "count": "{count} cases",
+    "headingBefore": "Work that drives ",
+    "headingEmphasis": "results",
+    "headingAfter": ".",
+    "filters": {
+      "all": "All",
+      "ecommerce": "E-commerce",
+      "health": "Health",
+      "personal": "Personal"
+    },
+    "status": {
+      "done": "Completed",
+      "wip": "In progress"
+    },
+    "challenge": "The challenge",
+    "solution": "The solution",
+    "highlights": "Highlights",
+    "more": "More information",
+    "viewSite": "View site",
+    "viewProject": "View the live site",
+    "viewCase": "View case",
+    "close": "Close",
+    "ariaCase": "View case {title}",
+    "items": {
+      "elle": {
+        "description": "ELLE Brasil digital store for subscriptions and single magazine issues.",
+        "category": "ecommerce",
+        "status": "done",
+        "challenge": "Move magazine subscriptions and single issues online, with a simple journey aligned to the ELLE Brasil editorial ecosystem.",
+        "solution": "VTEX storefront with subscription flows, single-issue checkout and a newsletter capture tied to the brand operation.",
+        "moreInfo": "Monthly and annual subscription plans, single-issue purchases and integration with ELLE Brasil editorial content.",
+        "results": [
+          {"value": "3 plans", "label": "Subscription options"},
+          {"value": "Issues", "label": "Single-copy sales"},
+          {"value": "Newsletter", "label": "Capture built into the store"}
+        ]
+      },
+      "dpaschoal": {
+        "description": "Largest automotive service network in Latin America — tires, parts and services since 1949.",
+        "category": "ecommerce",
+        "status": "done",
+        "challenge": "Unify the digital journey of a national tire, parts and auto-service network, connecting the online catalog with in-store appointments.",
+        "solution": "VTEX store with tire search by size or vehicle, an auto-service catalog and an appointment flow.",
+        "moreInfo": "Tire selection by size or vehicle model, services such as oil changes, and appointment booking at physical locations.",
+        "results": [
+          {"value": "Tires", "label": "Search by vehicle or size"},
+          {"value": "Services", "label": "Online booking"},
+          {"value": "Nationwide", "label": "Delivery across Brazil"}
+        ]
+      },
+      "crisBarros": {
+        "description": "Brazilian premium womenswear brand with a sophisticated, authorial aesthetic.",
+        "category": "ecommerce",
+        "status": "done",
+        "challenge": "Carry the brand premium positioning into digital without losing its editorial identity or the ease of buying.",
+        "solution": "VTEX storefront with an editorial storefront, product galleries and a checkout shaped for a premium fashion audience.",
+        "moreInfo": "Product experience focused on premium womenswear, navigation by collection and checkout tied to the brand operation.",
+        "results": [
+          {"value": "Premium", "label": "Luxury positioning"},
+          {"value": "Collections", "label": "Seasonal storefront"},
+          {"value": "WhatsApp", "label": "Personal service"}
+        ]
+      },
+      "canal": {
+        "description": "Womenswear brand with an online store, cashback and a network of physical shops.",
+        "category": "ecommerce",
+        "status": "done",
+        "challenge": "Bring the brand proposal — elegance, authenticity and a real connection with the customer — into an omnichannel operation with physical shops.",
+        "solution": "Wake storefront with a seasonal vitrine, cashback program, physical-store integration and WhatsApp service.",
+        "moreInfo": "Seasonal collections, free shipping over R$ 599, installments up to 10x and sales assistance via WhatsApp.",
+        "results": [
+          {"value": "Cashback", "label": "Loyalty program"},
+          {"value": "Shops", "label": "Physical network, connected"},
+          {"value": "PIX 5%", "label": "Payment discount"}
+        ]
+      },
+      "fares": {
+        "description": "Digital platform for booking appointments, exams and surgeries in São Paulo.",
+        "category": "health",
+        "status": "done",
+        "challenge": "Make it simple to book appointments, exams and procedures for patients with different profiles and health plans, across several units.",
+        "solution": "Online booking portal with specialty, unit and time selection, confirmation by WhatsApp or email, and a patient area.",
+        "moreInfo": "Booking for appointments, lab and imaging exams, surgeries and result follow-up. Automatic confirmation by WhatsApp or email.",
+        "results": [
+          {"value": "45+", "label": "Medical specialties"},
+          {"value": "800+", "label": "Exam types"},
+          {"value": "4", "label": "Units in São Paulo"}
+        ]
+      },
+      "orit": {
+        "description": "E-commerce for luxury jewelry and watches on the secondhand market.",
+        "category": "ecommerce",
+        "status": "done",
+        "challenge": "Build trust in a segment where authenticity and transparency decide the purchase of high-value pieces.",
+        "solution": "Wake storefront with a curated selection, detailed product galleries and a buying journey shaped for a luxury audience.",
+        "moreInfo": "Catalog of pre-owned luxury jewelry and watches, focused on authenticity, visual detail and a premium experience.",
+        "results": [
+          {"value": "Luxury", "label": "Certified pieces"},
+          {"value": "Secondhand", "label": "Jewelry and watches"},
+          {"value": "High value", "label": "Secure checkout"}
+        ]
+      },
+      "primeGuns": {
+        "description": "E-commerce specialized in equipment and accessories for sport shooting.",
+        "category": "ecommerce",
+        "status": "done",
+        "challenge": "Run an online store in a highly regulated segment, with documentation and compliance required at every step of the purchase.",
+        "solution": "VTEX store with a specialized catalog, a checkout adapted to the segment rules and order handling with traceability.",
+        "moreInfo": "Digital operation for the sport-shooting market, with a segmented catalog and a buying journey adapted to the sector rules.",
+        "results": [
+          {"value": "Regulated", "label": "High-control segment"},
+          {"value": "Catalog", "label": "Specialized equipment"},
+          {"value": "Orders", "label": "Purchase tracking"}
+        ]
+      },
+      "leBlog": {
+        "description": "Contemporary womenswear e-commerce with a strong digital presence.",
+        "category": "ecommerce",
+        "status": "done",
+        "challenge": "Turn the brand digital audience into online sales while keeping the visual identity and the contemporary fashion proposal.",
+        "solution": "VTEX storefront with a trend-led vitrine, immersive product pages and a checkout tuned for mobile conversion.",
+        "moreInfo": "Womenswear store with a seasonal vitrine, category navigation and checkout tied to the brand operation.",
+        "results": [
+          {"value": "Social", "label": "Strong digital presence"},
+          {"value": "Fashion", "label": "Contemporary collections"},
+          {"value": "Mobile", "label": "Responsive experience"}
+        ]
+      },
+      "goldko": {
+        "description": "E-commerce for premium sugar-free chocolate, focused on wellbeing.",
+        "category": "ecommerce",
+        "status": "done",
+        "challenge": "Position a healthy-chocolate brand online and grow organic revenue without relying only on paid media.",
+        "solution": "VTEX storefront with a Wicomm SEO strategy, a sugar-free product vitrine and a conversion-led buying journey.",
+        "moreInfo": "Case published by Wicomm with a 179% increase in organic revenue through an e-commerce SEO strategy.",
+        "results": [
+          {"value": "+179%", "label": "Organic revenue (Wicomm case)"},
+          {"value": "Sugar-free", "label": "Premium chocolate line"},
+          {"value": "SEO", "label": "Growth on the organic channel"}
+        ]
+      },
+      "gama": {
+        "description": "Global beauty-tech brand — professional dryers and tools.",
+        "category": "ecommerce",
+        "status": "done",
+        "challenge": "Grow the brand organic visibility in Brazil and strengthen acquisition without relying only on paid media.",
+        "solution": "VTEX storefront with a Wicomm SEO strategy focused on non-brand traffic and technical store optimization.",
+        "moreInfo": "Case published by Wicomm with non-brand organic traffic tripled through e-commerce SEO.",
+        "results": [
+          {"value": "3×", "label": "Non-brand traffic (Wicomm case)"},
+          {"value": "Eletro Beauty", "label": "Global leader in the segment"},
+          {"value": "B2C", "label": "Store for the end customer"}
+        ]
+      },
+      "toymania": {
+        "description": "Pioneer toy e-commerce in Brazil with multi-brand curation.",
+        "category": "ecommerce",
+        "status": "done",
+        "challenge": "Modernize a long-running operation, migrating platforms without losing search position or the customer base.",
+        "solution": "Migration to VTEX with URL mapping, SEO preservation and a storefront rebuilt for better performance.",
+        "moreInfo": "Platform migration with URL redirects, SEO structure kept intact and a multi-brand toy vitrine.",
+        "results": [
+          {"value": "Migration", "label": "Platform change"},
+          {"value": "SEO", "label": "Rankings preserved"},
+          {"value": "Multi-brand", "label": "Toy curation"}
+        ]
+      },
+      "amakha": {
+        "description": "Cosmetics and fragrance e-commerce with a direct-sales model.",
+        "category": "ecommerce",
+        "status": "done",
+        "challenge": "Structure the digital operation of a direct-sales brand, serving resellers and end customers on the same platform.",
+        "solution": "VTEX store with a reseller portal, checkout for the end customer and catalog management for cosmetics and fragrance.",
+        "moreInfo": "Digital operation for direct sales of cosmetics, with an area for resellers and a store for the end customer.",
+        "results": [
+          {"value": "Resale", "label": "Portal for resellers"},
+          {"value": "Cosmetics", "label": "Fragrance catalog"},
+          {"value": "B2C + B2B", "label": "Two audiences, one store"}
+        ]
+      },
+      "capodarte": {
+        "description": "Premium footwear and bags e-commerce with Brazilian craft tradition.",
+        "category": "ecommerce",
+        "status": "done",
+        "challenge": "Bring the brand premium positioning online, highlighting handcrafted finishing and footwear and bag collections.",
+        "solution": "VTEX storefront with high-resolution product galleries, editorial collection pages and checkout for a premium audience.",
+        "moreInfo": "Premium footwear and bags vitrine, galleries with zoom on product detail and navigation by seasonal collections.",
+        "results": [
+          {"value": "Premium", "label": "Footwear and bags"},
+          {"value": "Collections", "label": "Editorial pages"},
+          {"value": "Craft", "label": "Brand with 35+ years"}
+        ]
+      },
+      "farm": {
+        "description": "International expansion of FARM across Latin America with local stores.",
+        "category": "ecommerce",
+        "status": "done",
+        "challenge": "Take FARM into new Latin American markets with a localized buying experience — currency, language, payment and logistics.",
+        "solution": "Multi-country rollout with VTEX IO, Wicomm UX/UI, local payment gateways and regional logistics partners.",
+        "moreInfo": "Case published by Wicomm: expansion to six Latin American countries in 45 days with VTEX IO and a localized experience.",
+        "results": [
+          {"value": "6 countries", "label": "Stores in Latin America"},
+          {"value": "45 days", "label": "Launch window (Wicomm case)"},
+          {"value": "i18n", "label": "Local currency and language"}
+        ]
+      },
+      "csp": {
+        "description": "Visual generator of Content Security Policies for web apps.",
+        "category": "personal",
+        "status": "done",
+        "challenge": "Make Content Security Policies easier to write — a technical, error-prone task that either blocks resources or leaves security gaps.",
+        "solution": "Visual generator with presets by app type, real-time validation and export as an HTTP header or a meta tag.",
+        "moreInfo": "Open-source work (cspForge repository on GitHub) with templates for popular frameworks and an explanation of each CSP directive.",
+        "results": [
+          {"value": "CSP", "label": "Visual policy generation"},
+          {"value": "Templates", "label": "Next.js, Nuxt, SvelteKit"},
+          {"value": "Export", "label": "HTTP header and meta tag"}
+        ]
+      },
+      "wakeRunner": {
+        "description": "CLI published on npm to start Wake Commerce work locally.",
+        "category": "personal",
+        "status": "done",
+        "challenge": "Automate the local setup of Wake work, which required starting the storefront and the CSS watchers by hand on every dev session.",
+        "solution": "CLI that reads the token in Configs/settings.json, starts fbits.storefront and the Tailwind watchers for each input*.css in Assets/CSS/.",
+        "moreInfo": "Automates fbits.storefront and tailwindcss --watch. Works on Windows (wake-storefront / wake-tailwind) and other systems.",
+        "results": [
+          {"value": "1 cmd", "label": "Storefront and Tailwind together"},
+          {"value": "0 deps", "label": "Node native modules only"},
+          {"value": "v1.0.2", "label": "Published on npm (MIT)"}
+        ]
+      },
+      "wakeMcp": {
+        "description": "MCP server to query and inspect the Wake Storefront API (FBITS) GraphQL.",
+        "category": "personal",
+        "status": "wip",
+        "challenge": "Let AI agents query the Wake GraphQL schema during development, without external clients or guessing field names.",
+        "solution": "MCP server with four tools — query, introspection with a TTL cache, type detail and field search — configured via JSON or environment variables.",
+        "moreInfo": "In-memory introspection cache, support for the TCS-Access-Token and compatibility with Claude Desktop and Cursor.",
+        "results": [
+          {"value": "4 tools", "label": "Query, introspection, type and search"},
+          {"value": "Cursor", "label": "Integration via mcp.json"},
+          {"value": "v0.0.3", "label": "Published on npm"}
+        ]
+      },
+      "treplica": {
+        "description": "Local meeting assistant with transcription, AI suggestions and live translation.",
+        "category": "personal",
+        "status": "wip",
+        "challenge": "Offer reply suggestions in real time during meetings without sending audio or transcripts to external servers.",
+        "solution": "Desktop app with Tauri and React that captures audio locally, transcribes in many languages, generates AI guidance and shows a stealth overlay in the meeting.",
+        "moreInfo": "v0.1.1-beta.2 — Windows 10/11, macOS 12+ and Linux. Overlay hidden from Zoom, Meet and Teams. No cloud uploads.",
+        "results": [
+          {"value": "100%", "label": "Local processing"},
+          {"value": "9+", "label": "Languages supported"},
+          {"value": "MIT", "label": "Open-source and free"}
+        ]
+      }
+    }
+  },
+  "contact": {
+    "index": "05 — Contact",
+    "headingBefore": "Shall we work ",
+    "headingEmphasis": "together",
+    "headingAfter": "?",
+    "intro": "Have something in mind? Get in touch and we can talk about how I can help turn the idea into something real.",
+    "email": "Email",
+    "locationLabel": "Location",
+    "locationValue": "Bahia, Brazil",
+    "availabilityLabel": "Availability",
+    "availabilityValue": "Immediate",
+    "available": "Available for new work",
+    "name": "Name",
+    "namePlaceholder": "Your full name",
+    "emailPlaceholder": "you@email.com",
+    "projectType": "Type of work",
+    "projectTypeAria": "Type of work",
+    "optional": "Optional",
+    "projectTypes": ["E-commerce", "Web application", "Company website", "Integration", "Other"],
+    "message": "Message",
+    "messagePlaceholder": "Describe the work, the goals and the timeline...",
+    "sending": "Sending…",
+    "submit": "Send message",
+    "errorLabel": "Error",
+    "orEmail": "Or email me directly:",
+    "successTitle": "Message",
+    "successEmphasis": "sent.",
+    "thanks": "Thank you{name}. I will read it carefully and reply soon.",
+    "replyNote": "Reply within 24h — straight from Bahia",
+    "sendAnother": "Send another message",
+    "errors": {
+      "name": "The name needs at least 3 characters",
+      "email": "Enter a valid email — e.g. name@domain.com",
+      "message": "Tell me a bit more — at least 10 characters",
+      "unexpected": "The server replied unexpectedly. Please try again in a moment.",
+      "sendFailed": "I could not send it right now. Please try again in a moment.",
+      "generic": "Could not send the message"
+    }
+  },
+  "footer": {
+    "eyebrow": "Have something in mind?",
+    "line1": "Let''s build",
+    "line2": "something together",
+    "timePrefix": "Bahia, BR"
+  },
+  "schema": {
+    "jobTitle": "Full-Stack Developer",
+    "description": "Full-Stack developer specialized in React, Node.js and Python. E-commerce specialist (VTEX, Wake, Shopify) and modern digital products.",
+    "imageCaption": "Kelven Souza - Full-Stack Developer",
+    "topics": ["React", "Next.js", "Node.js", "TypeScript", "Python", "VTEX", "Wake Commerce", "Shopify", "E-commerce", "Web Development", "Full-Stack Development"],
+    "occupationName": "Full-Stack Developer",
+    "occupationDescription": "Development of web apps and e-commerce",
+    "country": "Brazil",
+    "salaryName": "Full-Stack developer compensation",
+    "worksForDescription": "Technology company specialized in e-commerce solutions",
+    "websiteDescription": "Kelven Souza portfolio - Full-Stack developer specialized in e-commerce",
+    "inLanguage": "en",
+    "serviceName": "Kelven Souza - Web Development",
+    "serviceDescription": "Full-stack development, e-commerce and digital product services",
+    "serviceArea": "Brazil",
+    "serviceTypes": ["Web Development", "E-commerce", "React Applications", "Node.js APIs", "VTEX Integrations", "Wake Commerce Integrations", "Shopify Integrations"]
+  },
+  "timeline": {
+    "index": "Career",
+    "aside": "Path",
+    "headingBefore": "One line, ",
+    "headingEmphasis": "three companies",
+    "headingAfter": ".",
+    "promotion": "promotion",
+    "current": "present",
+    "kenzie": {
+      "company": "Kenzie Academy Brasil",
+      "alt": "Kenzie Academy Brasil logo",
+      "studies": {
+        "role": "Studies",
+        "period": "May 2022 — Jul 2022",
+        "summary": "Where programming started, before the first job."
+      },
+      "monitor": {
+        "role": "Teaching assistant",
+        "period": "Jul 2022 — May 2023",
+        "summary": "I started helping students through the harder material.",
+        "note": "Sep 2022 — May 2023, alongside Wicomm"
+      }
+    },
+    "wicomm": {
+      "company": "Wicomm",
+      "alt": "Wicomm logo",
+      "developer": {
+        "role": "Front-end Developer",
+        "period": "Sep 2022 — 2024",
+        "summary": "First job. E-commerce front-end with React, Vue, VTEX, Wake and Uappi."
+      },
+      "lead": {
+        "role": "Tech Lead",
+        "period": "2024 — 2026",
+        "summary": "I started leading the team, the code standards and the mentoring."
+      }
+    },
+    "contaCheia": {
+      "company": "Conta Cheia",
+      "alt": "Conta Cheia logo",
+      "engineer": {
+        "role": "Software Engineer",
+        "period": "since 2026",
+        "summary": "Software engineering at a Brazilian credit fintech."
+      }
+    }
+  }
+}

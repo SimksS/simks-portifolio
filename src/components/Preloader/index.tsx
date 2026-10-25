@@ -1,8 +1,10 @@
 'use client';
 import { useEffect, useRef } from 'react';
+import { useTranslations } from 'next-intl';
 import { gsap } from 'gsap';
 
 export default function Preloader({ onComplete }: { onComplete: () => void }) {
+  const t = useTranslations('preloader');
   const overlayRef = useRef<HTMLDivElement>(null);
   const counterRef = useRef<HTMLSpanElement>(null);
   const wordRefs = useRef<(HTMLSpanElement | null)[]>([]);
@@ -103,7 +105,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
 
       {/* Label — canto inferior esquerdo */}
       <span className="absolute bottom-8 left-8 font-mono text-[0.6875rem] tracking-[0.18em] uppercase text-[oklch(0.46_0.01_80)]">
-        Portfólio — {new Date().getFullYear()}
+        {t('label')} — {new Date().getFullYear()}
       </span>
     </div>
   );
