@@ -16,6 +16,10 @@ const TechnologiesSection = dynamic(() => import('@/components/TechnologiesSecti
   loading: () => <div className="h-[600px]" />,
 });
 
+const TimelineSection = dynamic(() => import('@/components/TimelineSection'), {
+  loading: () => <div className="h-[600px]" />,
+});
+
 const EcommerceSection = dynamic(() => import('@/components/EcommerceSection'), {
   loading: () => <div className="h-[600px]" />,
 });
@@ -45,6 +49,7 @@ export default function Home() {
         <Marquee items={['E-commerce', 'performance', 'Clean Code', 'escala', 'VTEX', 'Wake']} />
         <AboutSection />
         <TechnologiesSection />
+        <TimelineSection />
         <EcommerceSection />
         <ProjectsSection />
         <ContactForm />

@@ -94,16 +94,13 @@ const BigNumber = ({ value, prefix, suffix, label }: (typeof numbers)[number]) =
 export const EcommerceSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
 
-  // Theme shift — de volta ao escuro quando o E-commerce entra
+  // O escuro começa na carreira. Aqui só confirma, para um salto direto não herdar o claro da Stack.
   useEffect(() => {
     const st = ScrollTrigger.create({
       trigger: sectionRef.current,
       start: 'top 55%',
       onEnter: () => {
         delete document.body.dataset.theme;
-      },
-      onLeaveBack: () => {
-        document.body.dataset.theme = 'light';
       },
     });
     return () => st.kill();
