@@ -1,51 +1,26 @@
 import { MetadataRoute } from 'next';
+import { siteConfig } from '@/lib/site-config';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://simks.com.br';
+const languages = {
+  'pt-BR': siteConfig.url,
+  en: `${siteConfig.url}/en`,
+  'x-default': siteConfig.url,
+};
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: siteUrl,
+  const anchors = ['', '/#home', '/#about', '/#technologies', '/#ecommerce', '/#projects', '/#contact'];
+
+  return anchors.flatMap((anchor) => {
+    const shared = {
       lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 1,
-    },
-    // Seções âncora da página principal
-    {
-      url: `${siteUrl}/#home`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-    {
-      url: `${siteUrl}/#about`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${siteUrl}/#technologies`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${siteUrl}/#ecommerce`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${siteUrl}/#projects`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.9,
-    },
-    {
-      url: `${siteUrl}/#contact`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.6,
-    },
-  ];
+      changeFrequency: anchor === '/#projects' ? 'weekly' : 'monthly',
+      priority: anchor === '' ? 1 : 0.8,
+      alternates: { languages },
+    } as const;
+
+    return [
+      { url: `${siteConfig.url}${anchor}`, ...shared },
+      { url: `${siteConfig.url}/en${anchor}`, ...shared },
+    ];
+  });
 }

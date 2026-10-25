@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
 import { motion, AnimatePresence, useInView } from 'motion/react';
 import RevealHeading from '@/components/RevealHeading';
 
@@ -12,8 +13,6 @@ interface FormData {
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-const projectTypes = ['E-commerce', 'Aplicação Web', 'Site Institucional', 'Integração', 'Outro'];
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -108,7 +107,9 @@ const FormField = ({
 
 // ─── Estado de sucesso — editorial, no tema ───────────────────────────────────
 
-const SuccessState = ({ firstName, onReset }: { firstName: string; onReset: () => void }) => (
+const SuccessState = ({ firstName, onReset }: { firstName: string; onReset: () => void }) => {
+  const t = useTranslations('contact');
+  return (
   <motion.div
     key="success"
     initial={{ opacity: 0 }}
@@ -151,7 +152,7 @@ const SuccessState = ({ firstName, onReset }: { firstName: string; onReset: () =
           animate={{ y: '0%' }}
           transition={{ duration: 0.8, delay: 0.2, ease: EASE }}
         >
-          Mensagem
+          {t('successTitle')}
         </motion.span>
       </span>
       <span className="block overflow-hidden pb-[0.1em]">
@@ -161,7 +162,7 @@ const SuccessState = ({ firstName, onReset }: { firstName: string; onReset: () =
           animate={{ y: '0%' }}
           transition={{ duration: 0.8, delay: 0.32, ease: EASE }}
         >
-          enviada.
+          {t('successEmphasis')}
         </motion.span>
       </span>
     </h3>
@@ -172,9 +173,9 @@ const SuccessState = ({ firstName, onReset }: { firstName: string; onReset: () =
       transition={{ duration: 0.6, delay: 0.55, ease: EASE }}
     >
       <p className="text-foreground-muted leading-relaxed max-w-sm mb-2">
-        Obrigado{firstName ? `, ${firstName}` : ''}. Vou ler com atenção e te respondo em breve.
+        {t('thanks', { name: firstName ? `, ${firstName}` : '' })}
       </p>
-      <p className="mono-label mb-10">Resposta em até 24h — direto da Bahia</p>
+      <p className="mono-label mb-10">{t('replyNote')}</p>
 
       <div className="hairline mb-8" />
 
@@ -182,15 +183,19 @@ const SuccessState = ({ firstName, onReset }: { firstName: string; onReset: () =
         onClick={onReset}
         className="link-wipe link-wipe-quiet font-mono text-[0.6875rem] tracking-[0.18em] uppercase text-foreground-muted hover:text-foreground transition-colors duration-200"
       >
-        Enviar outra mensagem
+        {t('sendAnother')}
       </button>
     </motion.div>
   </motion.div>
-);
+  );
+};
 
 // ─── Formulário ───────────────────────────────────────────────────────────────
 
 export const ContactForm = () => {
+  const t = useTranslations('contact');
+  const locale = useLocale();
+  const projectTypes = t.raw('projectTypes') as string[];
   const sectionRef = useRef<HTMLElement>(null);
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -221,15 +226,15 @@ export const ContactForm = () => {
     const newErrors: Partial<Record<keyof FormData, string>> = {};
 
     if (formData.name.trim().length < 3) {
-      newErrors.name = 'O nome precisa de pelo menos 3 caracteres';
+      newErrors.name = t('errors.name');
     }
 
     if (!EMAIL_RE.test(formData.email.trim())) {
-      newErrors.email = 'Digite um email válido — ex.: nome@dominio.com';
+      newErrors.email = t('errors.email');
     }
 
     if (formData.message.trim().length < 10) {
-      newErrors.message = 'Conte um pouco mais — pelo menos 10 caracteres';
+      newErrors.message = t('errors.message');
     }
 
     setErrors(newErrors);
@@ -257,6 +262,7 @@ export const ContactForm = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
+          locale,
           name: formData.name.trim(),
           email: formData.email.trim(),
           message: formData.message.trim(),
@@ -270,11 +276,11 @@ export const ContactForm = () => {
         data = await response.json();
       } else {
         await response.text().catch(() => undefined);
-        throw new Error('O servidor respondeu de forma inesperada. Tente novamente em instantes.');
+        throw new Error(t('errors.unexpected'));
       }
 
       if (!response.ok) {
-        throw new Error(data.error || 'Erro ao enviar mensagem');
+        throw new Error(data.error || t('errors.generic'));
       }
 
       setIsSubmitted(true);
@@ -283,7 +289,7 @@ export const ContactForm = () => {
       setSubmitError(
         error instanceof Error && error.message !== 'Failed to fetch'
           ? error.message
-          : 'Não consegui enviar agora. Tente de novo em instantes.'
+          : t('errors.sendFailed')
       );
     } finally {
       setIsSubmitting(false);
@@ -305,9 +311,9 @@ export const ContactForm = () => {
   };
 
   const contactInfo = [
-    { label: 'Email', value: 'kelven.souza00@gmail.com', href: 'mailto:kelven.souza00@gmail.com' },
-    { label: 'Localização', value: 'Bahia, Brasil', href: '#' },
-    { label: 'Disponibilidade', value: 'Imediata', href: '#' },
+    { label: t('email'), value: 'kelven.souza00@gmail.com', href: 'mailto:kelven.souza00@gmail.com' },
+    { label: t('locationLabel'), value: t('locationValue'), href: '#' },
+    { label: t('availabilityLabel'), value: t('availabilityValue'), href: '#' },
   ];
 
   const messageLength = formData.message.trim().length;
@@ -317,7 +323,7 @@ export const ContactForm = () => {
       <div className="container-futuristic">
         {/* Cabeçalho da seção */}
         <div className="flex items-baseline gap-6 mb-12 lg:mb-20">
-          <span className="mono-label shrink-0">05 — Contato</span>
+          <span className="mono-label shrink-0">{t('index')}</span>
           <div className="hairline flex-1" />
         </div>
 
@@ -330,12 +336,11 @@ export const ContactForm = () => {
             className="space-y-10"
           >
             <RevealHeading className="text-heading font-display">
-              Vamos trabalhar <span className="serif-italic text-accent">juntos</span>?
+              {t('headingBefore')}<span className="serif-italic text-accent">{t('headingEmphasis')}</span>{t('headingAfter')}
             </RevealHeading>
 
             <p className="text-foreground-muted text-lg max-w-md leading-relaxed">
-              Tem um projeto em mente? Entre em contato e vamos discutir como
-              posso ajudar a transformar sua ideia em realidade.
+              {t('intro')}
             </p>
 
             {/* Linhas de contato */}
@@ -358,7 +363,7 @@ export const ContactForm = () => {
             {/* Status */}
             <div className="flex items-center gap-3">
               <span className="status-dot" />
-              <span className="mono-label">Disponível para projetos</span>
+              <span className="mono-label">{t('available')}</span>
             </div>
           </motion.div>
 
@@ -381,11 +386,11 @@ export const ContactForm = () => {
                     className="mb-8 flex items-baseline gap-4 border-t border-b py-4"
                     style={{ borderColor: 'oklch(0.6 0.22 25 / 0.45)' }}
                   >
-                    <span className="mono-label shrink-0 !text-destructive">Erro</span>
+                    <span className="mono-label shrink-0 !text-destructive">{t('errorLabel')}</span>
                     <div>
                       <p className="text-sm text-foreground">{submitError}</p>
                       <p className="text-xs text-foreground-dim mt-1">
-                        Ou me escreva direto:{' '}
+                        {t('orEmail')}{' '}
                         <a href="mailto:kelven.souza00@gmail.com" className="text-accent link-wipe link-wipe-quiet">
                           kelven.souza00@gmail.com
                         </a>
@@ -417,8 +422,8 @@ export const ContactForm = () => {
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        placeholder="Seu nome completo"
-                        label="Nome"
+                        placeholder={t('namePlaceholder')}
+                        label={t('name')}
                         error={errors.name}
                         disabled={isSubmitting}
                       />
@@ -428,8 +433,8 @@ export const ContactForm = () => {
                         type="email"
                         value={formData.email}
                         onChange={handleChange}
-                        placeholder="seu@email.com"
-                        label="Email"
+                        placeholder={t('emailPlaceholder')}
+                        label={t('email')}
                         error={errors.email}
                         disabled={isSubmitting}
                       />
@@ -438,12 +443,12 @@ export const ContactForm = () => {
                     {/* Tipo de projeto — pills no tema, sem dropdown nativo */}
                     <div>
                       <div className="flex items-baseline justify-between gap-4 mb-3">
-                        <span className="mono-label">Tipo de projeto</span>
+                        <span className="mono-label">{t('projectType')}</span>
                         <span className="font-mono text-[0.625rem] tracking-[0.1em] uppercase text-foreground-dim">
-                          Opcional
+                          {t('optional')}
                         </span>
                       </div>
-                      <div className="flex flex-wrap gap-2" role="group" aria-label="Tipo de projeto">
+                      <div className="flex flex-wrap gap-2" role="group" aria-label={t('projectTypeAria')}>
                         {projectTypes.map((type) => {
                           const selected = formData.projectType === type;
                           return (
@@ -477,8 +482,8 @@ export const ContactForm = () => {
                       type="textarea"
                       value={formData.message}
                       onChange={handleChange}
-                      placeholder="Descreva seu projeto, objetivos e prazo..."
-                      label="Mensagem"
+                      placeholder={t('messagePlaceholder')}
+                      label={t('message')}
                       rows={5}
                       error={errors.message}
                       disabled={isSubmitting}
@@ -503,11 +508,11 @@ export const ContactForm = () => {
                               transition={{ duration: 0.9, repeat: Infinity, ease: 'linear' }}
                               className="inline-block w-3.5 h-3.5 border border-current border-t-transparent rounded-full"
                             />
-                            Enviando…
+                            {t('sending')}
                           </span>
                         ) : (
                           <span className="flex items-center justify-center gap-2">
-                            Enviar mensagem <span aria-hidden="true">→</span>
+                            {t('submit')} <span aria-hidden="true">→</span>
                           </span>
                         )}
                       </button>

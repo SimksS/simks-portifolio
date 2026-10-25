@@ -2,23 +2,17 @@
 
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { scrollToId } from '@/lib/scroll';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const BIO =
-  'Tech Lead e desenvolvedor full-stack com 4+ anos construindo e-commerces de alto desempenho. Lidero equipes na Wicomm, conduzo mentorias e aplico Clean Code e S.O.L.I.D. para criar produtos que não apenas vendem — encantam.';
-
-const facts = [
-  { label: 'Papel', value: 'Tech Lead @ Wicomm' },
-  { label: 'Foco', value: 'E-commerce headless' },
-  { label: 'Princípios', value: 'Clean Code · S.O.L.I.D.' },
-  { label: 'Além do código', value: 'Mentorias & treinamentos' },
-];
-
 export const AboutSection = () => {
+  const t = useTranslations('about');
+  const bio = t('bio');
+  const facts = t.raw('facts') as { label: string; value: string }[];
   const sectionRef = useRef<HTMLElement>(null);
   const bioRef = useRef<HTMLParagraphElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
@@ -119,7 +113,7 @@ export const AboutSection = () => {
       <div className="container-futuristic">
         {/* Cabeçalho da seção */}
         <div className="flex items-baseline gap-6 mb-12 lg:mb-20">
-          <span className="mono-label shrink-0">01 — Sobre</span>
+          <span className="mono-label shrink-0">{t('index')}</span>
           <div className="hairline flex-1" />
         </div>
 
@@ -128,7 +122,7 @@ export const AboutSection = () => {
           ref={bioRef}
           className="max-w-[68rem] text-[clamp(1.75rem,3.8vw,3.5rem)] leading-[1.12] font-medium tracking-[-0.01em] mb-20 lg:mb-32"
         >
-          {BIO.split(' ').map((word, i) => (
+          {bio.split(' ').map((word, i) => (
             <span key={i} className="inline">
               {word}{' '}
             </span>
@@ -141,13 +135,13 @@ export const AboutSection = () => {
             <div ref={imageRef} className="relative aspect-[4/5] overflow-hidden rounded-lg group">
               <Image
                 src="/profile-photo.jpeg"
-                alt="Kelven Souza — Tech Lead e desenvolvedor full-stack"
+                alt={t('alt')}
                 fill
                 className="object-cover img-treated scale-105"
                 sizes="(max-width: 1024px) 100vw, 420px"
               />
             </div>
-            <p className="mono-label mt-4">Kelven Souza — Bahia, BR</p>
+            <p className="mono-label mt-4">{t('caption')}</p>
           </div>
 
           <div className="about-facts lg:col-span-6 lg:col-start-7 self-center">
@@ -172,7 +166,7 @@ export const AboutSection = () => {
               }}
               className="link-wipe-quiet link-wipe inline-block mt-10 text-[clamp(1.125rem,1.8vw,1.5rem)] font-medium"
             >
-              Vamos conversar <span className="serif-italic text-accent">sobre o seu projeto</span> →
+              {t('ctaBefore')}<span className="serif-italic text-accent">{t('ctaEmphasis')}</span> →
             </a>
           </div>
         </div>

@@ -1,25 +1,27 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent, useSpring } from 'motion/react';
 import { scrollToId } from '@/lib/scroll';
+import { LocaleSwitch } from '@/components/LocaleSwitch';
 
 interface NavLink {
   label: string;
   href: string;
 }
 
-const navLinks: NavLink[] = [
-  { label: 'Sobre', href: '#about' },
-  { label: 'Stack', href: '#technologies' },
-  { label: 'E-commerce', href: '#ecommerce' },
-  { label: 'Projetos', href: '#projects' },
-];
-
 // Ordem no documento — usada pelo scroll-spy
 const SECTION_IDS = ['home', 'about', 'technologies', 'ecommerce', 'projects', 'contact'];
 
 export const Header = () => {
+  const t = useTranslations('nav');
+  const navLinks: NavLink[] = [
+    { label: t('about'), href: '#about' },
+    { label: t('stack'), href: '#technologies' },
+    { label: t('ecommerce'), href: '#ecommerce' },
+    { label: t('projects'), href: '#projects' },
+  ];
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -89,7 +91,7 @@ export const Header = () => {
 
             {/* Navegação desktop */}
             <div className="hidden md:flex items-center gap-8">
-              {[...navLinks, { label: 'Contato', href: '#contact' }].map((link) => {
+              {[...navLinks, { label: t('contact'), href: '#contact' }].map((link) => {
                 const id = link.href.replace('#', '');
                 const isActive = activeSection === id;
                 const isContact = id === 'contact';
@@ -118,17 +120,20 @@ export const Header = () => {
                   </a>
                 );
               })}
+              <LocaleSwitch />
             </div>
 
-            {/* Botão menu mobile */}
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden font-mono text-[0.6875rem] tracking-[0.18em] uppercase text-foreground"
-              aria-label={isMobileMenuOpen ? 'Fechar menu' : 'Abrir menu'}
-              aria-expanded={isMobileMenuOpen}
-            >
-              {isMobileMenuOpen ? 'Fechar' : 'Menu'}
-            </button>
+            <div className="md:hidden flex items-center gap-4">
+              <LocaleSwitch />
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="font-mono text-[0.6875rem] tracking-[0.18em] uppercase text-foreground"
+                aria-label={isMobileMenuOpen ? t('closeMenu') : t('openMenu')}
+                aria-expanded={isMobileMenuOpen}
+              >
+                {isMobileMenuOpen ? t('close') : t('menu')}
+              </button>
+            </div>
           </div>
         </nav>
 
@@ -152,7 +157,7 @@ export const Header = () => {
             style={{ background: 'var(--color-background)' }}
           >
             <nav className="container-futuristic space-y-1">
-              {[{ label: 'Home', href: '#home' }, ...navLinks, { label: 'Contato', href: '#contact' }].map(
+              {[{ label: t('home'), href: '#home' }, ...navLinks, { label: t('contact'), href: '#contact' }].map(
                 (link, index) => {
                   const isActive = activeSection === link.href.replace('#', '');
                   return (
@@ -190,10 +195,11 @@ export const Header = () => {
                 transition={{ delay: 0.7 }}
                 className="pt-8 flex items-center justify-between"
               >
-                <span className="mono-label">Bahia, BR</span>
+                <span className="mono-label">{t('bahia')}</span>
+                <LocaleSwitch />
                 <span className="mono-label flex items-center gap-2">
                   <span className="status-dot" />
-                  Disponível
+                  {t('available')}
                 </span>
               </motion.div>
             </nav>

@@ -1,11 +1,25 @@
 import type { MetadataRoute } from 'next';
+import { cookies, headers } from 'next/headers';
+import { negotiateLocale } from '@/lib/negotiate-locale';
+import pt from '../../messages/pt.json';
+import en from '../../messages/en.json';
 
-export default function manifest(): MetadataRoute.Manifest {
+export const dynamic = 'force-dynamic';
+
+export default async function manifest(): Promise<MetadataRoute.Manifest> {
+  const cookieStore = await cookies();
+  const headerStore = await headers();
+  const locale = negotiateLocale(
+    headerStore.get('accept-language'),
+    cookieStore.get('NEXT_LOCALE')?.value,
+  );
+  const copy = locale === 'en' ? en.meta : pt.meta;
+
   return {
-    name: 'Kelven Souza - Desenvolvedor Full-Stack',
+    name: copy.manifestName,
     short_name: 'Kelven Souza',
-    description: 'Portfólio de Kelven Souza - Desenvolvedor Full-Stack especializado em e-commerce',
-    start_url: '/',
+    description: copy.manifestDescription,
+    start_url: locale === 'en' ? '/en' : '/',
     display: 'standalone',
     background_color: '#0a0a0a',
     theme_color: '#0a0a0a',
@@ -24,7 +38,7 @@ export default function manifest(): MetadataRoute.Manifest {
       },
     ],
     categories: ['portfolio', 'developer', 'web', 'technology'],
-    lang: 'pt-BR',
+    lang: locale === 'en' ? 'en' : 'pt-BR',
     dir: 'ltr',
     prefer_related_applications: false,
   };

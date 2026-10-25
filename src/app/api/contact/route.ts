@@ -7,6 +7,29 @@ const OWNER_EMAIL = 'kelven.souza00@gmail.com';
 const DEFAULT_FROM = 'no-reply@simks.com.br';
 const MAILERSEND_API_URL = 'https://api.mailersend.com/v1/email';
 
+const COPY = {
+  pt: {
+    invalid: 'Requisição inválida.',
+    name: 'O nome precisa de pelo menos 3 caracteres.',
+    email: 'Email inválido.',
+    message: 'A mensagem precisa de pelo menos 10 caracteres.',
+    notConfigured: 'O envio pelo formulário está temporariamente indisponível.',
+    auth: 'O serviço de email está com a autenticação inválida no momento.',
+    sendFailed: 'Não consegui enviar agora. Tente novamente em instantes.',
+  },
+  en: {
+    invalid: 'Invalid request.',
+    name: 'The name needs at least 3 characters.',
+    email: 'Invalid email.',
+    message: 'The message needs at least 10 characters.',
+    notConfigured: 'Sending from the form is temporarily unavailable.',
+    auth: 'The email service authentication is invalid right now.',
+    sendFailed: 'I could not send it right now. Please try again in a moment.',
+  },
+} as const;
+
+const copyFor = (locale: unknown) => (locale === 'en' ? COPY.en : COPY.pt);
+
 type Json = Record<string, unknown>;
 const json = (data: Json, status: number) => NextResponse.json(data, { status });
 
@@ -16,22 +39,24 @@ export async function POST(request: Request) {
     try {
       body = await request.json();
     } catch {
-      return json({ error: 'Requisição inválida.' }, 400);
+      return json({ error: COPY.pt.invalid }, 400);
     }
 
     const name = String(body?.name ?? '').trim();
     const email = String(body?.email ?? '').trim();
     const message = String(body?.message ?? '').trim();
     const projectType = String(body?.projectType ?? '').trim();
+    const copy = copyFor(body?.locale);
+    const visitLocale = body?.locale === 'en' ? 'EN' : 'PT';
 
     if (name.length < 3) {
-      return json({ error: 'O nome precisa de pelo menos 3 caracteres.' }, 400);
+      return json({ error: copy.name }, 400);
     }
     if (!EMAIL_RE.test(email)) {
-      return json({ error: 'Email inválido.' }, 400);
+      return json({ error: copy.email }, 400);
     }
     if (message.length < 10) {
-      return json({ error: 'A mensagem precisa de pelo menos 10 caracteres.' }, 400);
+      return json({ error: copy.message }, 400);
     }
 
     const apiKey = process.env.MAILERSEND_API_KEY;
@@ -41,7 +66,7 @@ export async function POST(request: Request) {
       console.warn('[contact] MAILERSEND_API_KEY ausente — mensagem apenas registrada no log do servidor.');
       console.warn('[contact]', { name, email, projectType, message });
       return json(
-        { error: 'O envio pelo formulário está temporariamente indisponível.', code: 'not_configured' },
+        { error: copy.notConfigured, code: 'not_configured' },
         503
       );
     }
@@ -50,9 +75,9 @@ export async function POST(request: Request) {
       from: { email: fromAddress, name: 'Portfolio — Kelven Souza' },
       to: [{ email: OWNER_EMAIL, name: 'Kelven Souza' }],
       reply_to: { email, name },
-      subject: `Nova mensagem de ${name} — Portfolio`,
-      html: buildHtml({ name, email, message, projectType }),
-      text: buildText({ name, email, message, projectType }),
+      subject: `Nova mensagem de ${name} — Portfolio (${visitLocale})`,
+      html: buildHtml({ name, email, message, projectType, visitLocale }),
+      text: buildText({ name, email, message, projectType, visitLocale }),
     };
 
     const response = await fetch(MAILERSEND_API_URL, {
@@ -83,13 +108,13 @@ export async function POST(request: Request) {
 
       if (response.status === 401 || response.status === 403) {
         return json(
-          { error: 'O serviço de email está com a autenticação inválida no momento.', code: 'auth' },
+          { error: copy.auth, code: 'auth' },
           502
         );
       }
 
       return json(
-        { error: 'Não consegui enviar agora. Tente novamente em instantes.', code: 'send_failed' },
+        { error: copy.sendFailed, code: 'send_failed' },
         502
       );
     }
@@ -98,7 +123,7 @@ export async function POST(request: Request) {
   } catch (err) {
     console.error('[contact] Erro inesperado:', err);
     return json(
-      { error: 'Não consegui enviar agora. Tente novamente em instantes.', code: 'unexpected' },
+      { error: COPY.pt.sendFailed, code: 'unexpected' },
       500
     );
   }
@@ -111,9 +136,10 @@ interface Payload {
   email: string;
   message: string;
   projectType: string;
+  visitLocale: string;
 }
 
-function buildHtml({ name, email, message, projectType }: Payload): string {
+function buildHtml({ name, email, message, projectType, visitLocale }: Payload): string {
   return `<!DOCTYPE html>
 <html>
   <head>
@@ -136,6 +162,7 @@ function buildHtml({ name, email, message, projectType }: Payload): string {
   <body>
     <div class="header"><h1>Nova mensagem <span>—</span> Portfolio</h1></div>
     <div class="content">
+      <div class="field"><div class="field-label">Idioma da visita</div><div class="field-value">${escapeHtml(visitLocale)}</div></div>
       <div class="field"><div class="field-label">Nome</div><div class="field-value">${escapeHtml(name)}</div></div>
       <div class="field"><div class="field-label">Email</div><div class="field-value"><a href="mailto:${escapeHtml(email)}" style="color:#e8602c;">${escapeHtml(email)}</a></div></div>
       <div class="field"><div class="field-label">Tipo de projeto</div><div class="field-value">${escapeHtml(projectType || 'Não especificado')}</div></div>
@@ -146,8 +173,8 @@ function buildHtml({ name, email, message, projectType }: Payload): string {
 </html>`;
 }
 
-function buildText({ name, email, message, projectType }: Payload): string {
-  return `Nova mensagem de ${name}
+function buildText({ name, email, message, projectType, visitLocale }: Payload): string {
+  return `Nova mensagem de ${name} (${visitLocale})
 
 Email: ${email}
 Tipo de projeto: ${projectType || 'Não especificado'}

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { useTranslations } from 'next-intl';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import RevealHeading from '@/components/RevealHeading';
@@ -15,39 +16,14 @@ interface Platform {
   projects: string;
 }
 
-const platforms: Platform[] = [
-  {
-    name: 'VTEX',
-    description: 'Plataforma líder em e-commerce enterprise — catálogo omnichannel, checkout nativo e integrações B2B/B2C.',
-    features: ['VTEX IO', 'Headless', 'B2B/B2C', 'SEO'],
-    certified: false,
-    projects: '15+ projetos',
-  },
-  {
-    name: 'Wake',
-    description: 'Arquitetura headless flexível, API-first, para experiências de compra únicas e performáticas.',
-    features: ['Headless CMS', 'API-first', 'Personalização'],
-    certified: true,
-    projects: '10+ projetos',
-  },
-  {
-    name: 'Shopify',
-    description: 'Temas customizáveis e integrações para operações que precisam de velocidade de lançamento.',
-    features: ['Temas', 'Apps', 'Integrações'],
-    certified: false,
-    projects: '8+ projetos',
-  },
-];
+interface Stat {
+  value: number;
+  prefix: string;
+  suffix: string;
+  label: string;
+}
 
-const numbers = [
-  { value: 30, prefix: '', suffix: '+', label: 'Projetos lançados' },
-  { value: 10, prefix: 'R$', suffix: 'M+', label: 'GMV impactado' },
-  { value: 4.9, prefix: '', suffix: '/5', label: 'Satisfação de clientes' },
-  { value: 20, prefix: '+', suffix: '%', label: 'Performance média' },
-];
-
-/** Número com count-up — GSAP + ScrollTrigger, tabular-nums */
-const BigNumber = ({ value, prefix, suffix, label }: (typeof numbers)[number]) => {
+const BigNumber = ({ value, prefix, suffix, label }: Stat) => {
   const ref = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
@@ -92,6 +68,9 @@ const BigNumber = ({ value, prefix, suffix, label }: (typeof numbers)[number]) =
 };
 
 export const EcommerceSection = () => {
+  const t = useTranslations('ecommerce');
+  const platforms = t.raw('platforms') as Platform[];
+  const numbers = t.raw('numbers') as Stat[];
   const sectionRef = useRef<HTMLElement>(null);
 
   // O escuro começa na carreira. Aqui só confirma, para um salto direto não herdar o claro da Stack.
@@ -137,14 +116,13 @@ export const EcommerceSection = () => {
       <div className="container-futuristic">
         {/* Cabeçalho */}
         <div className="flex items-baseline gap-6 mb-12 lg:mb-16">
-          <span className="mono-label shrink-0">03 — E-commerce</span>
+          <span className="mono-label shrink-0">{t('index')}</span>
           <div className="hairline flex-1" />
-          <span className="mono-label hidden sm:block">Especialização</span>
+          <span className="mono-label hidden sm:block">{t('aside')}</span>
         </div>
 
         <RevealHeading className="text-heading font-display max-w-[56rem] mb-16 lg:mb-24">
-          Plataformas que <span className="serif-italic text-accent">convertem</span> visitantes
-          em clientes.
+          {t('headingBefore')}<span className="serif-italic text-accent">{t('headingEmphasis')}</span>{t('headingAfter')}
         </RevealHeading>
 
         {/* Plataformas — linhas editoriais */}
@@ -160,7 +138,7 @@ export const EcommerceSection = () => {
                   {platform.name}
                 </h3>
                 {platform.certified && (
-                  <span className="badge-cyber badge-cyber-glow shrink-0">Certified</span>
+                  <span className="badge-cyber badge-cyber-glow shrink-0">{t('certified')}</span>
                 )}
               </div>
               <p className="lg:col-span-5 text-foreground-muted text-sm sm:text-base leading-relaxed max-w-lg">

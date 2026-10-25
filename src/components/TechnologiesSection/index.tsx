@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { useTranslations } from 'next-intl';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -12,21 +13,14 @@ interface Technology {
   experience: string;
 }
 
-const technologies: Technology[] = [
-  { name: 'React', description: 'Interfaces modernas com hooks, context e performance otimizada', experience: '4+ anos' },
-  { name: 'Next.js', description: 'SSR, App Router e Edge Functions', experience: '3+ anos' },
-  { name: 'TypeScript', description: 'Tipagem segura com interfaces avançadas e generics', experience: '4+ anos' },
-  { name: 'Node.js', description: 'APIs RESTful, GraphQL e microservices', experience: '4+ anos' },
-  { name: 'Tailwind CSS', description: 'Design systems utility-first', experience: '3+ anos' },
-  { name: 'GSAP', description: 'Animações com timeline e ScrollTrigger', experience: '3+ anos' },
-];
-
 const alsoWorkWith = [
   'Python', 'Vue.js', 'Docker', 'AWS', 'Vercel', 'Stripe',
   'GraphQL', 'Redis', 'MongoDB', 'Prisma', 'Jest', 'CI/CD',
 ];
 
 export const TechnologiesSection = () => {
+  const t = useTranslations('technologies');
+  const technologies = t.raw('items') as Technology[];
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -60,9 +54,9 @@ export const TechnologiesSection = () => {
       <div className="container-futuristic">
         {/* Cabeçalho */}
         <div className="flex items-baseline gap-6 mb-12 lg:mb-20">
-          <span className="mono-label shrink-0">02 — Stack</span>
+          <span className="mono-label shrink-0">{t('index')}</span>
           <div className="hairline flex-1" />
-          <span className="mono-label hidden sm:block">Ferramentas de produção</span>
+          <span className="mono-label hidden sm:block">{t('aside')}</span>
         </div>
 
         {/* Lista de capacidades — o tipo carrega a seção */}
@@ -91,7 +85,7 @@ export const TechnologiesSection = () => {
 
         {/* Stack secundária */}
         <div className="mt-12 flex flex-wrap items-baseline gap-x-3 gap-y-2">
-          <span className="mono-label mr-3">Também trabalho com</span>
+          <span className="mono-label mr-3">{t('also')}</span>
           {alsoWorkWith.map((skill, i) => (
             <span key={skill} className="text-sm text-foreground-muted">
               {skill}

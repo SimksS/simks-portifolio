@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -14,12 +15,14 @@ const socialLinks = [
 
 /** Relógio local — detalhe de estúdio no rodapé */
 const LocalTime = () => {
+  const t = useTranslations('footer');
+  const locale = useLocale();
   const [time, setTime] = useState('');
 
   useEffect(() => {
     const update = () => {
       setTime(
-        new Date().toLocaleTimeString('pt-BR', {
+        new Date().toLocaleTimeString(locale === 'en' ? 'en-US' : 'pt-BR', {
           hour: '2-digit',
           minute: '2-digit',
           timeZone: 'America/Bahia',
@@ -29,26 +32,28 @@ const LocalTime = () => {
     update();
     const id = setInterval(update, 30_000);
     return () => clearInterval(id);
-  }, []);
+  }, [locale]);
 
   return (
-    <span className="mono-label tabular-nums">Bahia, BR — {time || '--:--'}</span>
+    <span className="mono-label tabular-nums">{t('timePrefix')} — {time || '--:--'}</span>
   );
 };
 
-/* Conteúdo do CTA duplicado em duas camadas: contorno embaixo,
-   preenchido em cima revelado por clip-path conforme o scroll. */
-const CtaLines = ({ filled }: { filled: boolean }) => (
-  <>
-    <span className="block">Vamos construir</span>
-    <span className="block pb-[0.12em]">
-      <span className={filled ? 'serif-italic text-accent' : 'serif-italic'}>algo juntos</span>
-      <span className="inline-block ml-[0.15em] cta-arrow">→</span>
-    </span>
-  </>
-);
+const CtaLines = ({ filled }: { filled: boolean }) => {
+  const t = useTranslations('footer');
+  return (
+    <>
+      <span className="block" dangerouslySetInnerHTML={{ __html: t('line1') }} />
+      <span className="block pb-[0.12em]">
+        <span className={filled ? 'serif-italic text-accent' : 'serif-italic'}>{t('line2')}</span>
+        <span className="inline-block ml-[0.15em] cta-arrow">→</span>
+      </span>
+    </>
+  );
+};
 
 export const Footer = () => {
+  const t = useTranslations('footer');
   const currentYear = new Date().getFullYear();
   const ctaRef = useRef<HTMLAnchorElement>(null);
   const fillRef = useRef<HTMLSpanElement>(null);
@@ -90,7 +95,7 @@ export const Footer = () => {
       <div className="container-futuristic">
         {/* CTA gigante — contorno que o scroll preenche */}
         <div className="py-24 lg:py-36">
-          <p className="mono-label mb-8">Tem um projeto em mente?</p>
+          <p className="mono-label mb-8">{t('eyebrow')}</p>
           <a
             ref={ctaRef}
             href="mailto:kelven.souza00@gmail.com"

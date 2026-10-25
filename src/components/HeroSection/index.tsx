@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { scrollToId } from '@/lib/scroll';
@@ -40,6 +41,8 @@ const useMagnetic = (ref: React.RefObject<HTMLElement | null>, strength = 0.3) =
 };
 
 export const HeroSection = ({ introReady = true }: { introReady?: boolean }) => {
+  const t = useTranslations('hero');
+  const stats = t.raw('stats') as { value: string; label: string }[];
   const sectionRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const imageSlotRef = useRef<HTMLSpanElement>(null);
@@ -136,10 +139,10 @@ export const HeroSection = ({ introReady = true }: { introReady?: boolean }) => 
       {/* Linha superior — contexto em mono */}
       <div className="container-futuristic">
         <div className="hero-meta flex items-center justify-between gap-4 opacity-0">
-          <span className="mono-label">Tech Lead &amp; Full-Stack — Bahia, BR</span>
+          <span className="mono-label">{t('eyebrow')}</span>
           <span className="mono-label hidden sm:flex items-center gap-2">
             <span className="status-dot" />
-            Disponível para projetos
+            {t('available')}
           </span>
         </div>
       </div>
@@ -179,12 +182,14 @@ export const HeroSection = ({ introReady = true }: { introReady?: boolean }) => 
           <p className="text-[clamp(1.375rem,2.6vw,2.25rem)] leading-[1.15] font-medium text-foreground">
             <span className="block overflow-hidden">
               <span className="hero-tagline-line block will-change-transform">
-                Construo <span className="serif-italic text-accent">e-commerces</span> que vendem —
+                {t.rich('line1', {
+                  italic: (chunks) => <span className="serif-italic text-accent">{chunks}</span>,
+                })}
               </span>
             </span>
             <span className="block overflow-hidden">
               <span className="hero-tagline-line block will-change-transform text-foreground-muted">
-                arquiteturas escaláveis em VTEX, Wake &amp; Shopify.
+                {t('line2')}
               </span>
             </span>
           </p>
@@ -196,11 +201,7 @@ export const HeroSection = ({ introReady = true }: { introReady?: boolean }) => 
         <div className="hero-meta hairline mb-6 opacity-0" />
         <div className="hero-meta flex flex-col lg:flex-row lg:items-end justify-between gap-8 opacity-0">
           <div className="flex gap-10 sm:gap-16">
-            {[
-              { value: '4+', label: 'Anos de experiência' },
-              { value: '30+', label: 'Projetos lançados' },
-              { value: 'R$10M+', label: 'GMV impactado' },
-            ].map((stat) => (
+            {stats.map((stat) => (
               <div key={stat.label}>
                 <p className="text-[clamp(1.5rem,2.5vw,2.25rem)] font-medium leading-none tabular-nums">
                   {stat.value}
@@ -212,11 +213,11 @@ export const HeroSection = ({ introReady = true }: { introReady?: boolean }) => 
 
           <div className="flex flex-wrap items-center gap-4">
             <button ref={exploreRef} onClick={scrollToProjects} className="btn-fill btn-fill-accent">
-              <span>Ver projetos</span>
+              <span>{t('viewWork')}</span>
               <span aria-hidden="true">↓</span>
             </button>
             <a ref={contactRef} href="/curriculo-kelven-souza.pdf" download className="btn-fill">
-              <span>Baixar CV</span>
+              <span>{t('downloadCv')}</span>
             </a>
           </div>
         </div>
